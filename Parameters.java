@@ -4,6 +4,9 @@
 
 public class Parameters {
 
+	// simulation parameters
+	public static int day = 0;
+
 	// host parameters
 	public static final int initialN = 100;				// in individuals
 	public static final double birthRate = 0.01;		// in births per individual per day, 1/30 years = 1/(30*365)

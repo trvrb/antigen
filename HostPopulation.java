@@ -18,8 +18,8 @@ public class HostPopulation {
 		}
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Host h = new Host();
-			h.setInfected(true);
+			Virus v = new Virus();
+			Host h = new Host(v);
 			infecteds.add(h);
 		}		
 	}
@@ -91,10 +91,12 @@ public class HostPopulation {
 			for (int i = 0; i < contacts; i++) {
 				int index = getRandomI();
 				int sndex = getRandomS();
-				Host h = susceptibles.get(sndex);
-				h.setInfected(true);
+				Host iH = infecteds.get(index);
+				Host sH = susceptibles.get(sndex);
+				Virus v = iH.getInfection();
+				sH.infect(v);
 				susceptibles.remove(sndex);
-				infecteds.add(h);
+				infecteds.add(sH);
 			}			
 		}
 	}
@@ -108,7 +110,7 @@ public class HostPopulation {
 			for (int i = 0; i < recoveries; i++) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
-				h.setInfected(false);
+				h.clearInfection();
 				infecteds.remove(index);
 				susceptibles.add(h);
 			}			

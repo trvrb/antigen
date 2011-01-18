@@ -4,7 +4,6 @@ public class Simulation {
 
 	// fields
 	private HostPopulation hostPop;
-	private int day = 0;
 	
 	// constructor
 	public Simulation() {
@@ -14,7 +13,7 @@ public class Simulation {
 	// methods
 	
 	public void printState() {
-		System.out.println("Day " + day);
+		System.out.println("Day " + Parameters.day);
 		System.out.println("N: " + hostPop.getN());
 		System.out.println("S: " + hostPop.getS());
 		System.out.println("I: " + hostPop.getI());		
@@ -29,7 +28,7 @@ public class Simulation {
 		hostPop.decline();
 		hostPop.contact();
 		hostPop.recover();
-		day++;
+		Parameters.day++;
 		
 	}
 

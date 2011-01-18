@@ -3,23 +3,37 @@
 public class Host {
 
 	// fields
-	private boolean infected = false;
+	private Virus infection;	// if infection != null then this individual is infected
 	// immuneHistory
 	// location
-	// infection -> ref:Virus
 	
-	// constructor
+	// naive host
 	public Host() {
 
 	}
+	// initial infected host
+	public Host(Virus v) {
+	//	infected = true;
+		infection = v;
+	}
 	
 	// methods
-	public boolean getInfected() {
+	public boolean isInfected() {
+		boolean infected = false;
+		if (infection != null) {
+			infected = true;
+		}
 		return infected;
 	}
-	public void setInfected(boolean b) {
-		infected = b;
-	}	
+	public Virus getInfection() {
+		return infection;
+	}
+	public void infect(Virus pV) {
+		Virus nV = new Virus(pV);
+	}
+	public void clearInfection() {
+		infection = null;
+	}
 	
 
 }
