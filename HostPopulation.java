@@ -5,28 +5,42 @@ import java.util.*;
 public class HostPopulation {
 
 	// fields
-	private List<Host> pop;
-	private int popSize = 100;
-	private static final double BIRTH_RATE = 0.1;			// births per individual per day
-	private static final double DEATH_RATE = 0.1;			// deaths per individual per day 
+	private List<Host> population = new ArrayList<Host>();
 	
 	// constructors
 	public HostPopulation() {
-		pop = new ArrayList<Host>(popSize);
+		// fill population with Host objects
+		for (int i = 0; i < Parameters.INIT_POP; i++) {
+			Host h = new Host();
+			population.add(h);
+		}
 	}
-	public HostPopulation(int s) {
-		popSize = s;
-		pop = new ArrayList<Host>(popSize);
-	}	
 	
 	// methods
 	public int getPopSize() {
-		return popSize;
+		return population.size();
 	}
-
-	// draw a Poisson distributed number of births and add these hosts to the population
-	public void grow() {
 	
+	// draw a Poisson distributed number of births and add these hosts to the end of the population list
+	public void grow() {
+		double totalBirthRate = getPopSize() * Parameters.BIRTH_RATE;
+		int births = Random.nextPoisson(totalBirthRate);
+		for (int i = 0; i < births; i++) {
+			Host h = new Host();
+			population.add(h);
+		}
+	}
+	
+	// draw a Poisson distributed number of deaths and remove random hosts from the population list
+	public void decline() {
+		if (getPopSize()>0) {
+			double totalDeathRate = getPopSize() * Parameters.DEATH_RATE;
+			int deaths = Random.nextPoisson(totalDeathRate);
+			for (int i = 0; i < deaths; i++) {
+				int index = Random.nextInt(0,getPopSize()-1);
+				population.remove(index);
+			}		
+		}
 	}
 
 }

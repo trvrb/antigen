@@ -10,12 +10,13 @@ public class Host {
 	
 	// constructor
 	public Host() {
-	
+
 	}
 	
 	// methods
 	public boolean isInfected() {
 		return infected;
 	}
+	
 
 }

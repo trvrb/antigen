@@ -6,7 +6,12 @@ class TreeSim {
 		// initialize simulation
 		Simulation sim = new Simulation();
 				
-		sim.printState();		
+		for (int i = 0; i < 100; i++) {
+			sim.printState();
+			sim.stepForward();
+		}	
+		
+		
 		
 	}
    	
