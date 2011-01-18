@@ -89,14 +89,24 @@ public class HostPopulation {
 			double totalContactRate = getI() * getPrS() * Parameters.beta;
 			int contacts = Random.nextPoisson(totalContactRate);
 			for (int i = 0; i < contacts; i++) {
+			
+				// get indices and objects
 				int index = getRandomI();
 				int sndex = getRandomS();
 				Host iH = infecteds.get(index);
-				Host sH = susceptibles.get(sndex);
+				Host sH = susceptibles.get(sndex);			
 				Virus v = iH.getInfection();
-				sH.infect(v);
-				susceptibles.remove(sndex);
-				infecteds.add(sH);
+				
+				// attempt infection
+				Phenotype p = v.getPhenotype();
+				List<Phenotype> history = sH.getHistory();
+				double chanceOfSuccess = p.riskOfInfection(history);
+				if (Random.nextBoolean(chanceOfSuccess)) {
+					sH.infect(v);
+					susceptibles.remove(sndex);
+					infecteds.add(sH);
+				}
+				
 			}			
 		}
 	}

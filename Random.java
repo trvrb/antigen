@@ -27,5 +27,13 @@ public class Random {
 		return dist.nextInt();
 	}
 	
+	public static boolean nextBoolean(double p) {
+		boolean x = false;
+		if (nextDouble() < p) {
+			x = true;
+		}
+		return x;
+	}	
+	
 
 }

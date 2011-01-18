@@ -13,11 +13,12 @@ public class Simulation {
 	// methods
 	
 	public void printState() {
-		System.out.println("Day " + Parameters.day);
-		System.out.println("N: " + hostPop.getN());
-		System.out.println("S: " + hostPop.getS());
-		System.out.println("I: " + hostPop.getI());		
-		System.out.println();	
+//		System.out.println("Day " + Parameters.day);
+//		System.out.println("N: " + hostPop.getN());
+//		System.out.println("S: " + hostPop.getS());
+//		System.out.println("I: " + hostPop.getI());		
+//		System.out.println();	
+		System.out.println(Parameters.day + "\t" + hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI());
 	}
 	
 	public void stepForward() {

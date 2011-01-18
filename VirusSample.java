@@ -1,5 +1,7 @@
 /* Stores a list of Viruses that have sampled during the course of the simulation */
 
+import java.util.*;
+
 public class VirusSample {
 
 	// fields

@@ -6,6 +6,7 @@ public class Parameters {
 
 	// simulation parameters
 	public static int day = 0;
+	public static int endDay = 200;
 
 	// host parameters
 	public static final int initialN = 100;				// in individuals

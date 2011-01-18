@@ -3,22 +3,26 @@
 public class Virus {
 
 	// fields
-	// location
-	// antigenic phenotype
 	private Virus parentVirus;
-	private int birth;	
+	private Phenotype antigenicType;
+	private int birth;
+	// location
 	
 	// initialization
 	public Virus() {
-	
+		antigenicType = new Phenotype();
 	}
 	
-	// replication
+	// replication, copies the virus, but remembers the ancestry
 	public Virus(Virus p) {
 		parentVirus = p;
+		antigenicType = new Phenotype (p.getPhenotype());
 		birth = Parameters.day;
 	}
 	
 	// methods
+	public Phenotype getPhenotype() {
+		return antigenicType;
+	}
 
 }

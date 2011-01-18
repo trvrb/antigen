@@ -1,10 +1,12 @@
 /* A human individual that harbors viruses and immunity */
 
+import java.util.*;
+
 public class Host {
 
 	// fields
-	private Virus infection;	// if infection != null then this individual is infected
-	// immuneHistory
+	private Virus infection;											
+	private List<Phenotype> immuneHistory = new ArrayList<Phenotype>();	
 	// location
 	
 	// naive host
@@ -13,11 +15,10 @@ public class Host {
 	}
 	// initial infected host
 	public Host(Virus v) {
-	//	infected = true;
 		infection = v;
 	}
 	
-	// methods
+	// infection methods
 	public boolean isInfected() {
 		boolean infected = false;
 		if (infection != null) {
@@ -30,9 +31,17 @@ public class Host {
 	}
 	public void infect(Virus pV) {
 		Virus nV = new Virus(pV);
+		infection = nV;
 	}
 	public void clearInfection() {
+		Phenotype p = new Phenotype(infection.getPhenotype());
+		immuneHistory.add(p);
 		infection = null;
+	}
+	
+	// history methods
+	public List<Phenotype> getHistory() {
+		return immuneHistory;
 	}
 	
 
