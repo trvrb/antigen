@@ -22,6 +22,10 @@ public class Phenotype {
 		trait = p.trait;
 	}	
 	
+	public double getTrait() {
+		return trait;
+	}
+	
 	// raw antigenic distance between two phenotypes
 	public double distance(Phenotype p) {
 		return Math.abs( trait - p.trait);
@@ -48,6 +52,14 @@ public class Phenotype {
 		
 		return risk;
 		
+	}
+	
+	public void mutate() {
+		trait = trait + Random.nextDouble(0.45,0.55);
+	}
+	
+	public String toString() {
+		return String.valueOf(trait);
 	}
 
 }

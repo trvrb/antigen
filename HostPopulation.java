@@ -126,5 +126,34 @@ public class HostPopulation {
 			}			
 		}
 	}
+	
+	// draw a Poisson distributed number of mutations and mutate based upon this
+	public void mutate() {
+		if (getI()>0) {
+			// each infected mutates at a per-day rate of mu
+			double totalMutationRate = getI() * Parameters.muPhenotype;
+			int mutations = Random.nextPoisson(totalMutationRate);
+			for (int i = 0; i < mutations; i++) {
+				int index = getRandomI();
+				Host h = infecteds.get(index);
+				Virus v = h.getInfection();
+				Phenotype p = v.getPhenotype();
+				p.mutate();
+			}			
+		}
+	}	
+	
+	// output list of extant antigenic phenotypes
+	public void printPhenotypes() {
+		if (getI()>0) {
+			for (int i = 0; i < getI(); i++) {
+				Host h = infecteds.get(i);
+				Virus v = h.getInfection();
+				Phenotype p = v.getPhenotype();
+				System.out.print(p + "\t");
+			}
+			System.out.println();
+		}
+	}
 
 }

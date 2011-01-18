@@ -22,6 +22,11 @@ public class Random {
 		return dist.nextDouble();
 	}
 	
+	public static double nextDouble(double from, double to) {
+		cern.jet.random.AbstractDistribution dist = new cern.jet.random.Uniform(from, to, gen);
+		return dist.nextDouble();
+	}	
+	
 	public static int nextPoisson(double lambda) {
 		cern.jet.random.AbstractDistribution dist = new cern.jet.random.Poisson(lambda, gen);
 		return dist.nextInt();
