@@ -15,7 +15,9 @@ public class Simulation {
 	
 	public void printState() {
 		System.out.println("Day " + day);
-		System.out.println("host pop size: " + hostPop.getPopSize());
+		System.out.println("N: " + hostPop.getN());
+		System.out.println("S: " + hostPop.getS());
+		System.out.println("I: " + hostPop.getI());		
 		System.out.println();	
 	}
 	
@@ -25,7 +27,10 @@ public class Simulation {
 	
 		hostPop.grow();
 		hostPop.decline();
+		hostPop.contact();
+		hostPop.recover();
 		day++;
+		
 	}
 
 }

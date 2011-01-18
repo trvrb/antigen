@@ -14,9 +14,12 @@ public class Host {
 	}
 	
 	// methods
-	public boolean isInfected() {
+	public boolean getInfected() {
 		return infected;
 	}
+	public void setInfected(boolean b) {
+		infected = b;
+	}	
 	
 
 }
