@@ -148,11 +148,7 @@ public class HostPopulation {
 			if (getI()>0) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
-				Virus v = h.getInfection();
-				Phenotype p = v.getPhenotype();
-				Phenotype mutP = new Phenotype(p);
-				mutP.mutate();
-				v.setPhenotype(mutP);
+				h.mutate();
 			}
 		}			
 	}	
