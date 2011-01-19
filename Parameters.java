@@ -6,11 +6,11 @@ public class Parameters {
 
 	// simulation parameters
 	public static int day = 0;
-	public static final int endDay = 1000;
-	public static final double samplingRate = 0.1;			// in samples per individual per day
+	public static final int endDay = 10000;
+	public static final double samplingRate = 0.01;			// in samples per individual per day
 
 	// host parameters
-	public static final int initialN = 1000;				// in individuals
+	public static final int initialN = 10000;				// in individuals
 	public static final double birthRate = 0.0000913242;	// in births per individual per day, 1/30 years = 1/(30*365)
 	public static final double deathRate = 0.0000913242;	// in deaths per individual per day, 1/30 years = 1/(30*365)
 	
@@ -20,8 +20,8 @@ public class Parameters {
 	public static final double nu = 0.1;					// in recoveries per individual per day
 	
 	// evolution parameters
-	public static final double muPhenotype = 0.01;			// in mutations per individual per day
-	public static final double lowerPhenotype = 0.05;		// lower limit to how far a mutation moves in phenotype space
-	public static final double upperPhenotype = 0.15;		// upper limit to how far a mutation moves in phenotype space
+	public static final double muPhenotype = 0.001;			// in mutations per individual per day
+	public static final double lowerPhenotype = 0.0;		// lower limit to how far a mutation moves in phenotype space
+	public static final double upperPhenotype = 0.25;		// upper limit to how far a mutation moves in phenotype space
 
 }

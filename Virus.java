@@ -27,5 +27,8 @@ public class Virus {
 	public void setPhenotype(Phenotype p) {
 		antigenicType = p;
 	}	
+	public int getBirth() {
+		return birth;
+	}
 
 }

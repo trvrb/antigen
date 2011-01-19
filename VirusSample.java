@@ -1,6 +1,7 @@
 /* Stores a list of Viruses that have sampled during the course of the simulation */
 
 import java.util.*;
+import java.io.*;
 
 public class VirusSample {
 
@@ -13,7 +14,22 @@ public class VirusSample {
 	}
 	
 	public static void printTips() {
-	
+		
+		try {
+			FileWriter writer = new FileWriter("out.tips");
+			for (int i = 0; i < sample.size(); i++) {
+				Virus v = sample.get(i);
+				String b = String.valueOf(v.getBirth());
+				Phenotype p = v.getPhenotype();
+				String t = p.toString();
+				writer.write(b + "\t" + t + "\n");
+			}
+			writer.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+		
 	}
 
 }

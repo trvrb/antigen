@@ -1,5 +1,7 @@
 /* Simulation functions, holds the host population */
 
+import java.io.*;
+
 public class Simulation {
 
 	// fields
@@ -31,11 +33,25 @@ public class Simulation {
 	}
 	
 	public void run() {
-		System.out.println("day\tN\tS\tI");
-		for (int i = 0; i < Parameters.endDay; i++) {
-			printState();
-			stepForward();
-		}
+	
+		try {
+			FileWriter writer = new FileWriter("out.timeseries");
+			System.out.println("day\tN\tS\tI");
+			writer.write("N\tS\tI\n");
+			for (int i = 0; i < Parameters.endDay; i++) {
+				printState();
+				writer.write(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\n");
+				stepForward();
+				if (hostPop.getI()==0) { break; }
+			}
+			writer.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}	
+	
+		VirusSample.printTips();
+		
 	}
 
 }
