@@ -128,6 +128,7 @@ public class HostPopulation {
 	}
 	
 	// draw a Poisson distributed number of mutations and mutate based upon this
+	// mutate should not impact other Virus's Phenotypes through reference
 	public void mutate() {
 		if (getI()>0) {
 			// each infected mutates at a per-day rate of mu
@@ -138,7 +139,9 @@ public class HostPopulation {
 				Host h = infecteds.get(index);
 				Virus v = h.getInfection();
 				Phenotype p = v.getPhenotype();
-				p.mutate();
+				Phenotype mutP = new Phenotype(p);
+				mutP.mutate();
+				v.setPhenotype(mutP);
 			}			
 		}
 	}	

@@ -1,6 +1,7 @@
 /* Antigenic phenotype present in individual Viruses and within Hosts as immune history */
 /* Should be able to calculate distance and cross-immunity between two phenotypes */
 /* Moving up to multiple dimensions is non-trivial and requires thought on the implementation */
+/* Multiple Viruses can reference a single Phenotype object */
 
 import static java.lang.Math.*;
 import java.util.*;

@@ -16,7 +16,7 @@ public class Virus {
 	// replication, copies the virus, but remembers the ancestry
 	public Virus(Virus p) {
 		parentVirus = p;
-		antigenicType = new Phenotype (p.getPhenotype());
+		antigenicType = p.getPhenotype();
 		birth = Parameters.day;
 	}
 	
@@ -24,5 +24,8 @@ public class Virus {
 	public Phenotype getPhenotype() {
 		return antigenicType;
 	}
+	public void setPhenotype(Phenotype p) {
+		antigenicType = p;
+	}	
 
 }

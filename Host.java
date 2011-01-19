@@ -34,7 +34,7 @@ public class Host {
 		infection = nV;
 	}
 	public void clearInfection() {
-		Phenotype p = new Phenotype(infection.getPhenotype());
+		Phenotype p = infection.getPhenotype();
 		immuneHistory.add(p);
 		infection = null;
 	}
