@@ -30,5 +30,8 @@ public class Virus {
 	public int getBirth() {
 		return birth;
 	}
+	public Virus getParent() {
+		return parentVirus;
+	}
 
 }

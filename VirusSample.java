@@ -19,10 +19,11 @@ public class VirusSample {
 			FileWriter writer = new FileWriter("out.tips");
 			for (int i = 0; i < sample.size(); i++) {
 				Virus v = sample.get(i);
-				String b = String.valueOf(v.getBirth());
-				Phenotype p = v.getPhenotype();
-				String t = p.toString();
-				writer.write(b + "\t" + t + "\n");
+				int b = v.getBirth();
+				if (b > Parameters.burnin) {
+					Phenotype p = v.getPhenotype();
+					writer.write(b + "\t" + p + "\n");
+				}
 			}
 			writer.close();
 		} catch(IOException ex) {
@@ -31,5 +32,31 @@ public class VirusSample {
 		}
 		
 	}
+	
+	public static void printPaths() {
+		
+		try {
+			FileWriter writer = new FileWriter("out.paths");
+			for (int i = 0; i < sample.size(); i++) {
+				Virus v = sample.get(i);
+				int b = v.getBirth();
+				Phenotype p = v.getPhenotype();
+				if (b > Parameters.burnin) {
+					while (b > Parameters.burnin && v.getParent() != null) {
+						writer.write("{" + b + "," + p + "}\t");
+						v = v.getParent();
+						b = v.getBirth();
+						p = v.getPhenotype();
+					}
+					writer.write("\n");
+				}
+			}
+			writer.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+		
+	}	
 
 }

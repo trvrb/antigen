@@ -15,13 +15,14 @@ public class Simulation {
 	// methods
 	
 	public void printState() {
-		System.out.println(Parameters.day + "\t" + hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI());
+		System.out.println(Parameters.day + "\t" + hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases());
 	}
 	
 	public void stepForward() {
 		
 		// check to see if infected host population exists...
 	
+		hostPop.resetCases();
 		hostPop.grow();
 		hostPop.decline();
 		hostPop.contact();
@@ -36,12 +37,14 @@ public class Simulation {
 	
 		try {
 			FileWriter writer = new FileWriter("out.timeseries");
-			System.out.println("day\tN\tS\tI");
-			writer.write("N\tS\tI\n");
+			System.out.println("day\tN\tS\tI\tcases");
+			writer.write("N\tS\tI\tcases\n");
 			for (int i = 0; i < Parameters.endDay; i++) {
-				printState();
-				writer.write(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\n");
 				stepForward();
+				printState();
+				if (Parameters.day > Parameters.burnin) {
+					writer.write(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases() + "\n");
+				}
 				if (hostPop.getI()==0) { break; }
 			}
 			writer.close();
@@ -51,6 +54,7 @@ public class Simulation {
 		}	
 	
 		VirusSample.printTips();
+		VirusSample.printPaths();
 		
 	}
 

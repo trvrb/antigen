@@ -7,6 +7,7 @@ public class HostPopulation {
 	// fields
 	private List<Host> susceptibles = new ArrayList<Host>();
 	private List<Host> infecteds = new ArrayList<Host>();	
+	private int cases = 0;
 	
 	// constructors
 	public HostPopulation() {
@@ -48,6 +49,13 @@ public class HostPopulation {
 	}
 	public int getRandomI() {
 		return Random.nextInt(0,getI()-1);
+	}	
+	
+	public void resetCases() {
+		cases = 0;
+	}
+	public int getCases() {
+		return cases;
 	}	
 	
 	// draw a Poisson distributed number of births and add these hosts to the end of the population list
@@ -106,6 +114,7 @@ public class HostPopulation {
 					sH.infect(v);
 					susceptibles.remove(sndex);
 					infecteds.add(sH);
+					cases++;
 				}
 			
 			}
