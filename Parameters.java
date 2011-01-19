@@ -7,7 +7,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int endDay = 1000;
-	public static final double samplingRate = 0.01;			// in samples per individual per day
+	public static final double samplingRate = 0.1;			// in samples per individual per day
 
 	// host parameters
 	public static final int initialN = 1000;				// in individuals

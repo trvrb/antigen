@@ -63,33 +63,34 @@ public class HostPopulation {
 	// draw a Poisson distributed number of deaths and remove random hosts from the population list
 	public void decline() {
 		// deaths in susceptible class
-		if (getS()>0) {
-			double totalDeathRate = getS() * Parameters.deathRate;
-			int deaths = Random.nextPoisson(totalDeathRate);
-			for (int i = 0; i < deaths; i++) {
+		double totalDeathRate = getS() * Parameters.deathRate;
+		int deaths = Random.nextPoisson(totalDeathRate);
+		for (int i = 0; i < deaths; i++) {
+			if (getS()>0) {
 				int sndex = getRandomS();
 				susceptibles.remove(sndex);
-			}		
-		}
-		// deaths in infectious class
-		if (getI()>0) {
-			double totalDeathRate = getI() * Parameters.deathRate;
-			int deaths = Random.nextPoisson(totalDeathRate);
-			for (int i = 0; i < deaths; i++) {
+			}
+		}		
+		// deaths in infectious class		
+		totalDeathRate = getI() * Parameters.deathRate;
+		deaths = Random.nextPoisson(totalDeathRate);
+		for (int i = 0; i < deaths; i++) {
+			if (getI()>0) {
 				int index = getRandomI();
 				infecteds.remove(index);
-			}		
+			}
 		}		
 	}
 
 	// draw a Poisson distributed number of contacts and move from S->I based upon this
 	public void contact() {
-		if (getS()>0 && getI()>0) {
-			// each infected makes I->S contacts on a per-day rate of beta * S/N
-			double totalContactRate = getI() * getPrS() * Parameters.beta;
-			int contacts = Random.nextPoisson(totalContactRate);
-			for (int i = 0; i < contacts; i++) {
-			
+
+		// each infected makes I->S contacts on a per-day rate of beta * S/N
+		double totalContactRate = getI() * getPrS() * Parameters.beta;
+		int contacts = Random.nextPoisson(totalContactRate);
+		for (int i = 0; i < contacts; i++) {
+			if (getS()>0 && getI()>0) {
+		
 				// get indices and objects
 				int index = getRandomI();
 				int sndex = getRandomS();
@@ -106,35 +107,36 @@ public class HostPopulation {
 					susceptibles.remove(sndex);
 					infecteds.add(sH);
 				}
-				
-			}			
-		}
+			
+			}
+		}		
+		
 	}
 	
 	// draw a Poisson distributed number of recoveries and move from I->S based upon this
 	public void recover() {
-		if (getI()>0) {
-			// each infected recovers at a per-day rate of nu
-			double totalRecoveryRate = getI() * Parameters.nu;
-			int recoveries = Random.nextPoisson(totalRecoveryRate);
-			for (int i = 0; i < recoveries; i++) {
+		// each infected recovers at a per-day rate of nu
+		double totalRecoveryRate = getI() * Parameters.nu;
+		int recoveries = Random.nextPoisson(totalRecoveryRate);
+		for (int i = 0; i < recoveries; i++) {
+			if (getI()>0) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				h.clearInfection();
 				infecteds.remove(index);
 				susceptibles.add(h);
-			}			
-		}
+			}
+		}			
 	}
 	
 	// draw a Poisson distributed number of mutations and mutate based upon this
 	// mutate should not impact other Virus's Phenotypes through reference
 	public void mutate() {
-		if (getI()>0) {
-			// each infected mutates at a per-day rate of mu
-			double totalMutationRate = getI() * Parameters.muPhenotype;
-			int mutations = Random.nextPoisson(totalMutationRate);
-			for (int i = 0; i < mutations; i++) {
+		// each infected mutates at a per-day rate of mu
+		double totalMutationRate = getI() * Parameters.muPhenotype;
+		int mutations = Random.nextPoisson(totalMutationRate);
+		for (int i = 0; i < mutations; i++) {
+			if (getI()>0) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				Virus v = h.getInfection();
@@ -142,22 +144,22 @@ public class HostPopulation {
 				Phenotype mutP = new Phenotype(p);
 				mutP.mutate();
 				v.setPhenotype(mutP);
-			}			
-		}
+			}
+		}			
 	}	
 	
 	// draw a Poisson distributed number of samples and add them to the VirusSample
 	public void sample() {
-		if (getI()>0) {
-			double totalSamplingRate = getI() * Parameters.samplingRate;
-			int samples = Random.nextPoisson(totalSamplingRate);
-			for (int i = 0; i < samples; i++) {
+		double totalSamplingRate = getI() * Parameters.samplingRate;
+		int samples = Random.nextPoisson(totalSamplingRate);
+		for (int i = 0; i < samples; i++) {
+			if (getI()>0) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				Virus v = h.getInfection();
 				VirusSample.add(v);
-			}			
-		}	
+			}
+		}			
 	}
 	
 	// output list of extant antigenic phenotypes

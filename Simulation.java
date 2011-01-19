@@ -14,12 +14,11 @@ public class Simulation {
 	
 	public void printState() {
 		System.out.println(Parameters.day + "\t" + hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI());
-//		hostPop.printPhenotypes();
 	}
 	
 	public void stepForward() {
 		
-		// check to see if host population exists...
+		// check to see if infected host population exists...
 	
 		hostPop.grow();
 		hostPop.decline();
@@ -32,6 +31,7 @@ public class Simulation {
 	}
 	
 	public void run() {
+		System.out.println("day\tN\tS\tI");
 		for (int i = 0; i < Parameters.endDay; i++) {
 			printState();
 			stepForward();
