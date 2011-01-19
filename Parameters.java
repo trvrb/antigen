@@ -9,6 +9,7 @@ public class Parameters {
 	public static final int burnin = 0; // 3000
 	public static final int endDay = 1000; // 4825
 	public static final double samplingRate = 0.001;		// in samples per individual per day
+//	public static final int diversityCount = 10;			// how many samples to draw to check diversity
 
 	// host parameters
 	public static final int initialN = 10000;				// in individuals
@@ -22,7 +23,7 @@ public class Parameters {
 	
 	// evolution parameters
 	public static final double muPhenotype = 0.05;			// in mutations per individual per day
-	public static final double lowerPhenotype = 0.0;		// lower limit to how far a mutation moves in phenotype space
+	public static final double lowerPhenotype = -0.1;		// lower limit to how far a mutation moves in phenotype space
 	public static final double upperPhenotype = 0.1;		// upper limit to how far a mutation moves in phenotype space
 
 }

@@ -16,16 +16,19 @@ public class VirusSample {
 	public static void printTips() {
 		
 		try {
-			FileWriter writer = new FileWriter("out.tips");
+			File tipFile = new File("out.tips");
+			tipFile.delete();
+			tipFile.createNewFile();
+			PrintStream tipStream = new PrintStream(tipFile);
 			for (int i = 0; i < sample.size(); i++) {
 				Virus v = sample.get(i);
 				int b = v.getBirth();
 				if (b > Parameters.burnin) {
 					Phenotype p = v.getPhenotype();
-					writer.write(b + "\t" + p + "\n");
+					tipStream.printf("%d\t%.4f\n", b, p.getTrait());
 				}
 			}
-			writer.close();
+			tipStream.close();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
@@ -36,22 +39,25 @@ public class VirusSample {
 	public static void printPaths() {
 		
 		try {
-			FileWriter writer = new FileWriter("out.paths");
+			File pathFile = new File("out.paths");
+			pathFile.delete();
+			pathFile.createNewFile();
+			PrintStream pathStream = new PrintStream(pathFile);
 			for (int i = 0; i < sample.size(); i++) {
 				Virus v = sample.get(i);
 				int b = v.getBirth();
 				Phenotype p = v.getPhenotype();
 				if (b > Parameters.burnin) {
 					while (b > Parameters.burnin && v.getParent() != null) {
-						writer.write("{" + b + "," + p + "}\t");
+						pathStream.printf("{%d,%.4f}\t", b, p.getTrait());
 						v = v.getParent();
 						b = v.getBirth();
 						p = v.getPhenotype();
 					}
-					writer.write("\n");
+					pathStream.println();
 				}
 			}
-			writer.close();
+			pathStream.close();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);

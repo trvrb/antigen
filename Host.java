@@ -40,8 +40,8 @@ public class Host {
 	}
 	// make a new virus with the mutated phenotype and reference this virus as parent
 	public void mutate() {
-		Virus newInfection = new Virus(infection);
-		infection = newInfection;
+		Virus nV = new Virus(infection);
+		infection = nV;
 		Phenotype p = infection.getPhenotype();
 		Phenotype mutP = new Phenotype(p);
 		mutP.mutate();
