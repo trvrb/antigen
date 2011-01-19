@@ -13,11 +13,6 @@ public class Simulation {
 	// methods
 	
 	public void printState() {
-//		System.out.println("Day " + Parameters.day);
-//		System.out.println("N: " + hostPop.getN());
-//		System.out.println("S: " + hostPop.getS());
-//		System.out.println("I: " + hostPop.getI());		
-//		System.out.println();	
 		System.out.println(Parameters.day + "\t" + hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI());
 //		hostPop.printPhenotypes();
 	}
@@ -31,8 +26,16 @@ public class Simulation {
 		hostPop.contact();
 		hostPop.recover();
 		hostPop.mutate();
+		hostPop.sample();
 		Parameters.day++;
 		
+	}
+	
+	public void run() {
+		for (int i = 0; i < Parameters.endDay; i++) {
+			printState();
+			stepForward();
+		}
 	}
 
 }

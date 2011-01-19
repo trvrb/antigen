@@ -146,6 +146,20 @@ public class HostPopulation {
 		}
 	}	
 	
+	// draw a Poisson distributed number of samples and add them to the VirusSample
+	public void sample() {
+		if (getI()>0) {
+			double totalSamplingRate = getI() * Parameters.samplingRate;
+			int samples = Random.nextPoisson(totalSamplingRate);
+			for (int i = 0; i < samples; i++) {
+				int index = getRandomI();
+				Host h = infecteds.get(index);
+				Virus v = h.getInfection();
+				VirusSample.add(v);
+			}			
+		}	
+	}
+	
 	// output list of extant antigenic phenotypes
 	public void printPhenotypes() {
 		if (getI()>0) {

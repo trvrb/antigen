@@ -5,15 +5,10 @@ import java.util.*;
 public class VirusSample {
 
 	// fields
-	private List<Virus> sample = new ArrayList<Virus>();
-	
-	// constructor
-	public VirusSample() {
-	
-	}
-	
-	// methods
-	public void sample(Virus v) {
+	private static List<Virus> sample = new ArrayList<Virus>();
+		
+	// static methods
+	public static void add(Virus v) {
 		sample.add(v);
 	}
 

@@ -3,14 +3,12 @@
 class SimTree {
     public static void main(String[] args) {
 
-		// initialize simulation
+		// initialize random number generator
 		cern.jet.random.AbstractDistribution.makeDefaultGenerator();
+		
+		// run simulation
 		Simulation sim = new Simulation();
-				
-		for (int i = 0; i < Parameters.endDay; i++) {
-			sim.printState();
-			sim.stepForward();
-		}	
+		sim.run();	
 		
 	}
    	
