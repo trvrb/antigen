@@ -55,7 +55,7 @@ public class Phenotype {
 	}
 	
 	public void mutate() {
-		trait = trait + Random.nextDouble(0.45,0.55);
+		trait = trait + Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
 	}
 	
 	public String toString() {

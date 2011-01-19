@@ -4,6 +4,7 @@ class SimTree {
     public static void main(String[] args) {
 
 		// initialize simulation
+		cern.jet.random.AbstractDistribution.makeDefaultGenerator();
 		Simulation sim = new Simulation();
 				
 		for (int i = 0; i < Parameters.endDay; i++) {
