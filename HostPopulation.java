@@ -15,6 +15,15 @@ public class HostPopulation {
 		int initialS = Parameters.initialN - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();
+			
+			// sometimes start with an immunity to 0.0
+			double chanceOfSuccess = Parameters.initialRecovered;
+			if (Random.nextBoolean(chanceOfSuccess)) {
+				Phenotype p = new Phenotype(-0.25);
+				List<Phenotype> history = h.getHistory();
+				history.add(p);
+			}
+			
 			susceptibles.add(h);
 		}
 		// infect some individuals
@@ -155,7 +164,7 @@ public class HostPopulation {
 	
 	// draw a Poisson distributed number of samples and add them to the VirusSample
 	public void sample() {
-		double totalSamplingRate = getI() * Parameters.samplingRate;
+		double totalSamplingRate = Parameters.tipSamplingRate;
 		int samples = Random.nextPoisson(totalSamplingRate);
 		for (int i = 0; i < samples; i++) {
 			if (getI()>0) {

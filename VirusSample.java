@@ -44,17 +44,20 @@ public class VirusSample {
 			pathFile.createNewFile();
 			PrintStream pathStream = new PrintStream(pathFile);
 			for (int i = 0; i < sample.size(); i++) {
-				Virus v = sample.get(i);
-				int b = v.getBirth();
-				Phenotype p = v.getPhenotype();
-				if (b > Parameters.burnin) {
-					while (b > Parameters.burnin && v.getParent() != null) {
-						pathStream.printf("{%d,%.4f}\t", b, p.getTrait());
-						v = v.getParent();
-						b = v.getBirth();
-						p = v.getPhenotype();
+				double chanceOfSuccess = Parameters.pathSamplingProportion;
+				if (Random.nextBoolean(chanceOfSuccess)) {
+					Virus v = sample.get(i);
+					int b = v.getBirth();
+					Phenotype p = v.getPhenotype();
+					if (b > Parameters.burnin) {
+						while (b > Parameters.burnin && v.getParent() != null) {
+							pathStream.printf("{%d,%.4f}\t", b, p.getTrait());
+							v = v.getParent();
+							b = v.getBirth();
+							p = v.getPhenotype();
+						}
+						pathStream.println();
 					}
-					pathStream.println();
 				}
 			}
 			pathStream.close();

@@ -11,7 +11,7 @@ public class Host {
 	
 	// naive host
 	public Host() {
-
+	
 	}
 	// initial infected host
 	public Host(Virus v) {

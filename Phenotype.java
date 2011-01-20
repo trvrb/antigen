@@ -50,9 +50,7 @@ public class Phenotype {
 		double risk = closestDistance;
 		risk = Math.max(0.0, risk);
 		risk = Math.min(1.0, risk);
-		
-		risk = 1.0;
-		
+				
 		return risk;
 		
 	}

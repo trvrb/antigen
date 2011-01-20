@@ -36,18 +36,23 @@ public class Simulation {
 	public void run() {
 	
 		try {
-			FileWriter writer = new FileWriter("out.timeseries");
+			File seriesFile = new File("out.timeseries");
+			seriesFile.delete();
+			seriesFile.createNewFile();
+			PrintStream seriesStream = new PrintStream(seriesFile);
 			System.out.println("day\tN\tS\tI\tcases");
-			writer.write("N\tS\tI\tcases\n");
+			seriesStream.println("N\tS\tI\tcases");
+			
 			for (int i = 0; i < Parameters.endDay; i++) {
 				stepForward();
 				printState();
 				if (Parameters.day > Parameters.burnin) {
-					writer.write(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases() + "\n");
+					seriesStream.println(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases());
 				}
 				if (hostPop.getI()==0) { break; }
 			}
-			writer.close();
+			
+			seriesStream.close();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
