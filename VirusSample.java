@@ -25,7 +25,7 @@ public class VirusSample {
 				double b = v.getBirth();
 				if (b >= 0) {
 					Phenotype p = v.getPhenotype();
-					tipStream.printf("%.4f\t%.4f\n", b, p.getTrait());
+					tipStream.printf("%.4f\t%s\n", b, p);
 				}
 			}
 			tipStream.close();
@@ -52,7 +52,7 @@ public class VirusSample {
 					Phenotype p = v.getPhenotype();
 					if (b >= 0) {
 						while (b >= 0 && v.getParent() != null) {
-							pathStream.printf("{%.4f,%d,%.4f}\t", b, (t)?1:0, p.getTrait());
+							pathStream.printf("{%.4f,%d,%s}\t", b, (t)?1:0, p);
 							v = v.getParent();
 							b = v.getBirth();
 							t = v.isTrunk();

@@ -9,27 +9,37 @@ import java.util.*;
 public class Phenotype {
 
 	// fields
-	private double trait = 0.0;
+	private double traitA = 0.0;
+	private double traitB = 0.0;	
 	
 	// constructor
 	public Phenotype() {
 	
 	}
-	public Phenotype(double t) {
-		trait = t;
+	public Phenotype(double tA, double tB) {
+		traitA = tA;
+		traitB = tB;
 	}
 	// copies the phenotype
 	public Phenotype(Phenotype p) {
-		trait = p.trait;
+		traitA = p.traitA;
+		traitB = p.traitB;
 	}	
 	
-	public double getTrait() {
-		return trait;
+	public double getTraitA() {
+		return traitA;
 	}
-	
+	public double getTraitB() {
+		return traitB;
+	}	
+		
 	// raw antigenic distance between two phenotypes
 	public double distance(Phenotype p) {
-		return Math.abs( trait - p.trait);
+		double dist = 0.0;
+		dist += Math.pow(traitA - p.getTraitA(), 2);
+		dist += Math.pow(traitB - p.getTraitB(), 2);		
+		dist = Math.sqrt(dist);
+		return dist;
 	}
 
 	// cross immunity between a virus phenotype and a host's immune history
@@ -56,11 +66,13 @@ public class Phenotype {
 	}
 	
 	public void mutate() {
-		trait = trait + Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
+		traitA += Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
+		traitB += Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
 	}
 	
 	public String toString() {
-		return String.valueOf(trait);
+		String fullString = String.format("{%.4f,%.4f}", traitA, traitB);
+		return fullString;
 	}
 
 }

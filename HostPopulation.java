@@ -19,7 +19,7 @@ public class HostPopulation {
 			// sometimes start with an immunity to 0.0
 			double chanceOfSuccess = Parameters.initialRecovered;
 			if (Random.nextBoolean(chanceOfSuccess)) {
-				Phenotype p = new Phenotype(-0.25);
+				Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitA);
 				List<Phenotype> history = h.getHistory();
 				history.add(p);
 			}
