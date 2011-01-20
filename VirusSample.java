@@ -22,10 +22,10 @@ public class VirusSample {
 			PrintStream tipStream = new PrintStream(tipFile);
 			for (int i = 0; i < sample.size(); i++) {
 				Virus v = sample.get(i);
-				int b = v.getBirth();
-				if (b > Parameters.burnin) {
+				double b = v.getBirth();
+				if (b >= 0) {
 					Phenotype p = v.getPhenotype();
-					tipStream.printf("%d\t%.4f\n", b, p.getTrait());
+					tipStream.printf("%.4f\t%.4f\n", b, p.getTrait());
 				}
 			}
 			tipStream.close();
@@ -47,12 +47,12 @@ public class VirusSample {
 				double chanceOfSuccess = Parameters.pathSamplingProportion;
 				if (Random.nextBoolean(chanceOfSuccess)) {
 					Virus v = sample.get(i);
-					int b = v.getBirth();
+					double b = v.getBirth();
 					boolean t = v.isTrunk();
 					Phenotype p = v.getPhenotype();
-					if (b >= Parameters.burnin) {
-						while (b >= Parameters.burnin && v.getParent() != null) {
-							pathStream.printf("{%d,%d,%.4f}\t", b, (t)?1:0, p.getTrait());
+					if (b >= 0) {
+						while (b >= 0 && v.getParent() != null) {
+							pathStream.printf("{%.4f,%d,%.4f}\t", b, (t)?1:0, p.getTrait());
 							v = v.getParent();
 							b = v.getBirth();
 							t = v.isTrunk();

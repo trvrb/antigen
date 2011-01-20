@@ -7,7 +7,7 @@ public class Virus {
 	// fields
 	private Virus parentVirus;
 	private Phenotype antigenicType;
-	private int birth;
+	private double birth;	// measured in years relative to burnin
 	private boolean trunk;	// fill this at the end of the simulation
 	// location
 	
@@ -20,7 +20,8 @@ public class Virus {
 	public Virus(Virus p) {
 		parentVirus = p;
 		antigenicType = p.getPhenotype();
-		birth = Parameters.day;
+//		birth = Parameters.day;
+		birth = Parameters.getDate();
 	}
 	
 	// methods
@@ -30,7 +31,7 @@ public class Virus {
 	public void setPhenotype(Phenotype p) {
 		antigenicType = p;
 	}	
-	public int getBirth() {
+	public double getBirth() {
 		return birth;
 	}
 	public Virus getParent() {
@@ -67,10 +68,10 @@ public class Virus {
 		
 	}
 	
-	public int distance(Virus virusB) {
+	public double distance(Virus virusB) {
 		Virus ancestor = commonAncestor(virusB);
-		int distA = getBirth() - ancestor.getBirth();
-		int distB = virusB.getBirth() - ancestor.getBirth();
+		double distA = getBirth() - ancestor.getBirth();
+		double distB = virusB.getBirth() - ancestor.getBirth();
 		return distA + distB;
 	}
 

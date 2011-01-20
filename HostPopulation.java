@@ -185,11 +185,11 @@ public class HostPopulation {
 			v.makeTrunk();
 			while (v.getParent() != null) {
 				v = v.getParent();
-			//	if (v.isTrunk()) {
-			//		break;
-			//	} else {
+				if (v.isTrunk()) {
+					break;
+				} else {
 					v.makeTrunk();
-			//	}
+				}
 			}
 		}
 	}	
