@@ -27,8 +27,9 @@ public class HostPopulation {
 			susceptibles.add(h);
 		}
 		// infect some individuals
+		Virus urV = new Virus();	// ur-Virus
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus();
+			Virus v = new Virus(urV);
 			Host h = new Host(v);
 			infecteds.add(h);
 		}		
@@ -174,6 +175,40 @@ public class HostPopulation {
 				VirusSample.add(v);
 			}
 		}			
+	}
+	
+	// through current infected population assigning ancestry as trunk
+	public void makeTrunk() {
+		for (int i = 0; i < getI(); i++) {
+			Host h = infecteds.get(i);
+			Virus v = h.getInfection();
+			v.makeTrunk();
+			while (v.getParent() != null) {
+				v = v.getParent();
+			//	if (v.isTrunk()) {
+			//		break;
+			//	} else {
+					v.makeTrunk();
+			//	}
+			}
+		}
+	}	
+	
+	public double getDiversity(int sampleCount) {
+		double meanDiversity = 0.0;
+		for (int i = 0; i < sampleCount; i++) {
+			if (getI()>0) {
+				int index = getRandomI();
+				Host hA = infecteds.get(index);
+				Virus vA = hA.getInfection();
+				index = getRandomI();
+				Host hB = infecteds.get(index);
+				Virus vB = hB.getInfection();
+				meanDiversity += vA.distance(vB);
+			}
+		}	
+		meanDiversity /= (double) sampleCount;
+		return meanDiversity;
 	}
 	
 	// output list of extant antigenic phenotypes

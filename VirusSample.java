@@ -48,12 +48,14 @@ public class VirusSample {
 				if (Random.nextBoolean(chanceOfSuccess)) {
 					Virus v = sample.get(i);
 					int b = v.getBirth();
+					boolean t = v.isTrunk();
 					Phenotype p = v.getPhenotype();
-					if (b > Parameters.burnin) {
-						while (b > Parameters.burnin && v.getParent() != null) {
-							pathStream.printf("{%d,%.4f}\t", b, p.getTrait());
+					if (b >= Parameters.burnin) {
+						while (b >= Parameters.burnin && v.getParent() != null) {
+							pathStream.printf("{%d,%d,%.4f}\t", b, (t)?1:0, p.getTrait());
 							v = v.getParent();
 							b = v.getBirth();
+							t = v.isTrunk();
 							p = v.getPhenotype();
 						}
 						pathStream.println();

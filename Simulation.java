@@ -41,13 +41,13 @@ public class Simulation {
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
 			System.out.println("day\tN\tS\tI\tcases");
-			seriesStream.println("N\tS\tI\tcases");
+			seriesStream.println("N\tS\tI\tcases\tdiversity");
 			
 			for (int i = 0; i < Parameters.endDay; i++) {
 				stepForward();
 				printState();
 				if (Parameters.day > Parameters.burnin) {
-					seriesStream.println(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases());
+					seriesStream.println(hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases() + "\t" + hostPop.getDiversity(Parameters.diversitySamplingCount));
 				}
 				if (hostPop.getI()==0) { break; }
 			}
@@ -58,6 +58,7 @@ public class Simulation {
 			System.exit(0);
 		}	
 	
+		hostPop.makeTrunk();
 		VirusSample.printTips();
 		VirusSample.printPaths();
 		
