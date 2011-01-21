@@ -12,6 +12,9 @@ public class VirusSample {
 	public static void add(Virus v) {
 		sample.add(v);
 	}
+	public static void clear() {
+		sample.clear();
+	}
 	
 	public static void printTips() {
 		

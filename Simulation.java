@@ -49,7 +49,14 @@ public class Simulation {
 				if (Parameters.day > Parameters.burnin) {
 					seriesStream.println(Parameters.getDate() + "\t" + hostPop.getN() + "\t" + hostPop.getS() + "\t" + hostPop.getI() + "\t" + hostPop.getCases() + "\t" + hostPop.getDiversity(Parameters.diversitySamplingCount));
 				}
-				if (hostPop.getI()==0) { break; }
+				if (hostPop.getI()==0) { 
+					reset();
+					i = 0; 
+					seriesFile.delete();
+					seriesFile.createNewFile();
+					seriesStream = new PrintStream(seriesFile);
+					seriesStream.println("time\tN\tS\tI\tcases\tdiversity");					
+				}
 			}
 			
 			seriesStream.close();
@@ -62,6 +69,12 @@ public class Simulation {
 		VirusSample.printTips();
 		VirusSample.printPaths();
 		
+	}
+	
+	public void reset() {
+		hostPop = new HostPopulation();
+		VirusSample.clear();
+		Parameters.day = 0;
 	}
 
 }
