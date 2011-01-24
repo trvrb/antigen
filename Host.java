@@ -7,7 +7,6 @@ public class Host {
 	// fields
 	private Virus infection;											
 	private List<Phenotype> immuneHistory = new ArrayList<Phenotype>();	
-	// location
 	
 	// naive host
 	public Host() {

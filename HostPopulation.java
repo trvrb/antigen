@@ -11,8 +11,8 @@ public class HostPopulation {
 	private List<Host> recovereds = new ArrayList<Host>();		// this is the transcendental class, immune to all forms of virus  
 	private int cases = 0;
 	
-	// constructors
-	public HostPopulation() {
+	// construct population, using Virus v as initial infection
+	public HostPopulation(Virus urVirus) {
 		// fill population with Host objects
 		int initialS = Parameters.initialN - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
@@ -29,9 +29,8 @@ public class HostPopulation {
 			susceptibles.add(h);
 		}
 		// infect some individuals
-		Virus urV = new Virus();	// ur-Virus
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(urV);
+			Virus v = new Virus(urVirus);
 			Host h = new Host(v);
 			infecteds.add(h);
 		}		
@@ -70,6 +69,19 @@ public class HostPopulation {
 	}
 	public int getRandomR() {
 		return Random.nextInt(0,getR()-1);
+	}
+	
+	public Host getRandomHostS() {
+		int index = Random.nextInt(0,getS()-1);
+		return susceptibles.get(index);
+	}
+	public Host getRandomHostI() {
+		int index = Random.nextInt(0,getI()-1);
+		return infecteds.get(index);
+	}
+	public Host getRandomHostR() {
+		int index = Random.nextInt(0,getR()-1);
+		return recovereds.get(index);
 	}	
 	
 	public void resetCases() {
@@ -281,28 +293,5 @@ public class HostPopulation {
 			}
 		}
 	}	
-	
-	public double getDiversity(int sampleCount) {
-		double meanDiversity = 0.0;
-		for (int i = 0; i < sampleCount; i++) {
-			if (getI()>0) {
-				int index = getRandomI();
-				Host hA = infecteds.get(index);
-				Virus vA = hA.getInfection();
-				index = getRandomI();
-				Host hB = infecteds.get(index);
-				Virus vB = hB.getInfection();
-				meanDiversity += vA.distance(vB);
-			}
-		}	
-		meanDiversity /= (double) sampleCount;
-		return meanDiversity;
-	}
-		
-	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.burnin) {
-			stream.println(Parameters.getDate() + "\t" + getN() + "\t" + getS() + "\t" + getI() + "\t" + getR() + "\t" + getCases() + "\t" + getDiversity(Parameters.diversitySamplingCount));
-		}
-	}
-	
+			
 }
