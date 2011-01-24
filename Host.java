@@ -19,6 +19,10 @@ public class Host {
 	}
 	
 	// infection methods
+	public void reset() {
+		infection = null;
+		immuneHistory.clear();
+	}
 	public boolean isInfected() {
 		boolean infected = false;
 		if (infection != null) {
@@ -51,6 +55,14 @@ public class Host {
 	// history methods
 	public List<Phenotype> getHistory() {
 		return immuneHistory;
+	}
+	public Phenotype getRandomImmunity() {
+		Phenotype p = null;
+		if (immuneHistory.size() > 0) {
+			int index = Random.nextInt(0,immuneHistory.size()-1);
+			p = immuneHistory.get(index);
+		} 
+		return p;
 	}
 	
 

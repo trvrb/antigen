@@ -1,12 +1,14 @@
 /* A population of host individuals */
 
 import java.util.*;
+import java.io.*;
 
 public class HostPopulation {
 
 	// fields
 	private List<Host> susceptibles = new ArrayList<Host>();
 	private List<Host> infecteds = new ArrayList<Host>();	
+	private List<Host> recovereds = new ArrayList<Host>();		// this is the transcendental class, immune to all forms of virus  
 	private int cases = 0;
 	
 	// constructors
@@ -37,7 +39,7 @@ public class HostPopulation {
 	
 	// accessors
 	public int getN() {
-		return susceptibles.size() + infecteds.size();
+		return susceptibles.size() + infecteds.size() + recovereds.size();
 	}
 	public int getS() {
 		return susceptibles.size();
@@ -45,12 +47,18 @@ public class HostPopulation {
 	public int getI() {
 		return infecteds.size();
 	}
+	public int getR() {
+		return recovereds.size();
+	}	
 	public double getPrS() {
 		return (double) getS() / (double) getN();
 	}
 	public double getPrI() {
 		return (double) getI() / (double) getN();
 	}
+	public double getPrR() {
+		return (double) getR() / (double) getN();
+	}	
 	public int getRandomN() {
 		return Random.nextInt(0,getN()-1);
 	}
@@ -59,6 +67,9 @@ public class HostPopulation {
 	}
 	public int getRandomI() {
 		return Random.nextInt(0,getI()-1);
+	}
+	public int getRandomR() {
+		return Random.nextInt(0,getR()-1);
 	}	
 	
 	public void resetCases() {
@@ -67,7 +78,7 @@ public class HostPopulation {
 	public int getCases() {
 		return cases;
 	}	
-	
+		
 	// draw a Poisson distributed number of births and add these hosts to the end of the population list
 	public void grow() {
 		double totalBirthRate = getN() * Parameters.birthRate;
@@ -98,6 +109,44 @@ public class HostPopulation {
 				infecteds.remove(index);
 			}
 		}		
+	}
+	
+	// draw a Poisson distributed number of births and reset these individuals
+	public void swap() {
+		// draw random individuals from susceptible class
+		double totalBirthRate = getS() * Parameters.birthRate;
+		int births = Random.nextPoisson(totalBirthRate);
+		for (int i = 0; i < births; i++) {
+			if (getS()>0) {
+				int index = getRandomS();
+				Host h = susceptibles.get(index);
+				h.reset();
+			}
+		}		
+		// draw random individuals from infected class
+		totalBirthRate = getI() * Parameters.birthRate;
+		births = Random.nextPoisson(totalBirthRate);
+		for (int i = 0; i < births; i++) {
+			if (getI()>0) {
+				int index = getRandomI();
+				Host h = infecteds.get(index);
+				h.reset();
+				infecteds.remove(index);
+				susceptibles.add(h);
+			}
+		}	
+		// draw random individuals from recovered class
+		totalBirthRate = getR() * Parameters.birthRate;
+		births = Random.nextPoisson(totalBirthRate);
+		for (int i = 0; i < births; i++) {
+			if (getR()>0) {
+				int index = getRandomR();
+				Host h = recovereds.get(index);
+				h.reset();
+				recovereds.remove(index);
+				susceptibles.add(h);
+			}
+		}			
 	}
 
 	// draw a Poisson distributed number of contacts and move from S->I based upon this
@@ -143,10 +192,30 @@ public class HostPopulation {
 				Host h = infecteds.get(index);
 				h.clearInfection();
 				infecteds.remove(index);
-				susceptibles.add(h);
+				if (Parameters.transcendental) {
+					recovereds.add(h);
+				} else {
+					susceptibles.add(h);
+				}
+
 			}
 		}			
 	}
+	
+	// draw a Poisson distributed number of R->S 
+	public void loseImmunity() {
+		// each recovered regains immunity at a per-day rate
+		double totalReturnRate = getR() * Parameters.immunityLoss;
+		int returns = Random.nextPoisson(totalReturnRate);
+		for (int i = 0; i < returns; i++) {
+			if (getR()>0) {
+				int index = getRandomR();
+				Host h = recovereds.get(index);
+				recovereds.remove(index);
+				susceptibles.add(h);
+			}
+		}			
+	}	
 	
 	// draw a Poisson distributed number of mutations and mutate based upon this
 	// mutate should not impact other Virus's Phenotypes through reference
@@ -210,18 +279,26 @@ public class HostPopulation {
 		meanDiversity /= (double) sampleCount;
 		return meanDiversity;
 	}
-	
-	// output list of extant antigenic phenotypes
-	public void printPhenotypes() {
-		if (getI()>0) {
-			for (int i = 0; i < getI(); i++) {
-				Host h = infecteds.get(i);
-				Virus v = h.getInfection();
-				Phenotype p = v.getPhenotype();
-				System.out.print(p + "\t");
-			}
-			System.out.println();
+		
+	public void printState(PrintStream stream) {
+		if (Parameters.day > Parameters.burnin) {
+			stream.println(Parameters.getDate() + "\t" + getN() + "\t" + getS() + "\t" + getI() + "\t" + getR() + "\t" + getCases() + "\t" + getDiversity(Parameters.diversitySamplingCount));
 		}
 	}
+	
+//	public void printImmunity(PrintStream stream) {
+//		if (Parameters.day > Parameters.burnin) {
+//			double totalSamplingRate = Parameters.immunitySamplingRate;
+//			int samples = Random.nextPoisson(totalSamplingRate);
+//			for (int i = 0; i < samples; i++) {
+//				int index = getRandomS();
+//				Host h = susceptibles.get(index);
+//				Phenotype p = h.getRandomImmunity();
+//				if (p != null) {
+//					stream.printf("%.4f\t%s\n", Parameters.getDate(), p);
+//				}
+//			}
+//		}
+//	}	
 
 }

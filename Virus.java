@@ -20,7 +20,6 @@ public class Virus {
 	public Virus(Virus p) {
 		parentVirus = p;
 		antigenicType = p.getPhenotype();
-//		birth = Parameters.day;
 		birth = Parameters.getDate();
 	}
 	
