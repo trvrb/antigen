@@ -113,7 +113,7 @@ public class Simulation {
 		return v;
 		
 	}
-	
+		
 	public void makeTrunk() {
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			HostPopulation hp = demes.get(i);
@@ -149,6 +149,12 @@ public class Simulation {
 		for (int i = 0; i < Parameters.demeCount; i++) {		
 			HostPopulation hp = demes.get(i);
 			hp.stepForward();
+			for (int j = 0; j < Parameters.demeCount; j++) {
+				if (i != j) {
+					HostPopulation hpOther = demes.get(j);
+					hp.betweenDemeContact(hpOther);
+				}
+			}
 		}
 		updateDiversity();
 		Parameters.day++;

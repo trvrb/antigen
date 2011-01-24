@@ -212,6 +212,38 @@ public class HostPopulation {
 		
 	}
 	
+	// draw a Poisson distributed number of contacts and move from S->I based upon this
+	// this deme is susceptibles and other deme is infecteds
+	public void betweenDemeContact(HostPopulation hp) {
+
+		// each infected makes I->S contacts on a per-day rate of beta * S/N
+		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro;
+		int contacts = Random.nextPoisson(totalContactRate);
+		for (int i = 0; i < contacts; i++) {
+			if (getS()>0 && hp.getI()>0) {
+		
+				// get indices and objects
+				Host iH = hp.getRandomHostI();
+				int sndex = getRandomS();
+				Host sH = susceptibles.get(sndex);			
+				Virus v = iH.getInfection();
+				
+				// attempt infection
+				Phenotype p = v.getPhenotype();
+				List<Phenotype> history = sH.getHistory();
+				double chanceOfSuccess = p.riskOfInfection(history);
+				if (Random.nextBoolean(chanceOfSuccess)) {
+					sH.infect(v);
+					susceptibles.remove(sndex);
+					infecteds.add(sH);
+					cases++;
+				}
+			
+			}
+		}		
+		
+	}	
+	
 	// draw a Poisson distributed number of recoveries and move from I->S based upon this
 	public void recover() {
 		// each infected recovers at a per-day rate of nu
