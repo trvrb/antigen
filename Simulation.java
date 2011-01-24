@@ -19,23 +19,8 @@ public class Simulation {
 	}
 	
 	public void stepForward() {
-		
-		// check to see if infected host population exists...
-	
-		hostPop.resetCases();
-		if (Parameters.swapDemography) {
-			hostPop.swap();
-		} else {
-			hostPop.grow();
-			hostPop.decline();
-		}
-		hostPop.contact();
-		hostPop.recover();
-		if (Parameters.transcendental) { 
-			hostPop.loseImmunity(); 
-		}
-		hostPop.mutate();
-		hostPop.sample();
+			
+		hostPop.stepForward();
 		Parameters.day++;
 		
 	}
@@ -50,17 +35,11 @@ public class Simulation {
 			PrintStream seriesStream = new PrintStream(seriesFile);
 			System.out.println("day\tN\tS\tI\tR\tcases");
 			seriesStream.println("time\tN\tS\tI\tR\tcases\tdiversity");
-			
-//			File immunityFile = new File("out.immunity");	
-//			immunityFile.delete();
-//			immunityFile.createNewFile();	
-//			PrintStream immunityStream = new PrintStream(immunityFile);			
-			
+							
 			for (int i = 0; i < Parameters.endDay; i++) {
 				stepForward();
 				printState();
 				hostPop.printState(seriesStream);
-//				hostPop.printImmunity(immunityStream);
 				if (hostPop.getI()==0) {
 					if (Parameters.repeatSim) {
 						reset();
@@ -69,9 +48,6 @@ public class Simulation {
 						seriesFile.createNewFile();
 						seriesStream = new PrintStream(seriesFile);
 						seriesStream.println("time\tN\tS\tI\tR\tcases\tdiversity");	
-//						immunityFile.delete();
-//						immunityFile.createNewFile();	
-//						immunityStream = new PrintStream(immunityFile);
 					} else {
 						break;
 					}

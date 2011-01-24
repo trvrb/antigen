@@ -7,7 +7,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 3000
-	public static final int endDay = 10950; // 4825
+	public static final int endDay = 1000; // 4825
 	public static final double tipSamplingRate = 10.0;			// in samples per day
 	public static final double pathSamplingProportion = 0.05;
 	public static final int	diversitySamplingCount = 100;
@@ -32,7 +32,7 @@ public class Parameters {
 	public static final double immunityLoss = 0.01;				// in R->S per individual per day
 	
 	// evolution parameters
-	public static final double muPhenotype = 0.0001;	 // 0.0005			// in mutations per individual per day
+	public static final double muPhenotype = 0.0005;	 // 0.0005			// in mutations per individual per day
 	public static final double lowerPhenotype = -0.1;			// lower limit to how far a mutation moves in phenotype space
 	public static final double upperPhenotype = 0.1;			// upper limit to how far a mutation moves in phenotype space
 	

@@ -78,7 +78,26 @@ public class HostPopulation {
 	public int getCases() {
 		return cases;
 	}	
-		
+	
+	public void stepForward() {
+	
+		resetCases();
+		if (Parameters.swapDemography) {
+			swap();
+		} else {
+			grow();
+			decline();
+		}
+		contact();
+		recover();
+		if (Parameters.transcendental) { 
+			loseImmunity(); 
+		}
+		mutate();
+		sample();	
+	
+	}
+	
 	// draw a Poisson distributed number of births and add these hosts to the end of the population list
 	public void grow() {
 		double totalBirthRate = getN() * Parameters.birthRate;
@@ -286,19 +305,4 @@ public class HostPopulation {
 		}
 	}
 	
-//	public void printImmunity(PrintStream stream) {
-//		if (Parameters.day > Parameters.burnin) {
-//			double totalSamplingRate = Parameters.immunitySamplingRate;
-//			int samples = Random.nextPoisson(totalSamplingRate);
-//			for (int i = 0; i < samples; i++) {
-//				int index = getRandomS();
-//				Host h = susceptibles.get(index);
-//				Phenotype p = h.getRandomImmunity();
-//				if (p != null) {
-//					stream.printf("%.4f\t%s\n", Parameters.getDate(), p);
-//				}
-//			}
-//		}
-//	}	
-
 }
