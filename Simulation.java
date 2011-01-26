@@ -11,9 +11,8 @@ public class Simulation {
 	
 	// constructor
 	public Simulation() {
-		Virus urVirus = new Virus();
 		for (int i = 0; i < Parameters.demeCount; i++) {
-			HostPopulation hp = new HostPopulation(urVirus);
+			HostPopulation hp = new HostPopulation(i);
 			demes.add(hp);
 		}
 	}
@@ -122,15 +121,29 @@ public class Simulation {
 	}	
 	
 	public void printState() {
-		System.out.printf("%d\t%d\t%d\t%d\t%d\t%d\t%.3f\n", Parameters.day, getN(), getS(), getI(), getR(), getCases(), getDiversity());
+		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(), getR(), getCases());
+	}
+
+	public void printHeader(PrintStream stream) {
+		stream.print("date\tdiversity\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
+		for (int i = 0; i < Parameters.demeCount; i++) {
+			String name = Parameters.demeNames[i];
+			stream.printf("\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name);
+		}
+		stream.println();
 	}
 	
 	public void printState(PrintStream stream) {
 		if (Parameters.day > Parameters.burnin) {
-			stream.printf("%.4f\t%d\t%d\t%d\t%d\t%d\t%.4f\n", Parameters.getDate(), getN(), getS(), getI(), getR(), getCases(), getDiversity());
+			stream.printf("%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getN(), getS(), getI(), getR(), getCases());
+			for (int i = 0; i < Parameters.demeCount; i++) {
+				HostPopulation hp = demes.get(i);
+				hp.printState(stream);
+			}
+			stream.println();
 		}
 	}	
-	
+		
 	public void updateDiversity() {
 		diversity = 0.0;
 		int sampleCount = Parameters.diversitySamplingCount;
@@ -169,8 +182,8 @@ public class Simulation {
 			seriesFile.delete();
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
-			System.out.println("day\tN\tS\tI\tR\tcases\tdiversity");
-			seriesStream.println("time\tN\tS\tI\tR\tcases\tdiversity");
+			System.out.println("day\t\tdiversity\tN\tS\tI\tR\tcases");
+			printHeader(seriesStream);
 							
 			for (int i = 0; i < Parameters.endDay; i++) {
 				stepForward();
@@ -203,14 +216,13 @@ public class Simulation {
 	}
 	
 	public void reset() {
-		demes.clear();
-		Virus urVirus = new Virus();
 		for (int i = 0; i < Parameters.demeCount; i++) {
-			HostPopulation hp = new HostPopulation(urVirus);
-			demes.add(hp);
+			HostPopulation hp = demes.get(i);
+			hp.reset();
 		}
 		VirusSample.clear();
 		Parameters.day = 0;
+		diversity = 0;
 	}
 
 }

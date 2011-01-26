@@ -6,13 +6,18 @@ import java.io.*;
 public class HostPopulation {
 
 	// fields
+	private int demeIndex;
+	private int cases;	
 	private List<Host> susceptibles = new ArrayList<Host>();
 	private List<Host> infecteds = new ArrayList<Host>();	
 	private List<Host> recovereds = new ArrayList<Host>();		// this is the transcendental class, immune to all forms of virus  
-	private int cases = 0;
 	
 	// construct population, using Virus v as initial infection
-	public HostPopulation(Virus urVirus) {
+	public HostPopulation(int d) {
+	
+		// basic parameters
+		demeIndex = d;
+	
 		// fill population with Host objects
 		int initialS = Parameters.initialN - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
@@ -30,7 +35,7 @@ public class HostPopulation {
 		}
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(urVirus);
+			Virus v = new Virus(Parameters.urVirus);
 			Host h = new Host(v);
 			infecteds.add(h);
 		}		
@@ -184,7 +189,7 @@ public class HostPopulation {
 	public void contact() {
 
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
-		double totalContactRate = getI() * getPrS() * Parameters.beta;
+		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(demeIndex);
 		int contacts = Random.nextPoisson(totalContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0 && getI()>0) {
@@ -217,7 +222,7 @@ public class HostPopulation {
 	public void betweenDemeContact(HostPopulation hp) {
 
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
-		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro;
+		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro * Parameters.getSeasonality(demeIndex);
 		int contacts = Random.nextPoisson(totalContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0 && hp.getI()>0) {
@@ -325,5 +330,40 @@ public class HostPopulation {
 			}
 		}
 	}	
+	
+	public void printState(PrintStream stream) {
+		if (Parameters.day > Parameters.burnin) {
+			stream.printf("\t%d\t%d\t%d\t%d\t%d", getN(), getS(), getI(), getR(), getCases());
+		}
+	}	
+	
+	// reset population to factory condition
+	public void reset() {
+		// clearing lists
+		susceptibles.clear();
+		infecteds.clear();
+		recovereds.clear();
+		// fill population with Host objects
+		int initialS = Parameters.initialN - Parameters.initialI;
+		for (int i = 0; i < initialS; i++) {
+			Host h = new Host();
 			
+			// sometimes start with an immunity to 0.0
+			double chanceOfSuccess = Parameters.initialRecovered;
+			if (Random.nextBoolean(chanceOfSuccess)) {
+				Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitA);
+				List<Phenotype> history = h.getHistory();
+				history.add(p);
+			}
+			
+			susceptibles.add(h);
+		}
+		// infect some individuals
+		for (int i = 0; i < Parameters.initialI; i++) {
+			Virus v = new Virus(Parameters.urVirus);
+			Host h = new Host(v);
+			infecteds.add(h);
+		}		
+	}
+				
 }
