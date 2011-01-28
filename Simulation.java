@@ -216,13 +216,13 @@ public class Simulation {
 	}
 	
 	public void reset() {
+		Parameters.day = 0;
+		diversity = 0;
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			HostPopulation hp = demes.get(i);
 			hp.reset();
 		}
 		VirusSample.clear();
-		Parameters.day = 0;
-		diversity = 0;
 	}
 
 }

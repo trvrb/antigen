@@ -13,7 +13,8 @@ public class Virus {
 	
 	// initialization
 	public Virus() {
-		antigenicType = new Phenotype();
+//		antigenicType = new Phenotype();
+		antigenicType = PhenotypeFactory.makeVirusPhenotype();
 	}
 	
 	// replication, copies the virus, but remembers the ancestry

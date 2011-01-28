@@ -21,18 +21,10 @@ public class HostPopulation {
 		// fill population with Host objects
 		int initialS = Parameters.initialNs[demeIndex] - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
-			Host h = new Host();
-			
-			// sometimes start with an immunity to 0.0
-			double chanceOfSuccess = Parameters.initialRecovered;
-			if (Random.nextBoolean(chanceOfSuccess)) {
-				Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitB);
-				List<Phenotype> history = h.getHistory();
-				history.add(p);
-			}
-			
+			Host h = new Host();			
 			susceptibles.add(h);
 		}
+		
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
 			Virus v = new Virus(Parameters.urVirus, demeIndex);
@@ -347,16 +339,7 @@ public class HostPopulation {
 		// fill population with Host objects
 		int initialS = Parameters.initialNs[demeIndex] - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
-			Host h = new Host();
-			
-			// sometimes start with an immunity to 0.0
-			double chanceOfSuccess = Parameters.initialRecovered;
-			if (Random.nextBoolean(chanceOfSuccess)) {
-				Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitA);
-				List<Phenotype> history = h.getHistory();
-				history.add(p);
-			}
-			
+			Host h = new Host();		
 			susceptibles.add(h);
 		}
 		// infect some individuals

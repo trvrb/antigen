@@ -10,11 +10,23 @@ public class Host {
 	
 	// naive host
 	public Host() {
+		initializeHistory();
 	}
 	
 	// initial infected host
 	public Host(Virus v) {
 		infection = v;
+		initializeHistory();
+	}
+	
+	// sometimes start with immunity	
+	public void initializeHistory() {
+		double chanceOfSuccess = Parameters.initialRecovered;
+		if (Random.nextBoolean(chanceOfSuccess)) {
+//			Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitB);
+			Phenotype p = PhenotypeFactory.makeHostPhenotype();
+			immuneHistory.add(p);
+		}	
 	}
 	
 	// infection methods

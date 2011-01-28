@@ -9,7 +9,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 2000; // 5475
+	public static final int endDay = 3000; // 5475
 	public static final double tipSamplingRate = 10;			// in samples per deme per day
 	public static final double pathSamplingProportion = 0.01;
 	public static final int	diversitySamplingCount = 100;
@@ -17,7 +17,6 @@ public class Parameters {
 	public static Virus urVirus = new Virus();
 
 	// host parameters
-//	public static final int initialN = 200000;					// in individuals
 	public static final double birthRate = 0.000091;			// in births per individual per day, 1/30 years = 0.000091
 	public static final double deathRate = 0.000091;			// in deaths per individual per day, 1/30 years = 0.000091
 	public static final boolean swapDemography = true;			// whether to keep overall population size constant
@@ -27,10 +26,7 @@ public class Parameters {
 	public static final double beta = 0.5;						// in contacts per individual per day
 	public static final double nu = 0.25;						// in recoveries per individual per day
 	public static final double initialRecovered = 0.5;
-	public static final double initialTraitA = -0.5;
-	public static final double initialTraitB = 0.0;
-	public static final boolean quadratic = false;				// cross-immunity function quadratic or linear
-	
+
 	// transcendental immunity
 	public static final boolean transcendental = false;
 	public static final double immunityLoss = 0.01;				// in R->S per individual per day
@@ -44,10 +40,17 @@ public class Parameters {
 	public static final double[] demeAmplitudes = {0, 0};
 	public static final double[] demeOffsets = {0, 0};			// relative to the year
 	
-	// evolution parameters
-	public static final double muPhenotype = 0.01;			// in mutations per individual per day
-	public static final double muRangeA = 0.1;				// traitA is adjusted in a uniform manner
-	public static final double muRangeB = 0;				// traitB is adjusted in a uniform manner
+	// phenotype parameters
+	public static final String phenotypeSpace = "2D";			// options include: "2D"
+	public static final double muPhenotype = 0.01;				// in mutations per individual per day
+	
+	// parameters specific to Phenotype2D
+	public static final double muRangeA = 0.1;					// traitA is adjusted in a uniform manner
+	public static final double muRangeB = 0;					// traitB is adjusted in a uniform manner	
+	public static final double initialTraitA = -0.5;
+	public static final double initialTraitB = 0.0;
+	public static final boolean quadratic = false;				// cross-immunity function quadratic or linear	
+	
 	
 	// measured in years, starting at burnin
 	public static double getDate() {
