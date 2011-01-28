@@ -68,17 +68,14 @@ public class Phenotype {
 		
 	}
 	
-	public void mutate() {
+	// returns a mutated copy, original Phenotype is unharmed
+	public Phenotype mutate() {
 		
-		traitA += Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
-//		traitB += Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
-		
-//		if (Random.nextBoolean(0.5)) {
-//			traitA += 0.1;
-//		} else {
-//			traitA -= 0.1;
-//		}
-
+		double mutA = traitA + Random.nextDouble(-Parameters.muRangeA,Parameters.muRangeA);
+		double mutB = traitB + Random.nextDouble(-Parameters.muRangeB,Parameters.muRangeB);
+		Phenotype mutP = new Phenotype(mutA,mutB);
+		return mutP;
+				
 	}
 	
 	public String toString() {

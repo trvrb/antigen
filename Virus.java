@@ -17,9 +17,16 @@ public class Virus {
 	}
 	
 	// replication, copies the virus, but remembers the ancestry
-	public Virus(Virus p, int d) {
-		parentVirus = p;
-		antigenicType = p.getPhenotype();
+	public Virus(Virus v, int d) {
+		parentVirus = v;
+		antigenicType = v.getPhenotype();
+		birth = Parameters.getDate();
+		location = d;
+	}
+	
+	public Virus(Virus v, int d, Phenotype p) {
+		parentVirus = v;
+		antigenicType = p;
 		birth = Parameters.getDate();
 		location = d;
 	}
@@ -46,6 +53,15 @@ public class Virus {
 	public int getLocation() {
 		return location;
 	}	
+	
+	// returns a mutated copy, original virus left intact
+	public Virus mutate() {
+	
+		Phenotype mutP = antigenicType.mutate();		// mutated copy
+		Virus mutV = new Virus(this,location,mutP);
+		return mutV;
+		
+	}
 	
 	public Virus commonAncestor(Virus virusB) {
 		

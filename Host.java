@@ -41,15 +41,11 @@ public class Host {
 		immuneHistory.add(p);
 		infection = null;
 	}
-	// make a new virus with the mutated phenotype and reference this virus as parent
+
+	// make a new virus with the mutated phenotype
 	public void mutate() {
-		int d = infection.getLocation();
-		Virus nV = new Virus(infection, d);
-		infection = nV;
-		Phenotype p = infection.getPhenotype();
-		Phenotype mutP = new Phenotype(p);
-		mutP.mutate();
-		infection.setPhenotype(mutP);
+		Virus mutV = infection.mutate();
+		infection = mutV;
 	}
 	
 	// history methods

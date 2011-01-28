@@ -46,8 +46,8 @@ public class Parameters {
 	
 	// evolution parameters
 	public static final double muPhenotype = 0.01;			// in mutations per individual per day
-	public static final double lowerPhenotype = -0.1;			// lower limit to how far a mutation moves in phenotype space
-	public static final double upperPhenotype = 0.1;			// upper limit to how far a mutation moves in phenotype space
+	public static final double muRangeA = 0.1;				// traitA is adjusted in a uniform manner
+	public static final double muRangeB = 0;				// traitB is adjusted in a uniform manner
 	
 	// measured in years, starting at burnin
 	public static double getDate() {
