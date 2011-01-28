@@ -10,8 +10,8 @@ public class Host {
 	
 	// naive host
 	public Host() {
-	
 	}
+	
 	// initial infected host
 	public Host(Virus v) {
 		infection = v;
@@ -32,8 +32,8 @@ public class Host {
 	public Virus getInfection() {
 		return infection;
 	}
-	public void infect(Virus pV) {
-		Virus nV = new Virus(pV);
+	public void infect(Virus pV, int d) {
+		Virus nV = new Virus(pV, d);
 		infection = nV;
 	}
 	public void clearInfection() {
@@ -43,7 +43,8 @@ public class Host {
 	}
 	// make a new virus with the mutated phenotype and reference this virus as parent
 	public void mutate() {
-		Virus nV = new Virus(infection);
+		int d = infection.getLocation();
+		Virus nV = new Virus(infection, d);
 		infection = nV;
 		Phenotype p = infection.getPhenotype();
 		Phenotype mutP = new Phenotype(p);

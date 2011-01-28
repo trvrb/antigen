@@ -19,14 +19,14 @@ public class HostPopulation {
 		demeIndex = d;
 	
 		// fill population with Host objects
-		int initialS = Parameters.initialN - Parameters.initialI;
+		int initialS = Parameters.initialNs[demeIndex] - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();
 			
 			// sometimes start with an immunity to 0.0
 			double chanceOfSuccess = Parameters.initialRecovered;
 			if (Random.nextBoolean(chanceOfSuccess)) {
-				Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitA);
+				Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitB);
 				List<Phenotype> history = h.getHistory();
 				history.add(p);
 			}
@@ -35,10 +35,11 @@ public class HostPopulation {
 		}
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(Parameters.urVirus);
+			Virus v = new Virus(Parameters.urVirus, demeIndex);
 			Host h = new Host(v);
 			infecteds.add(h);
-		}		
+		}	
+		
 	}
 	
 	// accessors
@@ -206,7 +207,7 @@ public class HostPopulation {
 				List<Phenotype> history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
-					sH.infect(v);
+					sH.infect(v,demeIndex);
 					susceptibles.remove(sndex);
 					infecteds.add(sH);
 					cases++;
@@ -238,7 +239,7 @@ public class HostPopulation {
 				List<Phenotype> history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
-					sH.infect(v);
+					sH.infect(v,demeIndex);
 					susceptibles.remove(sndex);
 					infecteds.add(sH);
 					cases++;
@@ -344,7 +345,7 @@ public class HostPopulation {
 		infecteds.clear();
 		recovereds.clear();
 		// fill population with Host objects
-		int initialS = Parameters.initialN - Parameters.initialI;
+		int initialS = Parameters.initialNs[demeIndex] - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();
 			
@@ -360,7 +361,7 @@ public class HostPopulation {
 		}
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(Parameters.urVirus);
+			Virus v = new Virus(Parameters.urVirus, demeIndex);
 			Host h = new Host(v);
 			infecteds.add(h);
 		}		

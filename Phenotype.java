@@ -58,6 +58,9 @@ public class Phenotype {
 		} 
 		
 		double risk = closestDistance;
+		if (Parameters.quadratic) {
+			risk = risk * risk;
+		}
 		risk = Math.max(0.0, risk);
 		risk = Math.min(1.0, risk);
 				
@@ -66,12 +69,20 @@ public class Phenotype {
 	}
 	
 	public void mutate() {
+		
 		traitA += Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
 //		traitB += Random.nextDouble(Parameters.lowerPhenotype,Parameters.upperPhenotype);
+		
+//		if (Random.nextBoolean(0.5)) {
+//			traitA += 0.1;
+//		} else {
+//			traitA -= 0.1;
+//		}
+
 	}
 	
 	public String toString() {
-		String fullString = String.format("{%.4f,%.4f}", traitA, traitB);
+		String fullString = String.format("%.4f,%.4f", traitA, traitB);
 		return fullString;
 	}
 

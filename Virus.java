@@ -9,7 +9,7 @@ public class Virus {
 	private Phenotype antigenicType;
 	private double birth;	// measured in years relative to burnin
 	private boolean trunk;	// fill this at the end of the simulation
-	// location
+	private int location;
 	
 	// initialization
 	public Virus() {
@@ -17,10 +17,11 @@ public class Virus {
 	}
 	
 	// replication, copies the virus, but remembers the ancestry
-	public Virus(Virus p) {
+	public Virus(Virus p, int d) {
 		parentVirus = p;
 		antigenicType = p.getPhenotype();
 		birth = Parameters.getDate();
+		location = d;
 	}
 	
 	// methods
@@ -42,6 +43,9 @@ public class Virus {
 	public void makeTrunk() {
 		trunk = true;
 	}
+	public int getLocation() {
+		return location;
+	}	
 	
 	public Virus commonAncestor(Virus virusB) {
 		
@@ -72,6 +76,10 @@ public class Virus {
 		double distA = getBirth() - ancestor.getBirth();
 		double distB = virusB.getBirth() - ancestor.getBirth();
 		return distA + distB;
+	}
+	
+	public String toString() {
+		return Integer.toHexString(this.hashCode());
 	}
 
 }
