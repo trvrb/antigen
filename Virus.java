@@ -13,6 +13,7 @@ public class Virus {
 
 	// additional reconstruction fields
 	private List<Virus> children = new ArrayList<Virus>();	// will be void until simulation ends	
+	private double layout;
 	
 	// initialization
 	public Virus() {
@@ -56,21 +57,28 @@ public class Virus {
 	public int getDeme() {
 		return deme;
 	}	
+	public double getLayout() {
+		return layout;
+	}
+	public void setLayout(double y) {
+		layout = y;
+	}
 	
 	// add virus node as child if does not already exist
 	public void addChild(Virus v) {
 		if (!children.contains(v)) {
 			children.add(v);
 		}
-	}	
-	
+	}		
 	public int getNumberOfChildren() {
 		return children.size();
 	}
-	
 	public List<Virus> getChildren() {
 		return children;
 	}	
+	public boolean isTip() {
+		return getNumberOfChildren() == 0 ? true : false;
+	}
 	
 	// returns a mutated copy, original virus left intact
 	public Virus mutate() {

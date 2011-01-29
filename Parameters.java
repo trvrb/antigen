@@ -9,9 +9,9 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 300; // 5475
-	public static final double tipSamplingRate = 10;			// in samples per deme per day
-	public static final double pathSamplingProportion = 0.01;
+	public static final int endDay = 3000; // 5475
+	public static final double tipSamplingRate = 0.1;				// in samples per deme per day
+	public static final double pathSamplingProportion = 1;
 	public static final int	diversitySamplingCount = 100;
 	public static final boolean repeatSim = false;				// repeat simulation until endDay is reached?
 	public static Virus urVirus = new Virus();

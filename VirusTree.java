@@ -47,20 +47,22 @@ public class VirusTree {
 	
 	// returns virus v and all its descendents via a depth-first traversal
 	public static List<Virus> postOrderNodes(Virus v) {
-	
 		List<Virus> vNodes = new ArrayList<Virus>();
-		vNodes.add(root);
+		vNodes.add(v);
 		vNodes = postOrderChildren(vNodes);
 		return vNodes;
-	
 	}
+	
+	public static List<Virus> postOrderNodes() {
+		return postOrderNodes(root);
+	}	
 	
 	// returns virus v and all its descendents via a depth-first traversal
 	public static List<Virus> postOrderChildren(List<Virus> vNodes) {
 	
 		Virus last = vNodes.get(vNodes.size()-1);
 	
-		for(Virus child : last.getChildren()) {
+		for (Virus child : last.getChildren()) {
 			vNodes.add(child);
 			postOrderChildren(vNodes);
 		}
@@ -75,7 +77,7 @@ public class VirusTree {
 	
 		int numberOfDescendants = v.getNumberOfChildren();
 		
-		for(Virus child : v.getChildren()) {
+		for (Virus child : v.getChildren()) {
 			numberOfDescendants += getNumberOfDescendants(child);
 		}
 		
@@ -86,12 +88,50 @@ public class VirusTree {
 	public static int getNumberOfDescendants() {
 		return getNumberOfDescendants(root);
 	}
-	
+		
 	// sorts children lists so that first member is child with more descendents than second member
-	public static void sortChildrenByDescendants() {
+	public static void sortChildrenByDescendants(Virus v) {
+		
+		List<Virus> children = v.getChildren();
+		Collections.sort(children, descendantOrder);
+		
+		for (Virus child : children) {
+			sortChildrenByDescendants(child);
+		}
+				
+	}	
 	
-		Virus v = root;		
-		Collections.sort(v.getChildren(), descendantOrder);
+	public static void sortChildrenByDescendants() {
+		sortChildrenByDescendants(root);
+	}
+	
+	// sets Virus layout based on a postorder traversal
+	public static void setLayoutByDescendants() {
+	
+		List<Virus> vNodes = postOrderNodes();
+		
+		// set layout of tips based on traversal
+		double y = 0;
+		for (Virus v : vNodes) {
+//			if (tips.contains(v)) {
+			if (v.isTip()) {
+				v.setLayout(y);
+				y++;
+			}
+		}
+		
+		// update layout of internal nodes
+		Collections.reverse(vNodes);
+		for (Virus v : vNodes) {
+			if (v.getNumberOfChildren() > 0) {
+				double mean = 0;
+				for (Virus child : v.getChildren()) {
+					mean += child.getLayout();
+				}
+				mean /= v.getNumberOfChildren();
+				v.setLayout(mean);
+			}
+		}
 		
 	}	
 	
@@ -102,14 +142,16 @@ public class VirusTree {
 			tipFile.delete();
 			tipFile.createNewFile();
 			PrintStream tipStream = new PrintStream(tipFile);
-			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "location", "phenotype");
+			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "location", "layout", "ag1", "ag1");
 			for (int i = 0; i < tips.size(); i++) {
 				Virus v = tips.get(i);
 				double b = v.getBirth();
+				boolean t = v.isTrunk();
 				int d = v.getDeme();
+				double y = v.getLayout();
 				Phenotype p = v.getPhenotype();				
 				if (b >= 0) {	
-					tipStream.printf("\"%s\",%.4f,%d,%s\n", v, b, d, p);
+					tipStream.printf("\"%s\",%.4f,%d,%d,%.4f,%s\n", v, b, (t)?1:0, d, y, p);
 				}
 			}
 			tipStream.close();
@@ -134,14 +176,16 @@ public class VirusTree {
 					double b = v.getBirth();
 					boolean t = v.isTrunk();
 					int d = v.getDeme();
+					double y = v.getLayout();
 					Phenotype p = v.getPhenotype();
 					if (b >= 0) {
 						while (b >= 0 && v.getParent() != null) {
-							pathStream.printf("{\"%s\",%.4f,%d,%d,%s}\t", v, b, (t)?1:0, d, p);
+							pathStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, b, (t)?1:0, d, y, p);
 							v = v.getParent();
 							b = v.getBirth();
 							t = v.isTrunk();
 							d = v.getDeme();
+							y = v.getLayout();
 							p = v.getPhenotype();
 
 						}

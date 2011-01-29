@@ -209,13 +209,15 @@ public class Simulation {
 			System.exit(0);
 		}	
 	
+		// tree prep
 		makeTrunk();
-		VirusTree.fillBackward();
-		VirusTree.printTips();
-		VirusTree.printPaths();
-		
+		VirusTree.fillBackward();		
 		VirusTree.sortChildrenByDescendants();
-		System.out.println("total nodes: " + VirusTree.getNumberOfDescendants());
+		VirusTree.setLayoutByDescendants();
+		
+		// tree output
+		VirusTree.printTips();
+		VirusTree.printPaths();		
 		
 	}
 	
