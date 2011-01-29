@@ -302,7 +302,7 @@ public class HostPopulation {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				Virus v = h.getInfection();
-				VirusSample.add(v);
+				VirusTree.add(v);
 			}
 		}			
 	}

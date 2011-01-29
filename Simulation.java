@@ -210,9 +210,9 @@ public class Simulation {
 		}	
 	
 		makeTrunk();
-		VirusSample.fillBackward();
-		VirusSample.printTips();
-		VirusSample.printPaths();
+		VirusTree.fillBackward();
+		VirusTree.printTips();
+		VirusTree.printPaths();
 		
 		VirusTree.sortChildrenByDescendants();
 		System.out.println("total nodes: " + VirusTree.getNumberOfDescendants());
@@ -226,7 +226,7 @@ public class Simulation {
 			HostPopulation hp = demes.get(i);
 			hp.reset();
 		}
-		VirusSample.clear();
+		VirusTree.clear();
 	}
 
 }
