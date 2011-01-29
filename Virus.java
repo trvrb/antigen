@@ -14,6 +14,7 @@ public class Virus {
 	// additional reconstruction fields
 	private List<Virus> children = new ArrayList<Virus>();	// will be void until simulation ends	
 	private double layout;
+	private int coverage;		// how many times this Virus has been covered in tracing the tree backwards
 	
 	// initialization
 	public Virus() {
@@ -62,6 +63,12 @@ public class Virus {
 	}
 	public void setLayout(double y) {
 		layout = y;
+	}
+	public int getCoverage() {
+		return coverage;
+	}
+	public void incrementCoverage() {
+		coverage++;
 	}
 	
 	// add virus node as child if does not already exist

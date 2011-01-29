@@ -38,6 +38,7 @@ public class VirusTree {
 			Virus parent = child.getParent();
 			while (parent != null) {
 				parent.addChild(child);
+				parent.incrementCoverage();
 				child = parent;
 				parent = child.getParent();
 			}
@@ -144,15 +145,8 @@ public class VirusTree {
 			PrintStream tipStream = new PrintStream(tipFile);
 			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "location", "layout", "ag1", "ag1");
 			for (int i = 0; i < tips.size(); i++) {
-				Virus v = tips.get(i);
-				double b = v.getBirth();
-				boolean t = v.isTrunk();
-				int d = v.getDeme();
-				double y = v.getLayout();
-				Phenotype p = v.getPhenotype();				
-				if (b >= 0) {	
-					tipStream.printf("\"%s\",%.4f,%d,%d,%.4f,%s\n", v, b, (t)?1:0, d, y, p);
-				}
+				Virus v = tips.get(i);			
+				tipStream.printf("\"%s\",%.4f,%d,%d,%.4f,%s\n", v, v.getBirth(), v.isTrunk()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
 			}
 			tipStream.close();
 		} catch(IOException ex) {
@@ -162,43 +156,27 @@ public class VirusTree {
 		
 	}
 	
-	public static void printPaths() {
+	public static void printBranches() {
 		
 		try {
-			File pathFile = new File("out.paths");
-			pathFile.delete();
-			pathFile.createNewFile();
-			PrintStream pathStream = new PrintStream(pathFile);
-			for (int i = 0; i < tips.size(); i++) {
-				double chanceOfSuccess = Parameters.pathSamplingProportion;
-				if (Random.nextBoolean(chanceOfSuccess)) {
-					Virus v = tips.get(i);
-					double b = v.getBirth();
-					boolean t = v.isTrunk();
-					int d = v.getDeme();
-					double y = v.getLayout();
-					Phenotype p = v.getPhenotype();
-					if (b >= 0) {
-						while (b >= 0 && v.getParent() != null) {
-							pathStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, b, (t)?1:0, d, y, p);
-							v = v.getParent();
-							b = v.getBirth();
-							t = v.isTrunk();
-							d = v.getDeme();
-							y = v.getLayout();
-							p = v.getPhenotype();
-
-						}
-						pathStream.println();
-					}
+			File branchFile = new File("out.branches");
+			branchFile.delete();
+			branchFile.createNewFile();
+			PrintStream branchStream = new PrintStream(branchFile);
+			for (Virus v : postOrderNodes()) {
+				if (v.getParent() != null) {
+					Virus vp = v.getParent();
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, v.getBirth(), v.isTrunk()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), vp.isTrunk()?1:0, vp.getDeme(), vp.getLayout(), vp.getPhenotype());
+					branchStream.printf("%d\n", vp.getCoverage());
 				}
 			}
-			pathStream.close();
+			branchStream.close();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
 		}
 		
-	}	
-
+	}
+	
 }

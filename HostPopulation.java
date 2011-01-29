@@ -294,17 +294,18 @@ public class HostPopulation {
 	}	
 	
 	// draw a Poisson distributed number of samples and add them to the VirusSample
+	// only sample after burnin is completed
 	public void sample() {
-		double totalSamplingRate = Parameters.tipSamplingRate;
-		int samples = Random.nextPoisson(totalSamplingRate);
-		for (int i = 0; i < samples; i++) {
-			if (getI()>0) {
+		if (getI()>0 && Parameters.day >= Parameters.burnin) {
+			double totalSamplingRate = Parameters.tipSamplingRate;
+			int samples = Random.nextPoisson(totalSamplingRate);
+			for (int i = 0; i < samples; i++) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				Virus v = h.getInfection();
 				VirusTree.add(v);
-			}
-		}			
+			}	
+		}
 	}
 	
 	// through current infected population assigning ancestry as trunk

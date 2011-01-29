@@ -217,7 +217,7 @@ public class Simulation {
 		
 		// tree output
 		VirusTree.printTips();
-		VirusTree.printPaths();		
+		VirusTree.printBranches();	
 		
 	}
 	
