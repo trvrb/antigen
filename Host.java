@@ -21,9 +21,8 @@ public class Host {
 	
 	// sometimes start with immunity	
 	public void initializeHistory() {
-		double chanceOfSuccess = Parameters.initialRecovered;
+		double chanceOfSuccess = Parameters.initialPrR;
 		if (Random.nextBoolean(chanceOfSuccess)) {
-//			Phenotype p = new Phenotype(Parameters.initialTraitA, Parameters.initialTraitB);
 			Phenotype p = PhenotypeFactory.makeHostPhenotype();
 			immuneHistory.add(p);
 		}	

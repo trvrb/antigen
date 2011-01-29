@@ -4,46 +4,48 @@ import java.util.*;
 
 public class Virus {
 
-	// fields
-	private Virus parentVirus;
-	private Phenotype antigenicType;
+	// simulation fields
+	private Virus parent;
+	private Phenotype phenotype;
 	private double birth;	// measured in years relative to burnin
 	private boolean trunk;	// fill this at the end of the simulation
-	private int location;
+	private int deme;
+
+	// additional reconstruction fields
+	private List<Virus> children = new ArrayList<Virus>();	// will be void until simulation ends	
 	
 	// initialization
 	public Virus() {
-//		antigenicType = new Phenotype();
-		antigenicType = PhenotypeFactory.makeVirusPhenotype();
+		phenotype = PhenotypeFactory.makeVirusPhenotype();
 	}
 	
 	// replication, copies the virus, but remembers the ancestry
 	public Virus(Virus v, int d) {
-		parentVirus = v;
-		antigenicType = v.getPhenotype();
+		parent = v;
+		phenotype = v.getPhenotype();
 		birth = Parameters.getDate();
-		location = d;
+		deme = d;
 	}
 	
 	public Virus(Virus v, int d, Phenotype p) {
-		parentVirus = v;
-		antigenicType = p;
+		parent = v;
+		phenotype = p;
 		birth = Parameters.getDate();
-		location = d;
+		deme = d;
 	}
 	
 	// methods
 	public Phenotype getPhenotype() {
-		return antigenicType;
+		return phenotype;
 	}
 	public void setPhenotype(Phenotype p) {
-		antigenicType = p;
+		phenotype = p;
 	}	
 	public double getBirth() {
 		return birth;
 	}
 	public Virus getParent() {
-		return parentVirus;
+		return parent;
 	}
 	public boolean isTrunk() {
 		return trunk; 
@@ -51,15 +53,30 @@ public class Virus {
 	public void makeTrunk() {
 		trunk = true;
 	}
-	public int getLocation() {
-		return location;
+	public int getDeme() {
+		return deme;
+	}	
+	
+	// add virus node as child if does not already exist
+	public void addChild(Virus v) {
+		if (!children.contains(v)) {
+			children.add(v);
+		}
+	}	
+	
+	public int getNumberOfChildren() {
+		return children.size();
+	}
+	
+	public List<Virus> getChildren() {
+		return children;
 	}	
 	
 	// returns a mutated copy, original virus left intact
 	public Virus mutate() {
 	
-		Phenotype mutP = antigenicType.mutate();		// mutated copy
-		Virus mutV = new Virus(this,location,mutP);
+		Phenotype mutP = phenotype.mutate();			// mutated copy
+		Virus mutV = new Virus(this,deme,mutP);
 		return mutV;
 		
 	}

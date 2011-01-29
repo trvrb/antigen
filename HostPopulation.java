@@ -6,7 +6,7 @@ import java.io.*;
 public class HostPopulation {
 
 	// fields
-	private int demeIndex;
+	private int deme;
 	private int cases;	
 	private List<Host> susceptibles = new ArrayList<Host>();
 	private List<Host> infecteds = new ArrayList<Host>();	
@@ -16,10 +16,10 @@ public class HostPopulation {
 	public HostPopulation(int d) {
 	
 		// basic parameters
-		demeIndex = d;
+		deme = d;
 	
 		// fill population with Host objects
-		int initialS = Parameters.initialNs[demeIndex] - Parameters.initialI;
+		int initialS = Parameters.initialNs[deme] - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();			
 			susceptibles.add(h);
@@ -27,7 +27,7 @@ public class HostPopulation {
 		
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(Parameters.urVirus, demeIndex);
+			Virus v = new Virus(Parameters.urVirus, deme);
 			Host h = new Host(v);
 			infecteds.add(h);
 		}	
@@ -182,7 +182,7 @@ public class HostPopulation {
 	public void contact() {
 
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
-		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(demeIndex);
+		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(deme);
 		int contacts = Random.nextPoisson(totalContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0 && getI()>0) {
@@ -199,7 +199,7 @@ public class HostPopulation {
 				List<Phenotype> history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
-					sH.infect(v,demeIndex);
+					sH.infect(v,deme);
 					susceptibles.remove(sndex);
 					infecteds.add(sH);
 					cases++;
@@ -215,7 +215,7 @@ public class HostPopulation {
 	public void betweenDemeContact(HostPopulation hp) {
 
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
-		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro * Parameters.getSeasonality(demeIndex);
+		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro * Parameters.getSeasonality(deme);
 		int contacts = Random.nextPoisson(totalContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0 && hp.getI()>0) {
@@ -231,7 +231,7 @@ public class HostPopulation {
 				List<Phenotype> history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
-					sH.infect(v,demeIndex);
+					sH.infect(v,deme);
 					susceptibles.remove(sndex);
 					infecteds.add(sH);
 					cases++;
@@ -337,14 +337,14 @@ public class HostPopulation {
 		infecteds.clear();
 		recovereds.clear();
 		// fill population with Host objects
-		int initialS = Parameters.initialNs[demeIndex] - Parameters.initialI;
+		int initialS = Parameters.initialNs[deme] - Parameters.initialI;
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();		
 			susceptibles.add(h);
 		}
 		// infect some individuals
 		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(Parameters.urVirus, demeIndex);
+			Virus v = new Virus(Parameters.urVirus, deme);
 			Host h = new Host(v);
 			infecteds.add(h);
 		}		

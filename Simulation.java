@@ -210,8 +210,12 @@ public class Simulation {
 		}	
 	
 		makeTrunk();
+		VirusSample.fillBackward();
 		VirusSample.printTips();
 		VirusSample.printPaths();
+		
+		VirusTree.sortChildrenByDescendants();
+		System.out.println("total nodes: " + VirusTree.getNumberOfDescendants());
 		
 	}
 	
