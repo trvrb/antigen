@@ -209,14 +209,18 @@ public class Simulation {
 			System.exit(0);
 		}	
 	
+		// tip output
+		VirusTree.printTips();		
+	
 		// tree prep
 		makeTrunk();
-		VirusTree.fillBackward();		
+		VirusTree.dropTips();
+		VirusTree.fillBackward();			
 		VirusTree.sortChildrenByDescendants();
 		VirusTree.setLayoutByDescendants();
+		VirusTree.streamline();			
 		
 		// tree output
-		VirusTree.printTips();
 		VirusTree.printBranches();	
 		
 	}

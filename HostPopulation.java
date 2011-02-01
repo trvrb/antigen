@@ -297,7 +297,12 @@ public class HostPopulation {
 	// only sample after burnin is completed
 	public void sample() {
 		if (getI()>0 && Parameters.day >= Parameters.burnin) {
+		
 			double totalSamplingRate = Parameters.tipSamplingRate;
+			if (Parameters.tipSamplingProportional) {
+				totalSamplingRate *= getI();
+			} 
+			
 			int samples = Random.nextPoisson(totalSamplingRate);
 			for (int i = 0; i < samples; i++) {
 				int index = getRandomI();

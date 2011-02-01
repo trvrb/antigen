@@ -69,6 +69,17 @@ public class Phenotype2D implements Phenotype {
 		
 		double mutA = traitA + Random.nextDouble(-Parameters.muRangeA,Parameters.muRangeA);
 		double mutB = traitB + Random.nextDouble(-Parameters.muRangeB,Parameters.muRangeB);
+//		double mutA;
+//		if(Random.nextBoolean(0.5)) {
+//			mutA = traitA + Parameters.muRangeA; 
+//		} else {
+//			mutA = traitA - Parameters.muRangeA;
+//		}
+//		double mutB = traitB;
+//		if (mutA > 1) { mutA = mutA - 2; }
+//		if (mutA < -1) { mutA = mutA + 2; }
+//		if (mutB > 1) { mutB = mutB - 2; }
+//		if (mutB < -1) { mutB = mutB + 2; }		
 		Phenotype mutP = new Phenotype2D(mutA,mutB);
 		return mutP;
 				

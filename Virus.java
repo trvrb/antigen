@@ -49,6 +49,9 @@ public class Virus {
 	public Virus getParent() {
 		return parent;
 	}
+	public void setParent(Virus v) {
+		parent = v;
+	}	
 	public boolean isTrunk() {
 		return trunk; 
 	}

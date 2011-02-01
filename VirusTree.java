@@ -46,6 +46,19 @@ public class VirusTree {
 	
 	}
 	
+	// drop tips
+	public static void dropTips() {
+	
+		List<Virus> reducedTips = new ArrayList<Virus>();
+		for (Virus v : tips) {
+			if (Random.nextBoolean(Parameters.treeProportion)) {
+				reducedTips.add(v);
+			}
+		}
+		tips = reducedTips;
+	
+	}
+	
 	// returns virus v and all its descendents via a depth-first traversal
 	public static List<Virus> postOrderNodes(Virus v) {
 		List<Virus> vNodes = new ArrayList<Virus>();
@@ -136,6 +149,58 @@ public class VirusTree {
 		
 	}	
 	
+	// looks at a virus and its grandparent, if traits are identical and there is no branching
+	// then make virus child rather than grandchild
+	// returns v.parent after all is said and done
+	public static Virus collapse(Virus v) {
+	
+		Virus vp = null;
+		Virus vgp = null;
+		if (v.getParent() != null) {
+			vp = v.getParent();
+			if (vp.getParent() != null) {
+				vgp = vp.getParent();
+			}
+		}
+
+		if (vp != null && vgp != null) {
+			if (vp.getNumberOfChildren() == 1 && v.getPhenotype() == vp.getPhenotype() && v.isTrunk() == vp.isTrunk() && v.getDeme() == vp.getDeme()) {
+		
+				List<Virus> vgpChildren = vgp.getChildren();
+				int vpIndex =  vgpChildren.indexOf(vp);
+				
+				if (vpIndex >= 0) {
+				
+					// replace virus as child of grandparent
+					vgpChildren.set(vpIndex, v);
+				
+					// replace grandparent as parent of virus
+					v.setParent(vgp);
+				
+					// erase parent
+					vp = null;
+				
+				}
+		
+			}
+		}
+		
+		return v.getParent();
+
+	}
+	
+	// walks backward using the list of tips, collapsing where possible
+	public static void streamline() {
+		
+		for (Virus v : tips) {
+			Virus vp = v;
+			while (vp != null) {
+				vp = collapse(vp);
+			}
+		}
+		
+	}
+	
 	public static void printTips() {
 		
 		try {
@@ -166,8 +231,10 @@ public class VirusTree {
 			for (Virus v : postOrderNodes()) {
 				if (v.getParent() != null) {
 					Virus vp = v.getParent();
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, v.getBirth(), v.isTrunk()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), vp.isTrunk()?1:0, vp.getDeme(), vp.getLayout(), vp.getPhenotype());
+					int trunk = v.isTrunk() && vp.isTrunk() ? 1 : 0;
+					int deme = v.getDeme();
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, v.getBirth(), trunk, deme, v.getLayout(), v.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), trunk, deme, vp.getLayout(), vp.getPhenotype());
 					branchStream.printf("%d\n", vp.getCoverage());
 				}
 			}
