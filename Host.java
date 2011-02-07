@@ -48,8 +48,10 @@ public class Host {
 		infection = nV;
 	}
 	public void clearInfection() {
-		Phenotype p = infection.getPhenotype();
-		immuneHistory.add(p);
+		if (Random.nextBoolean(Parameters.developImmunityPro)) {
+			Phenotype p = infection.getPhenotype();
+			immuneHistory.add(p);
+		}
 		infection = null;
 	}
 

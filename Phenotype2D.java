@@ -35,6 +35,13 @@ public class Phenotype2D implements Phenotype {
 		dist += Math.pow(traitA - p2d.getTraitA(), 2);
 		dist += Math.pow(traitB - p2d.getTraitB(), 2);		
 		dist = Math.sqrt(dist);
+		
+//		double boundary = Parameters.boundaryA;
+//		double overlapdist = (boundary - traitA) + (p2d.getTraitA() - 0);
+//		if (overlapdist < dist) { dist = overlapdist; }
+//		overlapdist = (boundary - p2d.getTraitA()) + (traitA - 0);
+//		if (overlapdist < dist) { dist = overlapdist; }
+		
 		return dist;
 	}
 
@@ -43,7 +50,7 @@ public class Phenotype2D implements Phenotype {
 	public double riskOfInfection( List<Phenotype> history) {
 	
 		// find closest phenotype in history
-		double closestDistance = 1.0;
+		double closestDistance = 100.0;
 		if (history.size()>0) {
 			for (int i = 0; i< history.size(); i++) {
 				double thisDistance = distance(history.get(i));
@@ -53,7 +60,7 @@ public class Phenotype2D implements Phenotype {
 			}
 		} 
 		
-		double risk = closestDistance;
+		double risk = closestDistance * Parameters.smithConversion;
 		if (Parameters.quadratic) {
 			risk = risk * risk;
 		}
@@ -76,10 +83,11 @@ public class Phenotype2D implements Phenotype {
 //			mutA = traitA - Parameters.muRangeA;
 //		}
 //		double mutB = traitB;
-//		if (mutA > 1) { mutA = mutA - 2; }
-//		if (mutA < -1) { mutA = mutA + 2; }
-//		if (mutB > 1) { mutB = mutB - 2; }
-//		if (mutB < -1) { mutB = mutB + 2; }		
+//		double boundary = Parameters.boundaryA;
+//		if (mutA > boundary) { mutA = mutA - boundary; }
+//		if (mutA < 0) { mutA = boundary - mutA; }
+//		if (mutB > boundary) { mutB = mutB - boundary; }
+//		if (mutB < 0) { mutB = boundary - mutB; }		
 		Phenotype mutP = new Phenotype2D(mutA,mutB);
 		return mutP;
 				

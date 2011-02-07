@@ -9,10 +9,11 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 2000; // 5475
-	public static final double tipSamplingRate = 2;						// in samples per deme per day
+	public static final int endDay = 7300; // 7300
+	public static final double tipSamplingRate = 10;					// in samples per deme per day
+	public static final int tipSamplesPerDeme = 10000;
 	public static final boolean tipSamplingProportional = false;		// whether to sample proportional to prevalance
-	public static final double treeProportion = 0.05;					// proportion of tips to use in tree reconstruction
+	public static final double treeProportion = 0.02;					// proportion of tips to use in tree reconstruction
 	public static final int	diversitySamplingCount = 100;
 	public static final boolean repeatSim = false;						// repeat simulation until endDay is reached?
 	public static Virus urVirus = new Virus();
@@ -20,23 +21,25 @@ public class Parameters {
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {200000,200000,200000};	
+	public static final int[] initialNs = {500000,500000,500000};	
 
 	// host parameters
-	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
-	public static final double deathRate = 0.000091;				// in deaths per individual per day, 1/30 years = 0.000091
+	public static final double birthRate = 0.00091;				// in births per individual per day, 1/30 years = 0.000091
+	public static final double deathRate = 0.00091;				// in deaths per individual per day, 1/30 years = 0.000091
 	public static final boolean swapDemography = true;			// whether to keep overall population size constant
 		
 	// epidemiological parameters
 	public static final int initialI = 10;						// in individuals
-	public static final double initialPrR = 0.5;				// as proportion of population
-	public static final double beta = 0.5;						// in contacts per individual per day
-	public static final double nu = 0.25;						// in recoveries per individual per day
-	public static final double betweenDemePro = 0.005;			// relative to within-deme beta	
+	public static final double initialPrR = 0.3; 				// as proportion of population
+	public static final double beta = 0.3; 						// in contacts per individual per day
+	public static final double nu = 0.2; 						// in recoveries per individual per day
+	public static final double betweenDemePro = 0.001;			// relative to within-deme beta	
+	public static final double developImmunityPro = 0.95;		// after infection, this proportion develop life-long immunity
 
 	// transcendental immunity
-	public static final boolean transcendental = false;
+	public static final boolean transcendental = true;
 	public static final double immunityLoss = 0.01;				// in R->S per individual per day
+	public static final double initialPrT = 0.1;
 	
 	// seasonal betas
 	public static final double[] demeBaselines = {1,1,1};
@@ -44,17 +47,27 @@ public class Parameters {
 	public static final double[] demeOffsets = {0,0,0.5};			// relative to the year
 	
 	// phenotype parameters
-	public static final String phenotypeSpace = "2D";			// options include: "2D"
-	public static final double muPhenotype = 0.005;			// in mutations per individual per day
+	public static final String phenotypeSpace = "epochal";		// options include: "2D", "epochal"
+	public static final double muPhenotype = 0.01;	 //0.00007			// in mutations per individual per day
+	public static final double smithConversion = 0.067;			// multiplier to distance to give cross-immunity	
+	public static final double initialTraitA = -10.0;
+	public static final double initialTraitB = 0.0;	
 	
 	// parameters specific to Phenotype2D
-	public static final double muRangeA = 0.10;					// traitA is adjusted in a uniform manner
-	public static final double muRangeB = 0;					// traitB is adjusted in a uniform manner	
-	public static final double initialTraitA = -0.5;
-	public static final double initialTraitB = 0.0;
+	// 1.2 units of AG change per year
+	// average distance between clusters is 4.5 units
+	// cross-immunity between clusters is 0.6 to 0.85
+	// 4.5 units = 0.3 distance
+	// 1.2 units = 0.08 distance per year
+	public static final double muRangeA = 2;					// traitA is adjusted in a uniform manner
+	public static final double muRangeB = 0.0;					// traitB is adjusted in a uniform manner	
 	public static final boolean quadratic = false;				// cross-immunity function quadratic or linear	
+//	public static final double boundaryA = 15;
 	
-	
+	// parameters specific to PhenotypeEpochal
+	public static final double meanStep = 0.5; // 0.1
+	public static final boolean mut2D = true;					// whether to mutate in a full 360 degree arc
+		
 	// measured in years, starting at burnin
 	public static double getDate() {
 		return ((double) day - (double) burnin ) / 365.0;

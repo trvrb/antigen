@@ -17,20 +17,31 @@ public class HostPopulation {
 	
 		// basic parameters
 		deme = d;
+		int initialR = (int) ((double) Parameters.initialNs[deme] * Parameters.initialPrT);
 	
-		// fill population with Host objects
-		int initialS = Parameters.initialNs[deme] - Parameters.initialI;
+		// fill population with susceptibles
+		int initialS = Parameters.initialNs[deme] - Parameters.initialI - initialR;
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();			
 			susceptibles.add(h);
 		}
 		
-		// infect some individuals
-		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(Parameters.urVirus, deme);
-			Host h = new Host(v);
-			infecteds.add(h);
-		}	
+		// fill population with recovereds
+		for (int i = 0; i < initialR; i++) {
+			Host h = new Host();			
+			recovereds.add(h);
+		}		
+		
+		if (deme == 1) {
+		
+			// infect some individuals
+			for (int i = 0; i < Parameters.initialI; i++) {
+				Virus v = new Virus(Parameters.urVirus, deme);
+				Host h = new Host(v);
+				infecteds.add(h);
+			}	
+		
+		}
 		
 	}
 	

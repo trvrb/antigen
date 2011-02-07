@@ -20,6 +20,16 @@ public class Random {
 	public static double nextDouble(double from, double to) {
 		return cern.jet.random.Uniform.staticNextDoubleFromTo(from, to);		
 	}	
+
+	// tuned with mean
+	public static double nextExponential(double lambda) {
+		return cern.jet.random.Exponential.staticNextDouble(1.0/lambda);
+	}
+	
+	// tuned with alpha and beta, matching Mathematica's notation
+	public static double nextGamma(double alpha, double beta) {
+		return cern.jet.random.Gamma.staticNextDouble(alpha, 1/beta);
+	}	
 	
 	public static int nextPoisson(double lambda) {
 		return cern.jet.random.Poisson.staticNextInt(lambda);

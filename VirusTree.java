@@ -30,6 +30,15 @@ public class VirusTree {
 	public static Virus getRoot() {
 		return root;
 	}
+	public static int getDemeCount(int d) {
+		int count = 0;
+		for (Virus v : tips) {
+			if (v.getDeme() == d) {
+				count++;
+			}
+		}
+		return count;
+	}
 	
 	// work backwards for each sample filling the children lists
 	public static void fillBackward() {
@@ -53,6 +62,22 @@ public class VirusTree {
 		for (Virus v : tips) {
 			if (Random.nextBoolean(Parameters.treeProportion)) {
 				reducedTips.add(v);
+			}
+		}
+		tips = reducedTips;
+	
+	}
+	
+	// prune tips
+	public static void pruneTips() {
+	
+		List<Virus> reducedTips = new ArrayList<Virus>();
+		for (int d = 0; d < Parameters.demeCount; d++) {
+			double keepProportion = (double) Parameters.tipSamplesPerDeme / (double) getDemeCount(d);
+			for (Virus v : tips) {
+				if (Random.nextBoolean(keepProportion) && v.getDeme() == d) {
+					reducedTips.add(v);
+				}
 			}
 		}
 		tips = reducedTips;
@@ -232,9 +257,8 @@ public class VirusTree {
 				if (v.getParent() != null) {
 					Virus vp = v.getParent();
 					int trunk = v.isTrunk() && vp.isTrunk() ? 1 : 0;
-					int deme = v.getDeme();
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, v.getBirth(), trunk, deme, v.getLayout(), v.getPhenotype());
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), trunk, deme, vp.getLayout(), vp.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, v.getBirth(), trunk, v.getDeme(), v.getLayout(), v.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), trunk, vp.getDeme(), vp.getLayout(), vp.getPhenotype());
 					branchStream.printf("%d\n", vp.getCoverage());
 				}
 			}

@@ -158,7 +158,7 @@ public class Simulation {
 	}	
 		
 	public void stepForward() {
-			
+				
 		for (int i = 0; i < Parameters.demeCount; i++) {		
 			HostPopulation hp = demes.get(i);
 			hp.stepForward();
@@ -169,6 +169,7 @@ public class Simulation {
 				}
 			}
 		}
+			
 		updateDiversity();
 		Parameters.day++;
 		
@@ -210,6 +211,7 @@ public class Simulation {
 		}	
 	
 		// tip output
+		VirusTree.pruneTips();
 		VirusTree.printTips();		
 	
 		// tree prep

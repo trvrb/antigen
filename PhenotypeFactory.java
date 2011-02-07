@@ -7,11 +7,8 @@ public class PhenotypeFactory {
 	public static Phenotype makeVirusPhenotype() {
 	
 		Phenotype p = null;
-	
-		if (Parameters.phenotypeSpace == "2D") {
-			p = new Phenotype2D();
-		}
-	
+		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(); }
+		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(); }		
 		return p;
 	
 	}
@@ -20,11 +17,8 @@ public class PhenotypeFactory {
 	public static Phenotype makeHostPhenotype() {
 	
 		Phenotype p = null;
-	
-		if (Parameters.phenotypeSpace == "2D") {
-			p = new Phenotype2D(Parameters.initialTraitA, Parameters.initialTraitB);
-		}
-	
+		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(Parameters.initialTraitA, Parameters.initialTraitB); }
+		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(Parameters.initialTraitA, Parameters.initialTraitB); }		
 		return p;
 	
 	}	
