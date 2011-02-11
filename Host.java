@@ -54,6 +54,10 @@ public class Host {
 		}
 		infection = null;
 	}
+	
+	public void vaccinate(Phenotype p) {
+		immuneHistory.add(p);
+	}
 
 	// make a new virus with the mutated phenotype
 	public void mutate() {

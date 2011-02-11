@@ -8,7 +8,8 @@ public class PhenotypeFactory {
 	
 		Phenotype p = null;
 		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(); }
-		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(); }		
+		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(); }	
+		if (Parameters.phenotypeSpace == "sequence") { p = new PhenotypeSequence(); }			
 		return p;
 	
 	}
@@ -18,7 +19,8 @@ public class PhenotypeFactory {
 	
 		Phenotype p = null;
 		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(Parameters.initialTraitA, Parameters.initialTraitB); }
-		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(Parameters.initialTraitA, Parameters.initialTraitB); }		
+		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(Parameters.initialTraitA, Parameters.initialTraitB); }
+		if (Parameters.phenotypeSpace == "sequence") { p = new PhenotypeSequence(); }		
 		return p;
 	
 	}	

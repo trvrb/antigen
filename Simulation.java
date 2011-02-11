@@ -171,6 +171,11 @@ public class Simulation {
 		}
 			
 		updateDiversity();
+		
+		if (Parameters.day % 365 == 0) {
+			VirusTree.updateVaccineStrain();
+		}
+		
 		Parameters.day++;
 		
 	}

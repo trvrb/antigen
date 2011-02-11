@@ -8,6 +8,7 @@ public class VirusTree {
 	// fields
 	private static Virus root = Parameters.urVirus;	
 	private static List<Virus> tips = new ArrayList<Virus>();
+	private static Virus vaccineStrain = null;
 	
 	static final Comparator<Virus> descendantOrder = new Comparator<Virus>() {
 		public int compare(Virus v1, Virus v2) {
@@ -30,6 +31,7 @@ public class VirusTree {
 	public static Virus getRoot() {
 		return root;
 	}
+	
 	public static int getDemeCount(int d) {
 		int count = 0;
 		for (Virus v : tips) {
@@ -38,8 +40,21 @@ public class VirusTree {
 			}
 		}
 		return count;
-	}
+	}	
 	
+	public static Virus getVaccineStrain() {
+		return vaccineStrain;
+	}
+	public static void updateVaccineStrain() {
+		double date = Parameters.getDate() - 1.0;
+		for (Virus v : tips) {
+			if (Math.abs(date - v.getBirth()) < 0.05) {
+				vaccineStrain = v;
+				break;
+			}
+		}
+	}
+		
 	// work backwards for each sample filling the children lists
 	public static void fillBackward() {
 	

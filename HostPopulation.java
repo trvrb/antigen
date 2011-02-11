@@ -17,7 +17,10 @@ public class HostPopulation {
 	
 		// basic parameters
 		deme = d;
-		int initialR = (int) ((double) Parameters.initialNs[deme] * Parameters.initialPrT);
+		int initialR = 0;
+		if (Parameters.transcendental) {
+			initialR = (int) ((double) Parameters.initialNs[deme] * Parameters.initialPrT);
+		}
 	
 		// fill population with susceptibles
 		int initialS = Parameters.initialNs[deme] - Parameters.initialI - initialR;
@@ -115,7 +118,10 @@ public class HostPopulation {
 			loseImmunity(); 
 		}
 		mutate();
-		sample();	
+		sample();
+		if (Parameters.vaccinate) {
+			vaccinate();
+		}
 	
 	}
 	
@@ -321,6 +327,45 @@ public class HostPopulation {
 				Virus v = h.getInfection();
 				VirusTree.add(v);
 			}	
+		}
+	}
+	
+	// a random number of individuals and inoculate them with last year's virus
+	// pull last year's virus from the tip list of VirusTree
+	public void vaccinate() {
+		// vaccine virus
+		Virus v = VirusTree.getVaccineStrain();
+		if (v != null) {
+			// vaccine phenotype
+			Phenotype p = v.getPhenotype();
+			
+			// vaccinate susceptibles
+			double totalVaccinationRate = Parameters.vaccinationRate * getS();		
+			int samples = Random.nextPoisson(totalVaccinationRate);
+			for (int i = 0; i < samples; i++) {
+				int index = getRandomS();
+				Host h = infecteds.get(index);
+				h.vaccinate(p);
+			}	
+			
+			// vaccinate infecteds
+			totalVaccinationRate = Parameters.vaccinationRate * getI();		
+			samples = Random.nextPoisson(totalVaccinationRate);
+			for (int i = 0; i < samples; i++) {
+				int index = getRandomI();
+				Host h = infecteds.get(index);
+				h.vaccinate(p);
+			}	
+			
+			// vaccinate recovereds
+			totalVaccinationRate = Parameters.vaccinationRate * getR();		
+			samples = Random.nextPoisson(totalVaccinationRate);
+			for (int i = 0; i < samples; i++) {
+				int index = getRandomR();
+				Host h = infecteds.get(index);
+				h.vaccinate(p);
+			}				
+				
 		}
 	}
 	
