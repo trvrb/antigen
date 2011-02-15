@@ -70,7 +70,6 @@ public class VirusTree {
 	
 	}
 	
-	// drop tips
 	public static void dropTips() {
 	
 		List<Virus> reducedTips = new ArrayList<Virus>();
@@ -82,7 +81,20 @@ public class VirusTree {
 		tips = reducedTips;
 	
 	}
+
+	public static void markTips() {
 	
+		for (Virus v : tips) {
+			if (Random.nextBoolean(Parameters.treeProportion)) {
+				while (v.getParent() != null) {
+					v.mark();
+					v = v.getParent();
+				}
+			}
+		}
+	
+	}
+		
 	// prune tips
 	public static void pruneTips() {
 	
@@ -248,10 +260,10 @@ public class VirusTree {
 			tipFile.delete();
 			tipFile.createNewFile();
 			PrintStream tipStream = new PrintStream(tipFile);
-			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "location", "layout", "ag1", "ag1");
+			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "tip", "mark", "location", "layout", "ag1", "ag2");
 			for (int i = 0; i < tips.size(); i++) {
 				Virus v = tips.get(i);			
-				tipStream.printf("\"%s\",%.4f,%d,%d,%.4f,%s\n", v, v.getBirth(), v.isTrunk()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
+				tipStream.printf("\"%s\",%.4f,%d,%d,%d,%d,%.4f,%s\n", v, v.getBirth(), v.isTrunk()?1:0, v.isTip()?1:0, v.isMarked()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
 			}
 			tipStream.close();
 		} catch(IOException ex) {
@@ -271,9 +283,8 @@ public class VirusTree {
 			for (Virus v : postOrderNodes()) {
 				if (v.getParent() != null) {
 					Virus vp = v.getParent();
-					int trunk = v.isTrunk() && vp.isTrunk() ? 1 : 0;
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", v, v.getBirth(), trunk, v.getDeme(), v.getLayout(), v.getPhenotype());
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), trunk, vp.getDeme(), vp.getLayout(), vp.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%d,%d,%.4f,%s}\t", v, v.getBirth(), v.isTrunk()?1:0, v.isTip()?1:0, v.isMarked()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), vp.isTrunk()?1:0, vp.isTip()?1:0, v.isMarked()?1:0, vp.getDeme(), vp.getLayout(), vp.getPhenotype());
 					branchStream.printf("%d\n", vp.getCoverage());
 				}
 			}
@@ -284,5 +295,30 @@ public class VirusTree {
 		}
 		
 	}
+	
+	public static void printMutations() {
+		
+		try {
+			File mutFile = new File("out.mutations");
+			mutFile.delete();
+			mutFile.createNewFile();
+			PrintStream mutStream = new PrintStream(mutFile);
+			mutStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "location", "ag1start", "ag2start", "ag1stop", "ag2start");
+			for (Virus v : postOrderNodes()) {
+				if (v.getParent() != null) {
+					Virus vp = v.getParent();
+					if (v.getPhenotype() != vp.getPhenotype()) {
+						int trunk = ( v.isTrunk() && vp.isTrunk() )?1:0;
+						mutStream.printf("\"%s\",%.4f,%d,%d,%s,%s\n", v, v.getBirth(), trunk, v.getDeme(), v.getPhenotype(), vp.getPhenotype());
+					}
+				}
+			}
+			mutStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+		
+	}	
 	
 }

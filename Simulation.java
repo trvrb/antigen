@@ -217,11 +217,11 @@ public class Simulation {
 	
 		// tip output
 		VirusTree.pruneTips();
+		VirusTree.markTips();		
 		VirusTree.printTips();		
 	
 		// tree prep
 		makeTrunk();
-		VirusTree.dropTips();
 		VirusTree.fillBackward();			
 		VirusTree.sortChildrenByDescendants();
 		VirusTree.setLayoutByDescendants();

@@ -8,10 +8,11 @@ public class Virus {
 	private Virus parent;
 	private Phenotype phenotype;
 	private double birth;	// measured in years relative to burnin
-	private boolean trunk;	// fill this at the end of the simulation
 	private int deme;
 
 	// additional reconstruction fields
+	private boolean marked;
+	private boolean trunk;	// fill this at the end of the simulation
 	private List<Virus> children = new ArrayList<Virus>();	// will be void until simulation ends	
 	private double layout;
 	private int coverage;		// how many times this Virus has been covered in tracing the tree backwards
@@ -58,6 +59,12 @@ public class Virus {
 	public void makeTrunk() {
 		trunk = true;
 	}
+	public void mark() {
+		marked = true;
+	}
+	public boolean isMarked() {
+		return marked;
+	}
 	public int getDeme() {
 		return deme;
 	}	
@@ -100,26 +107,29 @@ public class Virus {
 	}
 	
 	public Virus commonAncestor(Virus virusB) {
-		
-		// go through current virus's history and add to a set
-		Virus lineage = this;
-		Set<Virus> ancestry = new HashSet<Virus>();
-		while (lineage.getParent() != null) {
-			lineage = lineage.getParent();
-			ancestry.add(lineage);
-		}
-		
-		// go through other virus's history and add to this set, stop when duplicate is encountered and return this duplicate
-		lineage = virusB;
-		while (lineage.getParent() != null) {
-			lineage = lineage.getParent();
-			if (!ancestry.add(lineage)) {
-				break;
+				
+		Virus lineageA = this;
+		Virus lineageB = virusB;
+		Virus commonAnc = null;
+		Set<Virus> ancestry = new HashSet<Virus>();		
+		while (true) {
+			if (lineageA.getParent() != null) {		
+				lineageA = lineageA.getParent();
+				if (!ancestry.add(lineageA)) { 
+					commonAnc = lineageA;
+					break; 
+				}
 			}
-		}		
+			if (lineageB.getParent() != null) {
+				lineageB = lineageB.getParent();
+				if (!ancestry.add(lineageB)) { 
+					commonAnc = lineageB;
+					break; 
+				}
+			}
+		}	
 		
-		
-		return lineage;
+		return commonAnc;
 		
 	}
 	
