@@ -112,6 +112,53 @@ public class Simulation {
 		return v;
 		
 	}
+	
+	// return random host from random deme
+	public Host getRandomHost() {
+		int d = Random.nextInt(0,Parameters.demeCount-1);
+		HostPopulation hp = demes.get(d);
+		return hp.getRandomHost();
+	}
+	
+	public double getAverageRisk(Phenotype p) {
+		
+		double averageRisk = 0;
+		for (int i = 0; i < 10000; i++) {
+			Host h = getRandomHost();
+			List<Phenotype> history = h.getHistory();
+			averageRisk += p.riskOfInfection(history);
+		}
+		averageRisk /= 10000.0;
+		return averageRisk;
+		
+	}
+	
+	public void printImmunity() {
+	
+		try {
+			File immunityFile = new File("out.immunity");
+			immunityFile.delete();
+			immunityFile.createNewFile();
+			PrintStream immunityStream = new PrintStream(immunityFile);
+			
+			for (double x = VirusTree.xMin; x <= VirusTree.xMax; x += 0.5) {
+				for (double y = VirusTree.yMin; y <= VirusTree.yMax; y += 0.5) {
+				
+					Phenotype p = PhenotypeFactory.makeArbitaryPhenotype(x,y);
+					double risk = getAverageRisk(p);
+					immunityStream.printf("%.4f,", risk);
+				
+				}
+				immunityStream.println();
+			}
+			
+			immunityStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+	
+	}
 		
 	public void makeTrunk() {
 		for (int i = 0; i < Parameters.demeCount; i++) {
@@ -214,6 +261,12 @@ public class Simulation {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
 		}	
+		
+		// immunity output
+		if (Parameters.phenotypeSpace == "epochal") {
+			VirusTree.printRange();
+			printImmunity();
+		}
 	
 		// tip output
 		VirusTree.pruneTips();

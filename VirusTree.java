@@ -2,6 +2,7 @@
 
 import java.util.*;
 import java.io.*;
+import static java.lang.Math.*;
 
 public class VirusTree {
 
@@ -9,6 +10,11 @@ public class VirusTree {
 	private static Virus root = Parameters.urVirus;	
 	private static List<Virus> tips = new ArrayList<Virus>();
 	private static Virus vaccineStrain = null;
+	
+	public static double xMin;
+	public static double xMax;
+	public static double yMin;
+	public static double yMax;
 	
 	static final Comparator<Virus> descendantOrder = new Comparator<Virus>() {
 		public int compare(Virus v1, Virus v2) {
@@ -20,6 +26,17 @@ public class VirusTree {
 		
 	// static methods
 	public static void add(Virus v) {
+	
+		if (Parameters.phenotypeSpace == "epochal") {
+			PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+			double x = p.getTraitA();
+			double y = p.getTraitB();
+			if (xMin > x) { xMin = x; }
+			if (xMax < x) { xMax = x; }
+			if (yMin > y) { yMin = y; }
+			if (yMax < y) { yMax = y; }		
+		}
+		
 		tips.add(v);
 	}
 	public static void clear() {
@@ -249,6 +266,26 @@ public class VirusTree {
 			while (vp != null) {
 				vp = collapse(vp);
 			}
+		}
+		
+	}
+
+	public static void printRange() {
+		
+		try {
+			File rangeFile = new File("out.range");
+			rangeFile.delete();
+			rangeFile.createNewFile();
+			PrintStream rangeStream = new PrintStream(rangeFile);
+			xMin = Math.floor(xMin) - 5;
+			xMax = Math.ceil(xMax) + 5;
+			yMin = Math.floor(yMin) - 5;
+			yMax = Math.ceil(yMax) + 5;
+			rangeStream.printf("%.4f,%.4f,%.4f,%.4f\n", xMin, xMax, yMin, yMax);
+			rangeStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
 		}
 		
 	}

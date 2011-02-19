@@ -83,6 +83,22 @@ public class HostPopulation {
 		return Random.nextInt(0,getR()-1);
 	}
 	
+	public Host getRandomHost() {
+		// figure out whether to pull from S, I or R
+		Host h = null;
+		double n = Random.nextDouble(0.0,1.0);
+		if (n < getPrS()) {
+			h = getRandomHostS();
+		}
+		else if (n > getPrS() && n < getPrS() + getPrI()) {
+			h = getRandomHostI();
+		}
+		else if (n > getPrS() + getPrI()) {
+			h = getRandomHostR();
+		}
+		return h;
+	}
+	
 	public Host getRandomHostS() {
 		int index = Random.nextInt(0,getS()-1);
 		return susceptibles.get(index);

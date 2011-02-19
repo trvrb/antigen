@@ -9,23 +9,23 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 14600; // 14600
-	public static final double tipSamplingRate = 0.002;					// in samples per deme per day
+	public static final int endDay = 1000; // 14600
+	public static final double tipSamplingRate = 0.005;					// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
 	public static final boolean tipSamplingProportional = true;			// whether to sample proportional to prevalance
 	public static final double treeProportion = 0.1;					// proportion of tips to use in tree reconstruction
 	public static final int	diversitySamplingCount = 500;
-	public static final boolean repeatSim = false;						// repeat simulation until endDay is reached?
+	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
 	public static Virus urVirus = new Virus();
 
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {1000000,1000000,1000000};	
+	public static final int[] initialNs = {500000,500000,500000};	
 
 	// host parameters
-	public static final double birthRate = 0.00091;				// in births per individual per day, 1/30 years = 0.000091
-	public static final double deathRate = 0.00091;				// in deaths per individual per day, 1/30 years = 0.000091
+	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
+	public static final double deathRate = 0.000091;				// in deaths per individual per day, 1/30 years = 0.000091
 	public static final boolean swapDemography = true;			// whether to keep overall population size constant
 		
 	// epidemiological parameters
@@ -34,7 +34,7 @@ public class Parameters {
 	public static final double beta = 0.36; 					// in contacts per individual per day
 	public static final double nu = 0.2; 						// in recoveries per individual per day
 	public static final double betweenDemePro = 0.001;			// relative to within-deme beta	
-	public static final double developImmunityPro = 0.95;			// after infection, this proportion develop life-long immunity
+	public static final double developImmunityPro = 0.9;	// 0.95		// after infection, this proportion develop life-long immunity
 
 	// transcendental immunity
 	public static final boolean transcendental = false;
@@ -48,9 +48,9 @@ public class Parameters {
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "epochal";		// options include: "2D", "epochal"
-	public static final double muPhenotype = 0.00014; //0.00014				// in mutations per individual per day
+	public static final double muPhenotype = 0.001; //0.00014				// in mutations per individual per day
 	public static final double smithConversion = 0.067;			// multiplier to distance to give cross-immunity	
-	public static final double initialTraitA = -7.0;
+	public static final double initialTraitA = -6.0;
 	public static final double initialTraitB = 0.0;	
 	
 	// parameters specific to Phenotype2D

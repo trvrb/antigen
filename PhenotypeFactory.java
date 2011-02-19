@@ -24,5 +24,15 @@ public class PhenotypeFactory {
 		return p;
 	
 	}	
+	
+	// returns newly instantiated Phenotype objects of type according to Parameters.phenotypeSpace
+	public static Phenotype makeArbitaryPhenotype(double x, double y) {
+	
+		Phenotype p = null;
+		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(x, y); }
+		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(x, y); }	
+		return p;
+	
+	}		
 
 }
