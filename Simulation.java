@@ -216,12 +216,10 @@ public class Simulation {
 				}
 			}
 		}
-			
-		updateDiversity();
-		
-		if (Parameters.day % 365 == 0) {
-			VirusTree.updateVaccineStrain();
-		}
+					
+//		if (Parameters.day % 365 == 0) {
+//			VirusTree.updateVaccineStrain();
+//		}
 		
 		Parameters.day++;
 		
@@ -239,9 +237,15 @@ public class Simulation {
 			printHeader(seriesStream);
 							
 			for (int i = 0; i < Parameters.endDay; i++) {
+				
 				stepForward();
-				printState();
-				printState(seriesStream);
+				
+				if (Parameters.day % Parameters.printStep == 0) {
+					updateDiversity();
+					printState();
+					printState(seriesStream);
+				}
+				
 				if (getI()==0) {
 					if (Parameters.repeatSim) {
 						reset();
@@ -265,7 +269,9 @@ public class Simulation {
 		// immunity output
 		if (Parameters.phenotypeSpace == "epochal") {
 			VirusTree.printRange();
-			printImmunity();
+			if (Parameters.immunityReconstruction) {
+				printImmunity();
+			}
 		}
 	
 		// tip output

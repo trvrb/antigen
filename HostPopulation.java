@@ -38,7 +38,7 @@ public class HostPopulation {
 		if (deme == 1) {
 		
 			// infect some individuals
-			for (int i = 0; i < Parameters.initialI; i++) {
+			for (int i = 0; i < 3*Parameters.initialI; i++) {
 				Virus v = new Virus(Parameters.urVirus, deme);
 				Host h = new Host(v);
 				infecteds.add(h);
@@ -118,6 +118,25 @@ public class HostPopulation {
 	public int getCases() {
 		return cases;
 	}	
+
+	public void removeSusceptible(int i) {
+		int lastIndex = getS() - 1;
+		Host lastHost = susceptibles.get(lastIndex);
+		susceptibles.set(i,lastHost);
+		susceptibles.remove(lastIndex);
+	}	
+	public void removeInfected(int i) {
+		int lastIndex = getI() - 1;
+		Host lastHost = infecteds.get(lastIndex);
+		infecteds.set(i,lastHost);
+		infecteds.remove(lastIndex);
+	}
+	public void removeRecovered(int i) {
+		int lastIndex = getR() - 1;
+		Host lastHost = recovereds.get(lastIndex);
+		recovereds.set(i,lastHost);
+		recovereds.remove(lastIndex);
+	}	
 	
 	public void stepForward() {
 	
@@ -159,7 +178,7 @@ public class HostPopulation {
 		for (int i = 0; i < deaths; i++) {
 			if (getS()>0) {
 				int sndex = getRandomS();
-				susceptibles.remove(sndex);
+				removeSusceptible(sndex);
 			}
 		}		
 		// deaths in infectious class		
@@ -168,7 +187,7 @@ public class HostPopulation {
 		for (int i = 0; i < deaths; i++) {
 			if (getI()>0) {
 				int index = getRandomI();
-				infecteds.remove(index);
+				removeInfected(index);
 			}
 		}		
 	}
@@ -193,7 +212,7 @@ public class HostPopulation {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				h.reset();
-				infecteds.remove(index);
+				removeInfected(index);
 				susceptibles.add(h);
 			}
 		}	
@@ -205,7 +224,7 @@ public class HostPopulation {
 				int index = getRandomR();
 				Host h = recovereds.get(index);
 				h.reset();
-				recovereds.remove(index);
+				removeRecovered(index);
 				susceptibles.add(h);
 			}
 		}			
@@ -233,7 +252,7 @@ public class HostPopulation {
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
 					sH.infect(v,deme);
-					susceptibles.remove(sndex);
+					removeSusceptible(sndex);
 					infecteds.add(sH);
 					cases++;
 				}
@@ -265,7 +284,7 @@ public class HostPopulation {
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
 					sH.infect(v,deme);
-					susceptibles.remove(sndex);
+					removeSusceptible(sndex);
 					infecteds.add(sH);
 					cases++;
 				}
@@ -285,7 +304,7 @@ public class HostPopulation {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				h.clearInfection();
-				infecteds.remove(index);
+				removeInfected(index);
 				if (Parameters.transcendental) {
 					recovereds.add(h);
 				} else {
@@ -305,7 +324,7 @@ public class HostPopulation {
 			if (getR()>0) {
 				int index = getRandomR();
 				Host h = recovereds.get(index);
-				recovereds.remove(index);
+				removeRecovered(index);
 				susceptibles.add(h);
 			}
 		}			
