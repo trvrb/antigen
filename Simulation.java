@@ -203,6 +203,13 @@ public class Simulation {
 		}	
 		diversity /= (double) sampleCount;
 	}	
+	
+	public void resetCases() {
+		for (int i = 0; i < Parameters.demeCount; i++) {	
+			HostPopulation hp = demes.get(i);
+			hp.resetCases();
+		}
+	}
 		
 	public void stepForward() {
 				
@@ -244,6 +251,7 @@ public class Simulation {
 					updateDiversity();
 					printState();
 					printState(seriesStream);
+					resetCases();
 				}
 				
 				if (getI()==0) {
@@ -253,7 +261,7 @@ public class Simulation {
 						seriesFile.delete();
 						seriesFile.createNewFile();
 						seriesStream = new PrintStream(seriesFile);
-						seriesStream.println("time\tN\tS\tI\tR\tcases\tdiversity");	
+						printHeader(seriesStream);
 					} else {
 						break;
 					}
@@ -265,9 +273,10 @@ public class Simulation {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
 		}	
-		
+				
 		// immunity output
 		if (Parameters.phenotypeSpace == "epochal") {
+			VirusTree.updateRange();
 			VirusTree.printRange();
 			if (Parameters.immunityReconstruction) {
 				printImmunity();

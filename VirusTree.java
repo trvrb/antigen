@@ -25,18 +25,7 @@ public class VirusTree {
 	};	
 		
 	// static methods
-	public static void add(Virus v) {
-	
-		if (Parameters.phenotypeSpace == "epochal") {
-			PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
-			double x = p.getTraitA();
-			double y = p.getTraitB();
-			if (xMin > x) { xMin = x; }
-			if (xMax < x) { xMax = x; }
-			if (yMin > y) { yMin = y; }
-			if (yMax < y) { yMax = y; }		
-		}
-		
+	public static void add(Virus v) {		
 		tips.add(v);
 	}
 	public static void clear() {
@@ -269,6 +258,34 @@ public class VirusTree {
 		}
 		
 	}
+	
+	public static void updateRange() {
+	
+		xMin = 0.0;
+		xMax = 0.0;
+		yMin = 0.0;
+		yMax = 0.0;
+	
+		if (Parameters.phenotypeSpace == "epochal") {
+			for (Virus v : postOrderNodes()) {
+			
+				PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+				double x = p.getTraitA();
+				double y = p.getTraitB();
+				if (xMin > x) { xMin = x; }
+				if (xMax < x) { xMax = x; }
+				if (yMin > y) { yMin = y; }
+				if (yMax < y) { yMax = y; }	
+			
+			}
+		}
+		
+		xMin = Math.floor(xMin) - 5;
+		xMax = Math.ceil(xMax) + 5;
+		yMin = Math.floor(yMin) - 5;
+		yMax = Math.ceil(yMax) + 5;
+	
+	}
 
 	public static void printRange() {
 		
@@ -277,10 +294,6 @@ public class VirusTree {
 			rangeFile.delete();
 			rangeFile.createNewFile();
 			PrintStream rangeStream = new PrintStream(rangeFile);
-			xMin = Math.floor(xMin) - 5;
-			xMax = Math.ceil(xMax) + 5;
-			yMin = Math.floor(yMin) - 5;
-			yMax = Math.ceil(yMax) + 5;
 			rangeStream.printf("%.4f,%.4f,%.4f,%.4f\n", xMin, xMax, yMin, yMax);
 			rangeStream.close();
 		} catch(IOException ex) {

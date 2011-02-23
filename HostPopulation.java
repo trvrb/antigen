@@ -23,7 +23,10 @@ public class HostPopulation {
 		}
 	
 		// fill population with susceptibles
-		int initialS = Parameters.initialNs[deme] - Parameters.initialI - initialR;
+		int initialS = Parameters.initialNs[deme] - initialR;
+		if (deme == 1) {
+			initialS -= Parameters.initialI;
+		}
 		for (int i = 0; i < initialS; i++) {
 			Host h = new Host();			
 			susceptibles.add(h);
@@ -38,7 +41,7 @@ public class HostPopulation {
 		if (deme == 1) {
 		
 			// infect some individuals
-			for (int i = 0; i < 3*Parameters.initialI; i++) {
+			for (int i = 0; i < Parameters.initialI; i++) {
 				Virus v = new Virus(Parameters.urVirus, deme);
 				Host h = new Host(v);
 				infecteds.add(h);
@@ -140,7 +143,7 @@ public class HostPopulation {
 	
 	public void stepForward() {
 	
-		resetCases();
+	//	resetCases();
 		if (Parameters.swapDemography) {
 			swap();
 		} else {
@@ -429,22 +432,41 @@ public class HostPopulation {
 	
 	// reset population to factory condition
 	public void reset() {
+	
 		// clearing lists
 		susceptibles.clear();
 		infecteds.clear();
 		recovereds.clear();
-		// fill population with Host objects
-		int initialS = Parameters.initialNs[deme] - Parameters.initialI;
+		
+		int initialR = 0;
+		if (Parameters.transcendental) {
+			initialR = (int) ((double) Parameters.initialNs[deme] * Parameters.initialPrT);
+		}
+	
+		// fill population with susceptibles
+		int initialS = Parameters.initialNs[deme] - Parameters.initialI - initialR;
 		for (int i = 0; i < initialS; i++) {
-			Host h = new Host();		
+			Host h = new Host();			
 			susceptibles.add(h);
 		}
-		// infect some individuals
-		for (int i = 0; i < Parameters.initialI; i++) {
-			Virus v = new Virus(Parameters.urVirus, deme);
-			Host h = new Host(v);
-			infecteds.add(h);
+		
+		// fill population with recovereds
+		for (int i = 0; i < initialR; i++) {
+			Host h = new Host();			
+			recovereds.add(h);
 		}		
+		
+		if (deme == 1) {
+		
+			// infect some individuals
+			for (int i = 0; i < 3*Parameters.initialI; i++) {
+				Virus v = new Virus(Parameters.urVirus, deme);
+				Host h = new Host(v);
+				infecteds.add(h);
+			}	
+		
+		}
+		
 	}
 				
 }
