@@ -32,7 +32,7 @@ public class Parameters {
 		
 	// epidemiological parameters
 	public static final int initialI = 10;						// in individuals
-	public static final double initialPrR = 0.5; 				// as proportion of population
+	public static final double initialPrR = 0.2; 				// as proportion of population
 	public static final double beta = 0.3; // 0.36				// in contacts per individual per day
 	public static final double nu = 0.2; //0.2					// in recoveries per individual per day
 	public static final double betweenDemePro = 0.001;			// relative to within-deme beta	
@@ -44,15 +44,15 @@ public class Parameters {
 	public static final double initialPrT = 0.1;
 	
 	// seasonal betas
-	public static final double[] demeBaselines = {1,1.05,1};
+	public static final double[] demeBaselines = {1,1,1};
 	public static final double[] demeAmplitudes = {0.15,0,0.15};
 	public static final double[] demeOffsets = {0,0,0.5};			// relative to the year
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "epochal";		// options include: "2D", "epochal"
-	public static final double muPhenotype = 0.0003; //0.00014				// in mutations per individual per day
+	public static final double muPhenotype = 0.0005; //0.00014				// in mutations per individual per day
 	public static final double smithConversion = 0.075;			// multiplier to distance to give cross-immunity	
-	public static final double initialTraitA = -9.0;
+	public static final double initialTraitA = 0.0;
 	public static final double initialTraitB = 0.0;	
 	
 	// parameters specific to Phenotype2D
@@ -61,7 +61,7 @@ public class Parameters {
 	public static final boolean quadratic = false;				// cross-immunity function quadratic or linear	
 	
 	// parameters specific to PhenotypeEpochal
-	public static final double meanStep = 0.85; // 0.6
+	public static final double meanStep = 0.75; // 0.6
 	public static final boolean mut2D = true;					// whether to mutate in a full 360 degree arc
 
 	// genotype parameters

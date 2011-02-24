@@ -273,16 +273,7 @@ public class Simulation {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
 		}	
-				
-		// immunity output
-		if (Parameters.phenotypeSpace == "epochal") {
-			VirusTree.updateRange();
-			VirusTree.printRange();
-			if (Parameters.immunityReconstruction) {
-				printImmunity();
-			}
-		}
-	
+					
 		// tip output
 		VirusTree.pruneTips();
 		VirusTree.markTips();		
@@ -297,6 +288,15 @@ public class Simulation {
 		
 		// tree output
 		VirusTree.printBranches();	
+		
+		// immunity output
+		if (Parameters.phenotypeSpace == "epochal") {
+			VirusTree.updateRange();
+			VirusTree.printRange();
+			if (Parameters.immunityReconstruction) {
+				printImmunity();
+			}
+		}		
 		
 	}
 	
