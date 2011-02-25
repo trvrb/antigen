@@ -13,7 +13,7 @@ public class Virus {
 	// additional reconstruction fields
 	private boolean marked;
 	private boolean trunk;	// fill this at the end of the simulation
-	private List<Virus> children = new ArrayList<Virus>();	// will be void until simulation ends	
+	private List<Virus> children = new ArrayList<Virus>(0);	// will be void until simulation ends	
 	private double layout;
 	private int coverage;		// how many times this Virus has been covered in tracing the tree backwards
 	

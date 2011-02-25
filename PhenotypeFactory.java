@@ -7,9 +7,7 @@ public class PhenotypeFactory {
 	public static Phenotype makeVirusPhenotype() {
 	
 		Phenotype p = null;
-//		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(); }
-		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(); }	
-//		if (Parameters.phenotypeSpace == "sequence") { p = new PhenotypeSequence(); }			
+		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(); }			
 		return p;
 	
 	}
@@ -18,9 +16,7 @@ public class PhenotypeFactory {
 	public static Phenotype makeHostPhenotype() {
 	
 		Phenotype p = null;
-//		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(Parameters.initialTraitA, Parameters.initialTraitB); }
-		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(Parameters.initialTraitA, Parameters.initialTraitB); }
-//		if (Parameters.phenotypeSpace == "sequence") { p = new PhenotypeSequence(); }		
+		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(Parameters.initialTraitA, Parameters.initialTraitB); }	
 		return p;
 	
 	}	
@@ -29,8 +25,7 @@ public class PhenotypeFactory {
 	public static Phenotype makeArbitaryPhenotype(double x, double y) {
 	
 		Phenotype p = null;
-//		if (Parameters.phenotypeSpace == "2D") { p = new Phenotype2D(x, y); }
-		if (Parameters.phenotypeSpace == "epochal") { p = new PhenotypeEpochal(x, y); }	
+		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(x, y); }	
 		return p;
 	
 	}		

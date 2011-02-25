@@ -256,7 +256,6 @@ public class HostPopulation {
 				
 				// attempt infection
 				Phenotype p = v.getPhenotype();
-//				List<Phenotype> history = sH.getHistory();
 				Phenotype[] history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
@@ -289,7 +288,6 @@ public class HostPopulation {
 				
 				// attempt infection
 				Phenotype p = v.getPhenotype();
-//				List<Phenotype> history = sH.getHistory();
 				Phenotype[] history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {

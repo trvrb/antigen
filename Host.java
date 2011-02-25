@@ -25,7 +25,6 @@ public class Host {
 		double chanceOfSuccess = Parameters.initialPrR;
 		if (Random.nextBoolean(chanceOfSuccess)) {
 			Phenotype p = PhenotypeFactory.makeHostPhenotype();
-//			immuneHistory.add(p);
 			addToHistory(p);
 		}	
 	}
@@ -42,7 +41,6 @@ public class Host {
 	// infection methods
 	public void reset() {
 		infection = null;
-//		immuneHistory.clear();
 		immuneHistory = new Phenotype[0];
 	}
 	public boolean isInfected() {
@@ -61,7 +59,6 @@ public class Host {
 	}
 	public void clearInfection() {
 		Phenotype p = infection.getPhenotype();
-//		immuneHistory.add(p);
 		addToHistory(p);
 		infection = null;
 	}

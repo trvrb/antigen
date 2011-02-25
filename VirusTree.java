@@ -262,7 +262,7 @@ public class VirusTree {
 	// rotate the 2d euclidean space using PCA, returning an x-axis with maximum variance
 	public static void rotate() {
 	
-		if (Parameters.phenotypeSpace == "epochal") {
+		if (Parameters.phenotypeSpace == "geometric") {
 			
 			// load a 2d array with phenotypes
 			
@@ -274,7 +274,7 @@ public class VirusTree {
 			
 			for (int i = 0; i < n; i++) {
 				Virus v = virusList.get(i);
-				PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+				GeometricPhenotype p = (GeometricPhenotype) v.getPhenotype();
 				double x = p.getTraitA();
 				double y = p.getTraitB();	
 				input[i][0] = x;
@@ -289,7 +289,7 @@ public class VirusTree {
 			
 			for (int i = 0; i < n; i++) {
 				Virus v = virusList.get(i);
-				PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+				GeometricPhenotype p = (GeometricPhenotype) v.getPhenotype();
 				double x = projected[i][0];
 				double y = projected[i][1];				
 				p.setTraitA(x);
@@ -303,7 +303,7 @@ public class VirusTree {
 	// flips the 2d euclidean space so that first sample is always to the left of the last sample
 	public static void flip() {
 	
-		if (Parameters.phenotypeSpace == "epochal") {
+		if (Parameters.phenotypeSpace == "geometric") {
 
 			List<Virus> virusList = postOrderNodes();
 			int n = virusList.size();	
@@ -328,18 +328,28 @@ public class VirusTree {
 			// is the x-value of first virus greater than the x-value of last virus?
 			// if so, flip
 			
-			PhenotypeEpochal p = (PhenotypeEpochal) firstVirus.getPhenotype();
+			GeometricPhenotype p = (GeometricPhenotype) firstVirus.getPhenotype();
 			double firstX = p.getTraitA();
-			p = (PhenotypeEpochal) lastVirus.getPhenotype();
+			p = (GeometricPhenotype) lastVirus.getPhenotype();
 			double lastX = p.getTraitA();		
 			
 			if (firstX > lastX) {
 			
-				for (Virus v : virusList) {
-					p = (PhenotypeEpochal) v.getPhenotype();
-					double x = p.getTraitA();			
-					p.setTraitA(-x);
+				// I think that postOrderNodes() has replicates in it, need to go through some hoops because of this
+				double[] input = new double[n];
+			
+				for (int i = 0; i < n; i++) {
+					Virus v = virusList.get(i);
+					p = (GeometricPhenotype) v.getPhenotype();		
+					input[i] = p.getTraitA();;
 				}
+				
+				for (int i = 0; i < n; i++) {
+					Virus v = virusList.get(i);
+					p = (GeometricPhenotype) v.getPhenotype();
+					double x = -1*input[i];		
+					p.setTraitA(x);
+				}				
 			
 			}
 			
@@ -355,10 +365,10 @@ public class VirusTree {
 		yMin = 0.0;
 		yMax = 0.0;
 	
-		if (Parameters.phenotypeSpace == "epochal") {
+		if (Parameters.phenotypeSpace == "geometric") {
 			for (Virus v : postOrderNodes()) {
 			
-				PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+				GeometricPhenotype p = (GeometricPhenotype) v.getPhenotype();
 				double x = p.getTraitA();
 				double y = p.getTraitB();
 				if (xMin > x) { xMin = x; }

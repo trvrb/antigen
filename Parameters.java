@@ -9,7 +9,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 10950; // 10950
+	public static final int endDay = 35*365; // 10950
 	public static final int printStep = 7;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
@@ -18,30 +18,29 @@ public class Parameters {
 	public static final int	diversitySamplingCount = 100;
 	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
 	public static final boolean immunityReconstruction = true;			// whether to print immunity reconstruction to out.immunity
-	public static final boolean memoryProfiling = true;
+	public static final boolean memoryProfiling = false;
 	public static Virus urVirus = new Virus();
 
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {300000,300000,300000};	//{3000000,3000000,3000000}
+	public static final int[] initialNs = {3000000,3000000,3000000};	//{3000000,3000000,3000000}
 
 	// host parameters
-	public static final double birthRate = 0.000091;			// in births per individual per day, 1/30 years = 0.000091
-	public static final double deathRate = 0.000091;			// in deaths per individual per day, 1/30 years = 0.000091
-	public static final boolean swapDemography = true;			// whether to keep overall population size constant
+	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
+	public static final double deathRate = 0.000091;				// in deaths per individual per day, 1/30 years = 0.000091
+	public static final boolean swapDemography = true;				// whether to keep overall population size constant
 		
 	// epidemiological parameters
-	public static final int initialI = 10;						// in individuals
-	public static final double initialPrR = 0.2; 				// as proportion of population
-	public static final double beta = 0.4; // 0.3				// in contacts per individual per day
-	public static final double nu = 0.2; //0.2					// in recoveries per individual per day
-	public static final double betweenDemePro = 0.001;			// relative to within-deme beta	
-//	public static final double developImmunityPro = 1;			// after infection, this proportion develop life-long immunity
+	public static final int initialI = 10;							// in individuals
+	public static final double initialPrR = 0.5; 					// as proportion of population
+	public static final double beta = 0.3; // 0.3					// in contacts per individual per day
+	public static final double nu = 0.2; //0.2						// in recoveries per individual per day
+	public static final double betweenDemePro = 0.001;				// relative to within-deme beta	
 
 	// transcendental immunity
 	public static final boolean transcendental = false;
-	public static final double immunityLoss = 0.01;				// in R->S per individual per day
+	public static final double immunityLoss = 0.01;					// in R->S per individual per day
 	public static final double initialPrT = 0.1;
 	
 	// seasonal betas
@@ -50,24 +49,15 @@ public class Parameters {
 	public static final double[] demeOffsets = {0,0,0.5};			// relative to the year
 	
 	// phenotype parameters
-	public static final String phenotypeSpace = "epochal";		// options include: "2D", "epochal"
-	public static final double muPhenotype = 0.002; //0.0005				// in mutations per individual per day
-	public static final double smithConversion = 0.075;			// multiplier to distance to give cross-immunity	
-	public static final double initialTraitA = 0.0;
-	public static final double initialTraitB = 0.0;	
-	
-	// parameters specific to Phenotype2D
-	public static final double muRangeA = 2;					// traitA is adjusted in a uniform manner
-	public static final double muRangeB = 0.0;					// traitB is adjusted in a uniform manner	
-	public static final boolean quadratic = false;				// cross-immunity function quadratic or linear	
-	
-	// parameters specific to PhenotypeEpochal
-	public static final double meanStep = 0.75; // 0.6
-	public static final boolean mut2D = true;					// whether to mutate in a full 360 degree arc
+	public static final String phenotypeSpace = "geometric";		// options include: "geometric"
+	public static final double muPhenotype = 0.0005; //0.0005		// in mutations per individual per day
 
-	// genotype parameters
-	public static final int sites = 10;							// number of sequence sites
-	public static final double hammingConversion = 0.1;
+	// parameters specific to GeometricPhenotype
+	public static final double smithConversion = 0.075;				// multiplier to distance to give cross-immunity	
+	public static final double initialTraitA = -9.0;
+	public static final double initialTraitB = 0.0;		
+	public static final double meanStep = 0.75; 
+	public static final boolean mut2D = true;						// whether to mutate in a full 360 degree arc
 		
 	// measured in years, starting at burnin
 	public static double getDate() {

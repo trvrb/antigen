@@ -127,7 +127,6 @@ public class Simulation {
 		double averageRisk = 0;
 		for (int i = 0; i < 10000; i++) {
 			Host h = getRandomHost();
-	//		List<Phenotype> history = h.getHistory();
 			Phenotype[] history = h.getHistory();
 			averageRisk += p.riskOfInfection(history);
 		}
@@ -181,9 +180,9 @@ public class Simulation {
 			Host h = hp.getRandomHostS();
 			noBytes = MemoryUtil.deepMemoryUsageOf(h);
 			System.out.println("One susceptible host with " +  h.getHistoryLength() + " previous infection: " + noBytes);
-			h = hp.getRandomHostI();
-			noBytes = MemoryUtil.deepMemoryUsageOf(h);
-			System.out.println("One infected host: " + noBytes);	
+			Virus v = getRandomInfection();
+			noBytes = MemoryUtil.memoryUsageOf(v);
+			System.out.println("One virus: " + noBytes);
 			noBytes = MemoryUtil.deepMemoryUsageOf(VirusTree.getTips());
 			System.out.println("Virus tree: " + noBytes);
 		}
@@ -309,7 +308,7 @@ public class Simulation {
 		VirusTree.printBranches();	
 		
 		// immunity output
-		if (Parameters.phenotypeSpace == "epochal") {
+		if (Parameters.phenotypeSpace == "geometric") {
 			VirusTree.updateRange();
 			VirusTree.printRange();
 			if (Parameters.immunityReconstruction) {
