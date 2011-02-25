@@ -107,12 +107,20 @@ public class HostPopulation {
 		return susceptibles.get(index);
 	}
 	public Host getRandomHostI() {
-		int index = Random.nextInt(0,getI()-1);
-		return infecteds.get(index);
+		Host h = null;
+		if (getI() > 0) {
+			int index = Random.nextInt(0,getI()-1);
+			h = infecteds.get(index);
+		}
+		return h;
 	}
 	public Host getRandomHostR() {
-		int index = Random.nextInt(0,getR()-1);
-		return recovereds.get(index);
+		Host h = null;
+		if (getR() > 0) {	
+			int index = Random.nextInt(0,getR()-1);
+			h = recovereds.get(index);
+		}
+		return h;
 	}	
 	
 	public void resetCases() {
@@ -157,9 +165,6 @@ public class HostPopulation {
 		}
 		mutate();
 		sample();
-		if (Parameters.vaccinate) {
-			vaccinate();
-		}
 	
 	}
 	
@@ -251,7 +256,8 @@ public class HostPopulation {
 				
 				// attempt infection
 				Phenotype p = v.getPhenotype();
-				List<Phenotype> history = sH.getHistory();
+//				List<Phenotype> history = sH.getHistory();
+				Phenotype[] history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
 					sH.infect(v,deme);
@@ -283,7 +289,8 @@ public class HostPopulation {
 				
 				// attempt infection
 				Phenotype p = v.getPhenotype();
-				List<Phenotype> history = sH.getHistory();
+//				List<Phenotype> history = sH.getHistory();
+				Phenotype[] history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
 					sH.infect(v,deme);
@@ -367,46 +374,7 @@ public class HostPopulation {
 			}	
 		}
 	}
-	
-	// a random number of individuals and inoculate them with last year's virus
-	// pull last year's virus from the tip list of VirusTree
-	public void vaccinate() {
-		// vaccine virus
-		Virus v = VirusTree.getVaccineStrain();
-		if (v != null) {
-			// vaccine phenotype
-			Phenotype p = v.getPhenotype();
-			
-			// vaccinate susceptibles
-			double totalVaccinationRate = Parameters.vaccinationRate * getS();		
-			int samples = Random.nextPoisson(totalVaccinationRate);
-			for (int i = 0; i < samples; i++) {
-				int index = getRandomS();
-				Host h = infecteds.get(index);
-				h.vaccinate(p);
-			}	
-			
-			// vaccinate infecteds
-			totalVaccinationRate = Parameters.vaccinationRate * getI();		
-			samples = Random.nextPoisson(totalVaccinationRate);
-			for (int i = 0; i < samples; i++) {
-				int index = getRandomI();
-				Host h = infecteds.get(index);
-				h.vaccinate(p);
-			}	
-			
-			// vaccinate recovereds
-			totalVaccinationRate = Parameters.vaccinationRate * getR();		
-			samples = Random.nextPoisson(totalVaccinationRate);
-			for (int i = 0; i < samples; i++) {
-				int index = getRandomR();
-				Host h = infecteds.get(index);
-				h.vaccinate(p);
-			}				
-				
-		}
-	}
-	
+		
 	// through current infected population assigning ancestry as trunk
 	public void makeTrunk() {
 		for (int i = 0; i < getI(); i++) {

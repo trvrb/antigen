@@ -6,7 +6,8 @@ public class Host {
 
 	// fields
 	private Virus infection;											
-	private List<Phenotype> immuneHistory = new ArrayList<Phenotype>();	
+//	private List<Phenotype> immuneHistory = new ArrayList<Phenotype>(0);	
+	private Phenotype[] immuneHistory = new Phenotype[0];	
 	
 	// naive host
 	public Host() {
@@ -24,14 +25,25 @@ public class Host {
 		double chanceOfSuccess = Parameters.initialPrR;
 		if (Random.nextBoolean(chanceOfSuccess)) {
 			Phenotype p = PhenotypeFactory.makeHostPhenotype();
-			immuneHistory.add(p);
+//			immuneHistory.add(p);
+			addToHistory(p);
 		}	
+	}
+	
+	public void addToHistory(Phenotype p) {
+		Phenotype[] newHistory = new Phenotype[immuneHistory.length + 1];
+		for (int i = 0; i < immuneHistory.length; i++) {
+			newHistory[i] = immuneHistory[i];
+		}
+		newHistory[immuneHistory.length] = p;
+		immuneHistory = newHistory;
 	}
 	
 	// infection methods
 	public void reset() {
 		infection = null;
-		immuneHistory.clear();
+//		immuneHistory.clear();
+		immuneHistory = new Phenotype[0];
 	}
 	public boolean isInfected() {
 		boolean infected = false;
@@ -49,14 +61,14 @@ public class Host {
 	}
 	public void clearInfection() {
 		Phenotype p = infection.getPhenotype();
-		immuneHistory.add(p);
+//		immuneHistory.add(p);
+		addToHistory(p);
 		infection = null;
 	}
-	
-	public void vaccinate(Phenotype p) {
-		immuneHistory.add(p);
+	public int getHistoryLength() {
+		return immuneHistory.length;
 	}
-
+	
 	// make a new virus with the mutated phenotype
 	public void mutate() {
 		Virus mutV = infection.mutate();
@@ -64,17 +76,9 @@ public class Host {
 	}
 	
 	// history methods
-	public List<Phenotype> getHistory() {
+//	public List<Phenotype> getHistory() {
+	public Phenotype[] getHistory() {
 		return immuneHistory;
-	}
-	public Phenotype getRandomImmunity() {
-		Phenotype p = null;
-		if (immuneHistory.size() > 0) {
-			int index = Random.nextInt(0,immuneHistory.size()-1);
-			p = immuneHistory.get(index);
-		} 
-		return p;
-	}
-	
+	}	
 
 }

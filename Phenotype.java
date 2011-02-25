@@ -6,7 +6,8 @@ public interface Phenotype {
 
 	// provides the risk of infection (from 0 to 1) of a virus with this phenotype 
 	// when contacting a Host with a List of Phenotypes forming their immune history
-	double riskOfInfection( List<Phenotype> immuneHistory);		
+//	double riskOfInfection( List<Phenotype> immuneHistory);	
+	double riskOfInfection( Phenotype[] immuneHistory);
 
 	// return mutated Phenotype object
 	// returned Phenotype is a newly constructed copy of original

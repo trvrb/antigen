@@ -3,6 +3,8 @@
 import java.util.*;
 import java.io.*;
 
+import com.javamex.classmexer.*;
+
 public class Simulation {
 
 	// fields
@@ -125,7 +127,8 @@ public class Simulation {
 		double averageRisk = 0;
 		for (int i = 0; i < 10000; i++) {
 			Host h = getRandomHost();
-			List<Phenotype> history = h.getHistory();
+	//		List<Phenotype> history = h.getHistory();
+			Phenotype[] history = h.getHistory();
 			averageRisk += p.riskOfInfection(history);
 		}
 		averageRisk /= 10000.0;
@@ -168,7 +171,23 @@ public class Simulation {
 	}	
 	
 	public void printState() {
+	
 		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(), getR(), getCases());
+		
+		if (Parameters.memoryProfiling) {
+			HostPopulation hp = demes.get(1);
+			long noBytes = MemoryUtil.deepMemoryUsageOf(hp);
+			System.out.println("One host population: " + noBytes);
+			Host h = hp.getRandomHostS();
+			noBytes = MemoryUtil.deepMemoryUsageOf(h);
+			System.out.println("One susceptible host with " +  h.getHistoryLength() + " previous infection: " + noBytes);
+			h = hp.getRandomHostI();
+			noBytes = MemoryUtil.deepMemoryUsageOf(h);
+			System.out.println("One infected host: " + noBytes);	
+			noBytes = MemoryUtil.deepMemoryUsageOf(VirusTree.getTips());
+			System.out.println("Virus tree: " + noBytes);
+		}
+		
 	}
 
 	public void printHeader(PrintStream stream) {
@@ -223,11 +242,7 @@ public class Simulation {
 				}
 			}
 		}
-					
-//		if (Parameters.day % 365 == 0) {
-//			VirusTree.updateVaccineStrain();
-//		}
-		
+							
 		Parameters.day++;
 		
 	}
@@ -274,10 +289,9 @@ public class Simulation {
 			System.exit(0);
 		}	
 					
-		// tip output
+		// tree reduction
 		VirusTree.pruneTips();
 		VirusTree.markTips();		
-		VirusTree.printTips();		
 	
 		// tree prep
 		makeTrunk();
@@ -286,7 +300,12 @@ public class Simulation {
 		VirusTree.setLayoutByDescendants();
 		VirusTree.streamline();			
 		
-		// tree output
+		// rotation
+		VirusTree.rotate();
+		VirusTree.flip();
+		
+		// tip and tree output
+		VirusTree.printTips();			
 		VirusTree.printBranches();	
 		
 		// immunity output

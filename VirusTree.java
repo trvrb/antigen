@@ -259,6 +259,95 @@ public class VirusTree {
 		
 	}
 	
+	// rotate the 2d euclidean space using PCA, returning an x-axis with maximum variance
+	public static void rotate() {
+	
+		if (Parameters.phenotypeSpace == "epochal") {
+			
+			// load a 2d array with phenotypes
+			
+			List<Virus> virusList = postOrderNodes();
+			int n = virusList.size();
+			int m = 2;
+			
+			double[][] input = new double[n][m];
+			
+			for (int i = 0; i < n; i++) {
+				Virus v = virusList.get(i);
+				PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+				double x = p.getTraitA();
+				double y = p.getTraitB();	
+				input[i][0] = x;
+				input[i][1] = y;				
+			}
+			
+			// project this array
+			
+			double[][] projected = SimplePCA.project(input);
+			
+			// reset phenotypes based on projection
+			
+			for (int i = 0; i < n; i++) {
+				Virus v = virusList.get(i);
+				PhenotypeEpochal p = (PhenotypeEpochal) v.getPhenotype();
+				double x = projected[i][0];
+				double y = projected[i][1];				
+				p.setTraitA(x);
+				p.setTraitB(y);					
+			}
+
+		}	
+	
+	}
+	
+	// flips the 2d euclidean space so that first sample is always to the left of the last sample
+	public static void flip() {
+	
+		if (Parameters.phenotypeSpace == "epochal") {
+
+			List<Virus> virusList = postOrderNodes();
+			int n = virusList.size();	
+			
+			// find first and last virus			
+			Virus firstVirus = virusList.get(0);
+			Virus lastVirus = virusList.get(0);
+			double firstDate = firstVirus.getBirth();
+			double lastDate = lastVirus.getBirth();
+					
+			for (Virus v : virusList) {
+				if (v.getBirth() < firstDate) {
+					firstDate = v.getBirth();
+					firstVirus = v;
+				}
+				if (v.getBirth() > lastDate) {
+					lastDate = v.getBirth();
+					lastVirus = v;
+				}				
+			}
+			
+			// is the x-value of first virus greater than the x-value of last virus?
+			// if so, flip
+			
+			PhenotypeEpochal p = (PhenotypeEpochal) firstVirus.getPhenotype();
+			double firstX = p.getTraitA();
+			p = (PhenotypeEpochal) lastVirus.getPhenotype();
+			double lastX = p.getTraitA();		
+			
+			if (firstX > lastX) {
+			
+				for (Virus v : virusList) {
+					p = (PhenotypeEpochal) v.getPhenotype();
+					double x = p.getTraitA();			
+					p.setTraitA(-x);
+				}
+			
+			}
+			
+		}		
+	
+	}
+	
+	// walks through list of nodes and update min and max ranges appropriately
 	public static void updateRange() {
 	
 		xMin = 0.0;

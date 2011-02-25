@@ -9,7 +9,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 12775; // 14600 // 12775
+	public static final int endDay = 10950; // 10950
 	public static final int printStep = 7;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
@@ -18,12 +18,13 @@ public class Parameters {
 	public static final int	diversitySamplingCount = 100;
 	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
 	public static final boolean immunityReconstruction = true;			// whether to print immunity reconstruction to out.immunity
+	public static final boolean memoryProfiling = true;
 	public static Virus urVirus = new Virus();
 
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {3000000,3000000,3000000};	
+	public static final int[] initialNs = {300000,300000,300000};	//{3000000,3000000,3000000}
 
 	// host parameters
 	public static final double birthRate = 0.000091;			// in births per individual per day, 1/30 years = 0.000091
@@ -33,7 +34,7 @@ public class Parameters {
 	// epidemiological parameters
 	public static final int initialI = 10;						// in individuals
 	public static final double initialPrR = 0.2; 				// as proportion of population
-	public static final double beta = 0.3; // 0.36				// in contacts per individual per day
+	public static final double beta = 0.4; // 0.3				// in contacts per individual per day
 	public static final double nu = 0.2; //0.2					// in recoveries per individual per day
 	public static final double betweenDemePro = 0.001;			// relative to within-deme beta	
 //	public static final double developImmunityPro = 1;			// after infection, this proportion develop life-long immunity
@@ -50,7 +51,7 @@ public class Parameters {
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "epochal";		// options include: "2D", "epochal"
-	public static final double muPhenotype = 0.0005; //0.00014				// in mutations per individual per day
+	public static final double muPhenotype = 0.002; //0.0005				// in mutations per individual per day
 	public static final double smithConversion = 0.075;			// multiplier to distance to give cross-immunity	
 	public static final double initialTraitA = 0.0;
 	public static final double initialTraitB = 0.0;	
@@ -67,10 +68,6 @@ public class Parameters {
 	// genotype parameters
 	public static final int sites = 10;							// number of sequence sites
 	public static final double hammingConversion = 0.1;
-
-	// vaccination parameters
-	public static final boolean vaccinate = false;
-	public static final double vaccinationRate = 0.0027;		// per individual per day
 		
 	// measured in years, starting at burnin
 	public static double getDate() {
