@@ -180,6 +180,7 @@ public class Simulation {
 			Host h = hp.getRandomHostS();
 			noBytes = MemoryUtil.deepMemoryUsageOf(h);
 			System.out.println("One susceptible host with " +  h.getHistoryLength() + " previous infection: " + noBytes);
+			h.printHistory();
 			Virus v = getRandomInfection();
 			noBytes = MemoryUtil.memoryUsageOf(v);
 			System.out.println("One virus: " + noBytes);

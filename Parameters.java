@@ -9,7 +9,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 35*365; // 10950
+	public static final int endDay = 40*365; // 10950
 	public static final int printStep = 7;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
@@ -24,7 +24,7 @@ public class Parameters {
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {3000000,3000000,3000000};	//{3000000,3000000,3000000}
+	public static final int[] initialNs = {30000000,30000000,30000000};	//{3000000,3000000,3000000}
 
 	// host parameters
 	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
@@ -44,19 +44,19 @@ public class Parameters {
 	public static final double initialPrT = 0.1;
 	
 	// seasonal betas
-	public static final double[] demeBaselines = {1,1,1};
+	public static final double[] demeBaselines = {1,1.05,1};
 	public static final double[] demeAmplitudes = {0.15,0,0.15};
 	public static final double[] demeOffsets = {0,0,0.5};			// relative to the year
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "geometric";		// options include: "geometric"
-	public static final double muPhenotype = 0.0005; //0.0005		// in mutations per individual per day
+	public static final double muPhenotype = 0.00010; //0.0002		// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
-	public static final double smithConversion = 0.075;				// multiplier to distance to give cross-immunity	
-	public static final double initialTraitA = -9.0;
+	public static final double smithConversion = 0.07;				// multiplier to distance to give cross-immunity	
+	public static final double initialTraitA = -10;
 	public static final double initialTraitB = 0.0;		
-	public static final double meanStep = 0.75; 
+	public static final double meanStep = 0.4; 
 	public static final boolean mut2D = true;						// whether to mutate in a full 360 degree arc
 		
 	// measured in years, starting at burnin
