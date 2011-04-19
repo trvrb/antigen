@@ -24,7 +24,7 @@ public class Parameters {
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {30000000,30000000,30000000};	//{3000000,3000000,3000000}
+	public static final int[] initialNs = {300000,300000,300000};	//{3000000,3000000,3000000}
 
 	// host parameters
 	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
@@ -49,14 +49,15 @@ public class Parameters {
 	public static final double[] demeOffsets = {0,0,0.5};			// relative to the year
 	
 	// phenotype parameters
-	public static final String phenotypeSpace = "geometric";		// options include: "geometric"
-	public static final double muPhenotype = 0.00010; //0.0002		// in mutations per individual per day
+	public static final String phenotypeSpace = "geometric3d";		// options include: "geometric", "geometric3d"
+	public static final double muPhenotype = 0.00014; //0.0002		// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
 	public static final double smithConversion = 0.07;				// multiplier to distance to give cross-immunity	
 	public static final double initialTraitA = -10;
-	public static final double initialTraitB = 0.0;		
-	public static final double meanStep = 0.4; 
+	public static final double initialTraitB = 0.0;	
+	public static final double initialTraitC = 0.0;		
+	public static final double meanStep = 0.55; 
 	public static final boolean mut2D = true;						// whether to mutate in a full 360 degree arc
 		
 	// measured in years, starting at burnin

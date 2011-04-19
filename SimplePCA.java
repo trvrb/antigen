@@ -8,7 +8,8 @@ public class SimplePCA {
 
     public static void main(String[] args) {
     
-  		double[][] input = {{2.5,2.4},{0.5,0.7},{2.2,2.9},{1.9,2.2},{3.1,3},{2.3,2.7},{2,1.6},{1,1.1},{1.5,1.6},{1.1,0.9}};
+//  		double[][] input = {{2.5,2.4},{0.5,0.7},{2.2,2.9},{1.9,2.2},{3.1,3},{2.3,2.7},{2,1.6},{1,1.1},{1.5,1.6},{1.1,0.9}};
+		double[][] input = {{2.5,2.4,3},{0.5,0.7,2},{2.2,2.9,4},{1.9,2.2,2.4},{3.1,3,1.4},{2.3,2.7,0.5},{2,1.6,2.8},{1,1.1,5.1},{1.5,1.6,0.4},{1.1,0.9,2.6}};
     	
 		cern.jet.math.Functions F = cern.jet.math.Functions.functions; 
 		cern.colt.matrix.linalg.Algebra alg = new cern.colt.matrix.linalg.Algebra();
@@ -55,7 +56,7 @@ public class SimplePCA {
 		
 		System.out.println("Eigenvectors:");
 		print(eigenVectors);		
-		
+				
 		// indices of top eigenvalues
 		int firstIndex = indexOfMaximum(eigenValues);
 		double firstValue = eigenValues.get(firstIndex);
@@ -124,7 +125,9 @@ public class SimplePCA {
 		EigenvalueDecomposition eigenSystem = new EigenvalueDecomposition(cov);		
 		DoubleMatrix1D eigenValues = eigenSystem.getRealEigenvalues();		
 		DoubleMatrix2D eigenVectors = eigenSystem.getV();
-				
+		
+		// ordering of eigenvalues
+		
 		// indices of top eigenvalues
 		int firstIndex = indexOfMaximum(eigenValues);
 		double firstValue = eigenValues.get(firstIndex);
@@ -146,6 +149,65 @@ public class SimplePCA {
 		return projected.toArray();
 			
 	}	
+	
+	public static double[][] project3D(double[][] input) {
+	
+		cern.jet.math.Functions F = cern.jet.math.Functions.functions; 
+		cern.colt.matrix.linalg.Algebra alg = new cern.colt.matrix.linalg.Algebra();
+			
+		DoubleMatrix2D values = new DenseDoubleMatrix2D(input);
+		int n = values.rows();
+		int m = values.columns();
+				
+		// calculate mean for each dimension
+		double[] means = new double[m];
+		for (int j = 0; j < m; j++) {
+			means[j] = (values.viewColumn(j)).zSum() / (double) n;
+		}
+		
+		// substract out the mean for each dimension
+		DoubleMatrix2D centered = new DenseDoubleMatrix2D(values.toArray());
+		for (int j = 0; j < m; j++) {
+			(centered.viewColumn(j)).assign(F.minus(means[j]));
+		}
+				
+		// find covariance matrix
+		DoubleMatrix2D cov = alg.mult(centered.viewDice(), centered);
+		double denom = 1 / ((double) n - 1);
+		cov.assign(F.mult(denom));
+				
+		// find the Eigen decomposition of the covariance matrix
+		EigenvalueDecomposition eigenSystem = new EigenvalueDecomposition(cov);		
+		DoubleMatrix1D eigenValues = eigenSystem.getRealEigenvalues();		
+		DoubleMatrix2D eigenVectors = eigenSystem.getV();
+		
+		// ordering of eigenvalues
+		
+		// indices of top eigenvalues
+		int firstIndex = indexOfMaximum(eigenValues);
+		double firstValue = eigenValues.get(firstIndex);
+		int secondIndex = indexOfNextToMaximum(eigenValues);
+		double secondValue = eigenValues.get(secondIndex);	
+		int thirdIndex = indexOfThirdToMaximum(eigenValues);
+		double thirdValue = eigenValues.get(thirdIndex);					
+		
+		// constructing feature vectors from ordered eigenvectors
+
+		DoubleMatrix1D firstVector = eigenVectors.viewColumn(firstIndex);
+		DoubleMatrix1D secondVector = eigenVectors.viewColumn(secondIndex);	
+		DoubleMatrix1D thirdVector = eigenVectors.viewColumn(thirdIndex);			
+		DoubleMatrix2D featureVectors = new DenseDoubleMatrix2D(m,m);
+		(featureVectors.viewColumn(0)).assign(firstVector);	
+		(featureVectors.viewColumn(1)).assign(secondVector);	
+		(featureVectors.viewColumn(2)).assign(thirdVector);			
+		
+		// projecting original data onto new coordinate system	
+		
+		DoubleMatrix2D projected = (alg.mult(featureVectors.viewDice(),centered.viewDice())).viewDice(); 
+	
+		return projected.toArray();
+			
+	}		
 	
 	public static void print(DoubleMatrix2D values) {
 		int m = values.rows();
@@ -169,7 +231,7 @@ public class SimplePCA {
 	
 	public static int indexOfMaximum(DoubleMatrix1D values) {
 		int index = 0;
-		double max = 0;
+		double max = -100000;
 		for (int i = 0; i < values.size(); i++) {
 			if (values.get(i) > max) {
 				max = values.get(i);
@@ -181,13 +243,8 @@ public class SimplePCA {
 	
 	public static int indexOfNextToMaximum(DoubleMatrix1D values) {
 		int index = 0;
-		double max = 0;
-		for (int i = 0; i < values.size(); i++) {
-			if (values.get(i) > max) {
-				max = values.get(i);
-			}
-		}
-		double nextToMax = 0;
+		double max = values.get(indexOfMaximum(values));
+		double nextToMax = -100000;
 		for (int i = 0; i < values.size(); i++) {
 			if (values.get(i) > nextToMax && values.get(i) < max) {
 				nextToMax = values.get(i);
@@ -196,5 +253,23 @@ public class SimplePCA {
 		}
 		return index;
 	}	
+	
+	public static int indexOfThirdToMaximum(DoubleMatrix1D values) {
+		int index = 0;
+		double max = values.get(indexOfMaximum(values));
+		double nextToMax = values.get(indexOfNextToMaximum(values));		
+		double thirdToMax = -100000;
+		for (int i = 0; i < values.size(); i++) {
+			if (values.get(i) > thirdToMax && values.get(i) < max && values.get(i) < nextToMax) {
+				thirdToMax = values.get(i);
+				index = i;
+			}
+		}
+		return index;
+	}		
+	
+	
+	
+
 	
 }

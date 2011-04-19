@@ -14,6 +14,8 @@ public class VirusTree {
 	public static double xMax;
 	public static double yMin;
 	public static double yMax;
+	public static double zMin;
+	public static double zMax;	
 	
 	static final Comparator<Virus> descendantOrder = new Comparator<Virus>() {
 		public int compare(Virus v1, Virus v2) {
@@ -96,6 +98,7 @@ public class VirusTree {
 	
 	}
 
+	// marking to by time, not proportional to prevalence
 	public static void markTips() {
 	
 //		for (Virus v : tips) {
@@ -315,6 +318,46 @@ public class VirusTree {
 			}
 
 		}	
+		
+		if (Parameters.phenotypeSpace == "geometric3d") {
+			
+			// load a 2d array with phenotypes
+			
+			List<Virus> virusList = postOrderNodes();
+			int n = virusList.size();
+			int m = 3;
+			
+			double[][] input = new double[n][m];
+			
+			for (int i = 0; i < n; i++) {
+				Virus v = virusList.get(i);
+				GeometricPhenotype3D p = (GeometricPhenotype3D) v.getPhenotype();
+				double x = p.getTraitA();
+				double y = p.getTraitB();	
+				double z = p.getTraitC();	
+				input[i][0] = x;
+				input[i][1] = y;		
+				input[i][2] = z;
+			}
+			
+			// project this array
+			
+			double[][] projected = SimplePCA.project3D(input);
+			
+			// reset phenotypes based on projection
+			
+			for (int i = 0; i < n; i++) {
+				Virus v = virusList.get(i);
+				GeometricPhenotype3D p = (GeometricPhenotype3D) v.getPhenotype();
+				double x = projected[i][0];
+				double y = projected[i][1];	
+				double z = projected[i][2];	
+				p.setTraitA(x);
+				p.setTraitB(y);	
+				p.setTraitC(z);	
+			}
+
+		}			
 	
 	}
 	
@@ -371,6 +414,58 @@ public class VirusTree {
 			
 			}
 			
+		}
+		
+		if (Parameters.phenotypeSpace == "geometric3d") {
+
+			List<Virus> virusList = postOrderNodes();
+			int n = virusList.size();	
+			
+			// find first and last virus			
+			Virus firstVirus = virusList.get(0);
+			Virus lastVirus = virusList.get(0);
+			double firstDate = firstVirus.getBirth();
+			double lastDate = lastVirus.getBirth();
+					
+			for (Virus v : virusList) {
+				if (v.getBirth() < firstDate) {
+					firstDate = v.getBirth();
+					firstVirus = v;
+				}
+				if (v.getBirth() > lastDate) {
+					lastDate = v.getBirth();
+					lastVirus = v;
+				}				
+			}
+			
+			// is the x-value of first virus greater than the x-value of last virus?
+			// if so, flip
+			
+			GeometricPhenotype3D p = (GeometricPhenotype3D) firstVirus.getPhenotype();
+			double firstX = p.getTraitA();
+			p = (GeometricPhenotype3D) lastVirus.getPhenotype();
+			double lastX = p.getTraitA();		
+			
+			if (firstX > lastX) {
+			
+				// I think that postOrderNodes() has replicates in it, need to go through some hoops because of this
+				double[] input = new double[n];
+			
+				for (int i = 0; i < n; i++) {
+					Virus v = virusList.get(i);
+					p = (GeometricPhenotype3D) v.getPhenotype();		
+					input[i] = p.getTraitA();;
+				}
+				
+				for (int i = 0; i < n; i++) {
+					Virus v = virusList.get(i);
+					p = (GeometricPhenotype3D) v.getPhenotype();
+					double x = -1*input[i];		
+					p.setTraitA(x);
+				}				
+			
+			}
+			
 		}		
 	
 	}
@@ -382,6 +477,8 @@ public class VirusTree {
 		xMax = 0.0;
 		yMin = 0.0;
 		yMax = 0.0;
+		zMin = 0.0;
+		zMax = 0.0;		
 	
 		if (Parameters.phenotypeSpace == "geometric") {
 			for (Virus v : postOrderNodes()) {
@@ -397,10 +494,29 @@ public class VirusTree {
 			}
 		}
 		
+		if (Parameters.phenotypeSpace == "geometric3d") {
+			for (Virus v : postOrderNodes()) {
+			
+				GeometricPhenotype3D p = (GeometricPhenotype3D) v.getPhenotype();
+				double x = p.getTraitA();
+				double y = p.getTraitB();
+				double z = p.getTraitC();				
+				if (xMin > x) { xMin = x; }
+				if (xMax < x) { xMax = x; }
+				if (yMin > y) { yMin = y; }
+				if (yMax < y) { yMax = y; }	
+				if (zMin > z) { zMin = z; }
+				if (zMax < z) { zMax = z; }					
+			
+			}
+		}		
+		
 		xMin = Math.floor(xMin) - 5;
 		xMax = Math.ceil(xMax) + 5;
 		yMin = Math.floor(yMin) - 5;
 		yMax = Math.ceil(yMax) + 5;
+		zMin = Math.floor(zMin) - 5;
+		zMax = Math.ceil(zMax) + 5;		
 	
 	}
 
@@ -411,7 +527,7 @@ public class VirusTree {
 			rangeFile.delete();
 			rangeFile.createNewFile();
 			PrintStream rangeStream = new PrintStream(rangeFile);
-			rangeStream.printf("%.4f,%.4f,%.4f,%.4f\n", xMin, xMax, yMin, yMax);
+			rangeStream.printf("%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n", xMin, xMax, yMin, yMax, zMin, zMax);
 			rangeStream.close();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 

@@ -7,7 +7,8 @@ public class PhenotypeFactory {
 	public static Phenotype makeVirusPhenotype() {
 	
 		Phenotype p = null;
-		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(); }			
+		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(); }	
+		if (Parameters.phenotypeSpace == "geometric3d") { p = new GeometricPhenotype3D(); }			
 		return p;
 	
 	}
@@ -17,6 +18,7 @@ public class PhenotypeFactory {
 	
 		Phenotype p = null;
 		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(Parameters.initialTraitA, Parameters.initialTraitB); }	
+		if (Parameters.phenotypeSpace == "geometric3d") { p = new GeometricPhenotype3D(Parameters.initialTraitA, Parameters.initialTraitB, Parameters.initialTraitC); }			
 		return p;
 	
 	}	
