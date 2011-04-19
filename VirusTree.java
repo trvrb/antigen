@@ -578,5 +578,81 @@ public class VirusTree {
 		}
 		
 	}
+	
+	public static int sideBranchMutations() {
+		int count = 0;
+		for (Virus v : postOrderNodes()) {
+			if (v.getParent() != null && v.getBirth() < Parameters.getDate() - Parameters.yearsFromMK) {
+				Virus vp = v.getParent();
+				if (!v.isTrunk() && !vp.isTrunk() && v.getPhenotype() != vp.getPhenotype()) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}	
+	
+	public static double sideBranchOpportunity() {
+		double time = 0;
+		for (Virus v : postOrderNodes()) {
+			if (v.getParent() != null && v.getBirth() < Parameters.getDate() - Parameters.yearsFromMK) {
+				Virus vp = v.getParent();
+				if (!v.isTrunk() && !vp.isTrunk()) {
+					time += v.getBirth() - vp.getBirth();
+				}
+			}
+		}
+		return time;
+	}	
+	
+	public static int trunkMutations() {
+		int count = 0;
+		for (Virus v : postOrderNodes()) {
+			if (v.getParent() != null && v.getBirth() < Parameters.getDate() - Parameters.yearsFromMK) {
+				Virus vp = v.getParent();
+				if (v.isTrunk() && vp.isTrunk() && v.getPhenotype() != vp.getPhenotype()) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}	
+	
+	public static double trunkOpportunity() {
+		double time = 0;
+		for (Virus v : postOrderNodes()) {
+			if (v.getParent() != null && v.getBirth() < Parameters.getDate() - Parameters.yearsFromMK) {
+				Virus vp = v.getParent();
+				if (v.isTrunk() && vp.isTrunk()) {
+					time += v.getBirth() - vp.getBirth();
+				}
+			}
+		}
+		return time;
+	}		
+	
+	public static void printMK() {
+		
+		try {
+			File mkFile = new File("out.mk");
+			mkFile.delete();
+			mkFile.createNewFile();
+			PrintStream mkStream = new PrintStream(mkFile);
+			mkStream.printf("sideBranchMut\tsideBranchOpp\tsideBranchRate\ttrunkMut\ttrunkOpp\ttrunkRate\tmk\n");
+			int sideBranchMut = sideBranchMutations();
+			double sideBranchOpp = sideBranchOpportunity();
+			double sideBranchRate = sideBranchMut / sideBranchOpp;
+			int trunkMut = trunkMutations();
+			double trunkOpp = trunkOpportunity();	
+			double trunkRate = trunkMut / trunkOpp;		
+			double mk = trunkRate / sideBranchRate;
+			mkStream.printf("%d,%.4f,%.4f,%d,%.4f,%.4f,%.4f\n", sideBranchMut, sideBranchOpp, sideBranchRate, trunkMut, trunkOpp, trunkRate, mk);
+			mkStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+		
+	}	
 		
 }

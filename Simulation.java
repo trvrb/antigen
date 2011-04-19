@@ -308,6 +308,9 @@ public class Simulation {
 		VirusTree.printTips();			
 		VirusTree.printBranches();	
 		
+		// mk output
+		VirusTree.printMK();
+		
 		// immunity output
 		if (Parameters.phenotypeSpace == "geometric") {
 			VirusTree.updateRange();
