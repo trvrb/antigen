@@ -6,50 +6,38 @@
 import static java.lang.Math.*;
 import java.util.*;
 
-public class GeometricPhenotype3D implements Phenotype {
+public class GeometricPhenotype10D implements Phenotype {
 
-	// fields
-	private double traitA;
-	private double traitB;	
-	private double traitC;
-	
+	// fields	
+	private double[] traits = new double[10];
+	private int dimen = 10;
+		
 	// constructor
-	public GeometricPhenotype3D() {
+	public GeometricPhenotype10D() {
 	
 	}
-	public GeometricPhenotype3D(double tA, double tB, double tC) {
-		traitA = tA;
-		traitB = tB;
-		traitC = tC;
+	
+	public GeometricPhenotype10D(double[] tarray) {
+		traits = tarray;
 	}
 		
-	public double getTraitA() {
-		return traitA;
+	public double getTrait(int i) {
+		return traits[i];
 	}
-	public double getTraitB() {
-		return traitB;
-	}	
-	public double getTraitC() {
-		return traitC;
-	}		
-	
-	public void setTraitA(double tA) {
-		traitA = tA;
+		
+	public void setTrait(double t, int i) {
+		traits[i] = t;
 	}
-	public void setTraitB(double tB) {
-		traitB = tB;
-	}
-	public void setTraitC(double tC) {
-		traitC = tC;
-	}	
+
 		
 	// raw antigenic distance between two phenotypes
 	public double distance(Phenotype p) {
-		GeometricPhenotype3D p3d = (GeometricPhenotype3D) p;
-		double distA = (getTraitA() - p3d.getTraitA());
-		double distB = (getTraitB() - p3d.getTraitB());	
-		double distC = (getTraitC() - p3d.getTraitC());			
-		double dist = (distA * distA) + (distB * distB) + (distC * distC);
+		GeometricPhenotype10D otherp = (GeometricPhenotype10D) p;		
+		double dist = 0;
+		for (int i = 0; i < dimen; i++) {
+			double d = (getTrait(i) - otherp.getTrait(i));
+			dist += d*d;
+		}
 		dist = Math.sqrt(dist);
 		return dist;
 	}
@@ -83,25 +71,46 @@ public class GeometricPhenotype3D implements Phenotype {
 	// returns a mutated copy, original Phenotype is unharmed
 	public Phenotype mutate() {
 		
-		// random spherical point code comes from http://mathworld.wolfram.com/SpherePointPicking.html
+		// random spherical point code comes from http://mathworld.wolfram.com/HyperspherePointPicking.html
 		
 		// spherical direction
-		double u = Random.nextDouble(-1,1);
-		double theta = Random.nextDouble(0,2*Math.PI);
+		double[] vec = new double[dimen];
+		for (int i = 0; i < dimen; i++) {
+			vec[i] = Random.nextNormal();
+		}
+		double norm = 0.0;
+		for (int i = 0; i < dimen; i++) {
+			norm += vec[i]*vec[i];		
+		}
+		norm = Math.sqrt(norm);
+		for (int i = 0; i < dimen; i++) {
+			vec[i] /= norm;	
+		}
 		
 		// size of mutation
 		double r = Random.nextExponential(Parameters.meanStep);
-			
-		double mutA = getTraitA() + r * Math.sqrt(1-u*u) * Math.cos(theta);
-		double mutB = getTraitB() + r * Math.sqrt(1-u*u) * Math.sin(theta);
-		double mutC = getTraitC() + r * u;		
-		Phenotype mutP = new GeometricPhenotype3D(mutA,mutB,mutC);
+		
+		// scaling by mutation size
+		for (int i = 0; i < dimen; i++) {
+			vec[i] *= r;	
+		}
+		
+		// applying to original phenotype
+		for (int i = 0; i < dimen; i++) {
+			vec[i] += getTrait(i);
+		}
+		
+		Phenotype mutP = new GeometricPhenotype10D(vec);
 		return mutP;
 				
 	}
 	
 	public String toString() {
-		String fullString = String.format("%.4f,%.4f,%.4f", traitA, traitB, traitC);
+//		String fullString = String.format("%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f", traits);
+		String fullString = String.format("%.4f", traits[0]);
+		for (int i = 1; i < dimen; i++) {
+			fullString += String.format(",%.4f", traits[i]);
+		}
 		return fullString;
 	}
 

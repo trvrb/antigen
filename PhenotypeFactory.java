@@ -8,7 +8,8 @@ public class PhenotypeFactory {
 	
 		Phenotype p = null;
 		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(); }	
-		if (Parameters.phenotypeSpace == "geometric3d") { p = new GeometricPhenotype3D(); }			
+		if (Parameters.phenotypeSpace == "geometric3d") { p = new GeometricPhenotype3D(); }		
+		if (Parameters.phenotypeSpace == "geometric10d") { p = new GeometricPhenotype10D(); }				
 		return p;
 	
 	}
@@ -17,8 +18,16 @@ public class PhenotypeFactory {
 	public static Phenotype makeHostPhenotype() {
 	
 		Phenotype p = null;
-		if (Parameters.phenotypeSpace == "geometric") { p = new GeometricPhenotype(Parameters.initialTraitA, Parameters.initialTraitB); }	
-		if (Parameters.phenotypeSpace == "geometric3d") { p = new GeometricPhenotype3D(Parameters.initialTraitA, Parameters.initialTraitB, Parameters.initialTraitC); }			
+		if (Parameters.phenotypeSpace == "geometric") { 
+			p = new GeometricPhenotype(Parameters.initialTraitA, 0); 
+		}	
+		if (Parameters.phenotypeSpace == "geometric3d") { 
+			p = new GeometricPhenotype3D(Parameters.initialTraitA, 0, 0); 
+		}
+		if (Parameters.phenotypeSpace == "geometric10d") { 
+			double[] traits = {Parameters.initialTraitA, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			p = new GeometricPhenotype10D(traits); 
+		}		
 		return p;
 	
 	}	

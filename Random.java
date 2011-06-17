@@ -21,6 +21,10 @@ public class Random {
 		return cern.jet.random.Uniform.staticNextDoubleFromTo(from, to);		
 	}	
 
+	public static double nextNormal() {
+		return cern.jet.random.Normal.staticNextDouble(0.0,1.0);
+	}
+
 	// tuned with mean
 	public static double nextExponential(double lambda) {
 		return cern.jet.random.Exponential.staticNextDouble(1.0/lambda);
