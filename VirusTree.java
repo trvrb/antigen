@@ -543,10 +543,10 @@ public class VirusTree {
 			tipFile.delete();
 			tipFile.createNewFile();
 			PrintStream tipStream = new PrintStream(tipFile);
-			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "tip", "mark", "location", "hostAge", "layout", "ag1", "ag2");
+			tipStream.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n", "name", "year", "trunk", "tip", "mark", "location", "layout", "ag1", "ag2");
 			for (int i = 0; i < tips.size(); i++) {
 				Virus v = tips.get(i);			
-				tipStream.printf("\"%s\",%.4f,%d,%d,%d,%d,%.4f,%.4f,%s\n", v, v.getBirth(), v.isTrunk()?1:0, v.isTip()?1:0, v.isMarked()?1:0, v.getDeme(), v.getHostAge(), v.getLayout(), v.getPhenotype());
+				tipStream.printf("\"%s\",%.4f,%d,%d,%d,%d,%.4f,%s\n", v, v.getBirth(), v.isTrunk()?1:0, v.isTip()?1:0, v.isMarked()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
 			}
 			tipStream.close();
 		} catch(IOException ex) {
@@ -566,8 +566,8 @@ public class VirusTree {
 			for (Virus v : postOrderNodes()) {
 				if (v.getParent() != null) {
 					Virus vp = v.getParent();
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%d,%d,%.4f,%.4f,%s}\t", v, v.getBirth(), v.isTrunk()?1:0, v.isTip()?1:0, v.isMarked()?1:0, v.getDeme(), v.getHostAge(), v.getLayout(), v.getPhenotype());
-					branchStream.printf("{\"%s\",%.4f,%d,%d,%d,%d,%.4f,%.4f,%s}\t", vp, vp.getBirth(), vp.isTrunk()?1:0, vp.isTip()?1:0, v.isMarked()?1:0, vp.getDeme(), v.getHostAge(), vp.getLayout(), vp.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%d,%d,%.4f,%s}\t", v, v.getBirth(), v.isTrunk()?1:0, v.isTip()?1:0, v.isMarked()?1:0, v.getDeme(), v.getLayout(), v.getPhenotype());
+					branchStream.printf("{\"%s\",%.4f,%d,%d,%d,%d,%.4f,%s}\t", vp, vp.getBirth(), vp.isTrunk()?1:0, vp.isTip()?1:0, v.isMarked()?1:0, vp.getDeme(), vp.getLayout(), vp.getPhenotype());
 					branchStream.printf("%d\n", vp.getCoverage());
 				}
 			}

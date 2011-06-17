@@ -8,21 +8,17 @@ public class Host {
 	// fields
 	private Virus infection;												
 	private Phenotype[] immuneHistory = new Phenotype[0];
-	private double birth;	// measured in years relative to burnin	
 	
 	// naive host
 	public Host() {
 		double lifespan = 1 / (365.0 * Parameters.birthRate);
 		double age = Random.nextExponential(lifespan);
-		birth = Parameters.getDate() - age;	
 		initializeHistory();		
 	}
 	
 	// initial infected host
 	public Host(Virus v) {
 		double lifespan = 1 / (365.0 * Parameters.birthRate);
-		double age = Random.nextExponential(lifespan);
-		birth = Parameters.getDate() - age;
 		infection = v;
 		initializeHistory();
 	}
@@ -47,13 +43,8 @@ public class Host {
 	
 	// infection methods
 	public void reset() {
-		birth = Parameters.getDate();
 		infection = null;
 		immuneHistory = new Phenotype[0];
-	}
-	
-	public double getBirth() {
-		return birth;
 	}
 	
 	public boolean isInfected() {
@@ -67,8 +58,7 @@ public class Host {
 		return infection;
 	}
 	public void infect(Virus pV, int d) {
-		double hostAge = Parameters.getDate() - birth;
-		Virus nV = new Virus(pV, d, hostAge);
+		Virus nV = new Virus(pV, d);
 		infection = nV;
 	}
 	public void clearInfection() {

@@ -16,7 +16,7 @@ public class Parameters {
 	public static final boolean tipSamplingProportional = true;			// whether to sample proportional to prevalance
 	public static final double treeProportion = 0.1;					// proportion of tips to use in tree reconstruction
 	public static final int	diversitySamplingCount = 100;
-	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
+	public static final boolean repeatSim = false;						// repeat simulation until endDay is reached?
 	public static final boolean immunityReconstruction = false;			// whether to print immunity reconstruction to out.immunity
 	public static final boolean memoryProfiling = false;
 	public static final double yearsFromMK = 5.0;
@@ -25,7 +25,7 @@ public class Parameters {
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {30000000,30000000,30000000};	//{3000000,3000000,3000000}
+	public static final int[] initialNs = {300000,300000,300000};	//{3000000,3000000,3000000}
 
 	// host parameters
 	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
@@ -50,7 +50,7 @@ public class Parameters {
 	public static final double[] demeOffsets = {0,0,0.5};			// relative to the year
 	
 	// phenotype parameters
-	public static final String phenotypeSpace = "geometric10d";		// options include: "geometric", "geometric3d", "geometric10d"
+	public static final String phenotypeSpace = "geometric";		// options include: "geometric", "geometric3d", "geometric10d"
 	public static final double muPhenotype = 0.00014; //0.0002		// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype

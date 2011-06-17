@@ -9,8 +9,7 @@ public class Virus {
 	private Phenotype phenotype;
 	private double birth;		// measured in years relative to burnin
 	private int deme;
-	private double hostAge;		// age of host in years at time of infection
-
+	
 	// additional reconstruction fields
 	private boolean marked;
 	private boolean trunk;	// fill this at the end of the simulation
@@ -22,24 +21,7 @@ public class Virus {
 	public Virus() {
 		phenotype = PhenotypeFactory.makeVirusPhenotype();
 	}
-	
-	// replication, copies the virus, but remembers the ancestry
-	public Virus(Virus v, int d, double ha) {
-		parent = v;
-		phenotype = v.getPhenotype();
-		birth = Parameters.getDate();
-		deme = d;
-		hostAge = ha;
-	}
-	
-	public Virus(Virus v, int d, Phenotype p, double ha) {
-		parent = v;
-		phenotype = p;
-		birth = Parameters.getDate();
-		deme = d;
-		hostAge = ha;
-	}
-	
+		
 	// replication, copies the virus, but remembers the ancestry
 	public Virus(Virus v, int d) {
 		parent = v;
@@ -70,9 +52,6 @@ public class Virus {
 	}
 	public void setParent(Virus v) {
 		parent = v;
-	}
-	public double getHostAge() {
-		return hostAge;
 	}
 	public boolean isTrunk() {
 		return trunk; 
