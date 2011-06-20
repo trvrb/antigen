@@ -14,8 +14,14 @@ public class Simulation {
 	// constructor
 	public Simulation() {
 		for (int i = 0; i < Parameters.demeCount; i++) {
-			HostPopulation hp = new HostPopulation(i);
-			demes.add(hp);
+			if (Parameters.restartFromCheckpoint) {
+				HostPopulation hp = new HostPopulation(i, true);
+				demes.add(hp);
+			}
+			else {
+				HostPopulation hp = new HostPopulation(i);
+				demes.add(hp);
+			}
 		}
 	}
 	

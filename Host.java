@@ -2,6 +2,7 @@
 
 import java.util.*;
 import java.io.*;
+import java.util.regex.*;
 
 public class Host {
 
@@ -11,16 +12,37 @@ public class Host {
 	
 	// naive host
 	public Host() {
-		double lifespan = 1 / (365.0 * Parameters.birthRate);
-		double age = Random.nextExponential(lifespan);
 		initializeHistory();		
 	}
 	
 	// initial infected host
 	public Host(Virus v) {
-		double lifespan = 1 / (365.0 * Parameters.birthRate);
 		infection = v;
 		initializeHistory();
+	}
+	
+	// checkpointed host
+	public Host(int d, String sVirus, String sHist) {
+		if (!sVirus.equals("n")) {
+			Pattern rc = Pattern.compile(",");
+    		String[] traitList = rc.split(sVirus);
+    		double x = Double.parseDouble(traitList[0]);
+    		double y = Double.parseDouble(traitList[1]);
+			Phenotype p = PhenotypeFactory.makeArbitaryPhenotype(x,y);
+			infection = new Virus(d,p);
+		}
+		if (!sHist.equals("n")) {
+			Pattern rsc = Pattern.compile(";");
+    		String[] phenotypeList = rsc.split(sHist);
+    		for (int i = 0; i < phenotypeList.length; i++) {
+				Pattern rc = Pattern.compile(",");
+    			String[] traitList = rc.split(phenotypeList[i]);
+    			double x = Double.parseDouble(traitList[0]);
+    			double y = Double.parseDouble(traitList[1]);
+				Phenotype p = PhenotypeFactory.makeArbitaryPhenotype(x,y);
+				addToHistory(p);
+			}
+		}		
 	}
 	
 	// sometimes start with immunity	
@@ -89,7 +111,7 @@ public class Host {
 
 	public void printInfection(PrintStream stream) {
 		if (infection != null) {
-			stream.print("{" + infection.getPhenotype() + "}");
+			stream.print(infection.getPhenotype());
 		}
 		else {
 			stream.print("n");
@@ -97,8 +119,14 @@ public class Host {
 	}
 	
 	public void printHistory(PrintStream stream) {
-		for (int i = 0; i < immuneHistory.length; i++) {
-			stream.print(",{" + immuneHistory[i] + "}");
+		if (immuneHistory.length > 0) {
+			stream.print(immuneHistory[0]);
+			for (int i = 1; i < immuneHistory.length; i++) {
+				stream.print(";" + immuneHistory[i]);
+			}
+		}
+		else {
+			stream.print("n");
 		}
 	}	
 	

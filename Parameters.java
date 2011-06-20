@@ -9,7 +9,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 1000; // 40*365
+	public static final int endDay = 500; // 40*365
 	public static final int printStep = 7;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
@@ -22,6 +22,7 @@ public class Parameters {
 	public static final double yearsFromMK = 5.0;
 	public static final boolean pcaSamples = false;						// whether to rotate and flip virus tree
 	public static final boolean detailedOutput = true;					// whether to output out.hosts and out.viruses files enabling checkpointing
+	public static final boolean restartFromCheckpoint = true;			// whether to load population from out.hosts
 	public static Virus urVirus = new Virus();
 
 	// metapopulation parameters

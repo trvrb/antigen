@@ -37,6 +37,13 @@ public class Virus {
 		deme = d;
 	}	
 	
+	public Virus(int d, Phenotype p) {
+		parent = null;
+		phenotype = p;
+		birth = Parameters.getDate();
+		deme = d;
+	}		
+	
 	// methods
 	public Phenotype getPhenotype() {
 		return phenotype;
@@ -127,17 +134,25 @@ public class Virus {
 					break; 
 				}
 			}
+			if (lineageA.getParent() == null && lineageB.getParent() == null) {	
+				break;
+			}
 		}	
 		
-		return commonAnc;
+		return commonAnc;								// returns null when no common ancestor is present
 		
 	}
 	
 	public double distance(Virus virusB) {
 		Virus ancestor = commonAncestor(virusB);
-		double distA = getBirth() - ancestor.getBirth();
-		double distB = virusB.getBirth() - ancestor.getBirth();
-		return distA + distB;
+		if (ancestor != null) {
+			double distA = getBirth() - ancestor.getBirth();
+			double distB = virusB.getBirth() - ancestor.getBirth();
+			return distA + distB;
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	public String toString() {

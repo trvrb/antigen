@@ -2,6 +2,7 @@
 
 import java.util.*;
 import java.io.*;
+import java.util.regex.*;
 
 public class HostPopulation {
 
@@ -49,6 +50,43 @@ public class HostPopulation {
 		
 		}
 		
+	}
+	
+	// construct checkpointed host population and infecting viruses
+	public HostPopulation(int d, boolean checkpoint) {
+	
+		if (checkpoint == true) {
+		
+			deme = d;
+		
+			try {
+    			BufferedReader in = new BufferedReader(new FileReader("out.hosts"));
+    			String line;
+    			while ((line = in.readLine()) != null) {
+    				Pattern regex = Pattern.compile(":");
+    				String[] items = regex.split(line);
+    				int thisDeme = Integer.parseInt(items[0]);
+    				String sVirus = items[1];
+    				String sHist = items[2];
+        			if (thisDeme == deme) {
+        				Host h = new Host(deme, sVirus, sHist);
+        				if (sVirus.equals("n")) {
+        					susceptibles.add(h);	
+        				}
+        				else {
+        					infecteds.add(h);
+        				}
+        			}
+    			}
+    		in.close();
+			} 
+			catch (IOException ex) {
+				System.out.println("Could not read in out.hosts"); 
+				System.exit(0);
+			}
+		
+		}
+	
 	}
 	
 	// accessors
@@ -440,7 +478,9 @@ public class HostPopulation {
 		// step through susceptibles and print
 		for (int i = 0; i < getS(); i++) {
 			Host h = susceptibles.get(i);
-			stream.printf("%d,n", deme);
+			stream.print(deme + ":");
+			h.printInfection(stream);
+			stream.print(":");
 			h.printHistory(stream);
 			stream.println();
 		}
@@ -448,8 +488,9 @@ public class HostPopulation {
 		// step through infecteds and print
 		for (int i = 0; i < getI(); i++) {
 			Host h = infecteds.get(i);
-			stream.print(deme + ",");
+			stream.print(deme + ":");
 			h.printInfection(stream);
+			stream.print(":");
 			h.printHistory(stream);
 			stream.println();
 		}
@@ -457,7 +498,9 @@ public class HostPopulation {
 		// step through recovereds and print
 		for (int i = 0; i < getR(); i++) {
 			Host h = recovereds.get(i);
-			stream.printf("%d,n", deme);
+			stream.print(deme + ":");
+			h.printInfection(stream);
+			stream.print(":");
 			h.printHistory(stream);
 			stream.println();
 		}		
