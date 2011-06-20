@@ -434,5 +434,34 @@ public class HostPopulation {
 		}
 		
 	}
+	
+	public void printHostPopulation(PrintStream stream) {
+		
+		// step through susceptibles and print
+		for (int i = 0; i < getS(); i++) {
+			Host h = susceptibles.get(i);
+			stream.printf("%d,n", deme);
+			h.printHistory(stream);
+			stream.println();
+		}
+		
+		// step through infecteds and print
+		for (int i = 0; i < getI(); i++) {
+			Host h = infecteds.get(i);
+			stream.print(deme + ",");
+			h.printInfection(stream);
+			h.printHistory(stream);
+			stream.println();
+		}
+		
+		// step through recovereds and print
+		for (int i = 0; i < getR(); i++) {
+			Host h = recovereds.get(i);
+			stream.printf("%d,n", deme);
+			h.printHistory(stream);
+			stream.println();
+		}		
+	
+	}
 				
 }

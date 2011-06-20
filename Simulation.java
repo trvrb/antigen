@@ -161,6 +161,25 @@ public class Simulation {
 		}
 	
 	}
+	
+	public void printHostPopulation() {
+	
+		try {
+			File hostFile = new File("out.hosts");
+			hostFile.delete();
+			hostFile.createNewFile();
+			PrintStream hostStream = new PrintStream(hostFile);
+			for (int i = 0; i < Parameters.demeCount; i++) {
+				HostPopulation hp = demes.get(i);
+				hp.printHostPopulation(hostStream);
+			}
+			hostStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+	
+	}	
 		
 	public void makeTrunk() {
 		for (int i = 0; i < Parameters.demeCount; i++) {
@@ -301,8 +320,10 @@ public class Simulation {
 		VirusTree.streamline();			
 		
 		// rotation
-		VirusTree.rotate();
-		VirusTree.flip();
+		if (Parameters.pcaSamples) {
+			VirusTree.rotate();
+			VirusTree.flip();
+		}
 		
 		// tip and tree output
 		VirusTree.printTips();			
@@ -319,6 +340,11 @@ public class Simulation {
 				printImmunity();
 			}
 		}		
+		
+		// detailed output
+		if (Parameters.detailedOutput) {
+			printHostPopulation();
+		}	
 		
 	}
 	

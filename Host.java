@@ -83,8 +83,27 @@ public class Host {
 	
 	public void printHistory() {
 		for (int i = 0; i < immuneHistory.length; i++) {
-			System.out.println("History phenotype: " + immuneHistory[i]);
+			System.out.println(immuneHistory[i]);
 		}
 	}
 
+	public void printInfection(PrintStream stream) {
+		if (infection != null) {
+			stream.print("{" + infection.getPhenotype() + "}");
+		}
+		else {
+			stream.print("n");
+		}
+	}
+	
+	public void printHistory(PrintStream stream) {
+		for (int i = 0; i < immuneHistory.length; i++) {
+			stream.print(",{" + immuneHistory[i] + "}");
+		}
+	}	
+	
+	public String toString() {
+		return Integer.toHexString(this.hashCode());
+	}	
+	
 }

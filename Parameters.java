@@ -9,7 +9,7 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 40*365; // 10950
+	public static final int endDay = 1000; // 40*365
 	public static final int printStep = 7;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
@@ -20,6 +20,8 @@ public class Parameters {
 	public static final boolean immunityReconstruction = false;			// whether to print immunity reconstruction to out.immunity
 	public static final boolean memoryProfiling = false;
 	public static final double yearsFromMK = 5.0;
+	public static final boolean pcaSamples = false;						// whether to rotate and flip virus tree
+	public static final boolean detailedOutput = true;					// whether to output out.hosts and out.viruses files enabling checkpointing
 	public static Virus urVirus = new Virus();
 
 	// metapopulation parameters
@@ -51,7 +53,7 @@ public class Parameters {
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "geometric";		// options include: "geometric", "geometric3d", "geometric10d"
-	public static final double muPhenotype = 0.00014; //0.0002		// in mutations per individual per day
+	public static final double muPhenotype = 0.0014; //0.0002		// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
 	public static final double smithConversion = 0.07;				// multiplier to distance to give cross-immunity	
