@@ -206,11 +206,13 @@ public class Simulation {
 			noBytes = MemoryUtil.deepMemoryUsageOf(h);
 			System.out.println("One susceptible host with " +  h.getHistoryLength() + " previous infection: " + noBytes);
 			h.printHistory();
-			Virus v = getRandomInfection();
-			noBytes = MemoryUtil.memoryUsageOf(v);
-			System.out.println("One virus: " + noBytes);
-			noBytes = MemoryUtil.deepMemoryUsageOf(VirusTree.getTips());
-			System.out.println("Virus tree: " + noBytes);
+			if (getI() > 0) {
+				Virus v = getRandomInfection();
+				noBytes = MemoryUtil.memoryUsageOf(v);
+				System.out.println("One virus: " + noBytes);
+				noBytes = MemoryUtil.deepMemoryUsageOf(VirusTree.getTips());
+				System.out.println("Virus tree: " + noBytes);
+			}
 		}
 		
 	}

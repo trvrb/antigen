@@ -9,26 +9,28 @@ public class Parameters {
 	// simulation parameters
 	public static int day = 0;
 	public static final int burnin = 0; // 0
-	public static final int endDay = 500; // 40*365
+	public static final int endDay = 10*365; // 40*365
 	public static final int printStep = 7;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
 	public static final boolean tipSamplingProportional = true;			// whether to sample proportional to prevalance
 	public static final double treeProportion = 0.1;					// proportion of tips to use in tree reconstruction
 	public static final int	diversitySamplingCount = 100;
-	public static final boolean repeatSim = false;						// repeat simulation until endDay is reached?
-	public static final boolean immunityReconstruction = false;			// whether to print immunity reconstruction to out.immunity
+	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
+	public static final boolean immunityReconstruction = true;			// whether to print immunity reconstruction to out.immunity
 	public static final boolean memoryProfiling = false;
 	public static final double yearsFromMK = 5.0;
 	public static final boolean pcaSamples = false;						// whether to rotate and flip virus tree
-	public static final boolean detailedOutput = true;					// whether to output out.hosts and out.viruses files enabling checkpointing
+	public static final boolean detailedOutput = false;					// whether to output out.hosts and out.viruses files enabling checkpointing
 	public static final boolean restartFromCheckpoint = true;			// whether to load population from out.hosts
+
 	public static Virus urVirus = new Virus();
+	public static Phenotype urImmunity = PhenotypeFactory.makeHostPhenotype();
 
 	// metapopulation parameters
 	public static final int demeCount = 3;
 	public static final String[] demeNames = {"north", "tropics", "south"};
-	public static final int[] initialNs = {300000,300000,300000};	//{3000000,3000000,3000000}
+	public static final int[] initialNs = {30000000,30000000,30000000};	//{3000000,3000000,3000000}
 
 	// host parameters
 	public static final double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
@@ -54,7 +56,7 @@ public class Parameters {
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "geometric";		// options include: "geometric", "geometric3d", "geometric10d"
-	public static final double muPhenotype = 0.0014; //0.0002		// in mutations per individual per day
+	public static final double muPhenotype = 0.00014; //0.0002		// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
 	public static final double smithConversion = 0.07;				// multiplier to distance to give cross-immunity	

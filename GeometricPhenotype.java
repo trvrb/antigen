@@ -97,5 +97,12 @@ public class GeometricPhenotype implements Phenotype {
 		String fullString = String.format("%.4f,%.4f", traitA, traitB);
 		return fullString;
 	}
+	
+	
+	// used for memory profiling to show that references are properly used
+//	public String toString() {
+//		String fullString = String.format("%s,%.4f,%.4f", Integer.toHexString(this.hashCode()), traitA, traitB);
+//		return fullString;
+//	}	
 
 }

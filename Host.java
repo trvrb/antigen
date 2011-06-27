@@ -29,7 +29,7 @@ public class Host {
     		double x = Double.parseDouble(traitList[0]);
     		double y = Double.parseDouble(traitList[1]);
 			Phenotype p = PhenotypeFactory.makeArbitaryPhenotype(x,y);
-			infection = new Virus(d,p);
+			infection = new Virus(Parameters.urVirus,d,p);
 		}
 		if (!sHist.equals("n")) {
 			Pattern rsc = Pattern.compile(";");
@@ -48,8 +48,8 @@ public class Host {
 	// sometimes start with immunity	
 	public void initializeHistory() {
 		double chanceOfSuccess = Parameters.initialPrR;
-		if (Random.nextBoolean(chanceOfSuccess)) {
-			Phenotype p = PhenotypeFactory.makeHostPhenotype();		
+		if (Random.nextBoolean(chanceOfSuccess)) {	
+			Phenotype p = Parameters.urImmunity;
 			addToHistory(p);
 		}	
 	}
