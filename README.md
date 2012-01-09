@@ -9,12 +9,12 @@ infected with as part of its immune history.  The risk of infection after contac
 comparing the infecting virus's phenotype to the phenotypes in the host immune history.
 
 Antigenic phenotype is currently implemented as a n-d continuous vector.  Virus mutations move 
-phenotype randomly in this n-d Euclidean space.  However, other phenotypes may be implemented
+phenotype randomly in this n-d Euclidean space.  However, other phenotype models may be implemented
 through the Phenotype interface.
 
-Additionally, population structure is implemented as discrete demes.  Contacts within a deme occur
-through standard mass action, while contacts between demes occur at some fraction of the rate of
-within deme contact.
+Additionally, population structure is implemented in terms of discrete demes.  Contacts within a 
+deme occur through standard mass action, while contacts between demes occur at some fraction of the 
+rate of within deme contact.
 
 -------------------------------------------
 
