@@ -1,6 +1,6 @@
 /* Implements an individual-based model in which the infection's genealogical history is tracked through time */
 
-class SimTree {
+class Antigen {
     public static void main(String[] args) {
 
 		// initialize random number generator

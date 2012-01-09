@@ -511,12 +511,12 @@ public class VirusTree {
 			}
 		}		
 		
-		xMin = Math.floor(xMin) - 5;
-		xMax = Math.ceil(xMax) + 5;
-		yMin = Math.floor(yMin) - 5;
-		yMax = Math.ceil(yMax) + 5;
-		zMin = Math.floor(zMin) - 5;
-		zMax = Math.ceil(zMax) + 5;		
+		xMin = Math.floor(xMin) - 10;
+		xMax = Math.ceil(xMax) + 10;
+		yMin = Math.floor(yMin) - 10;
+		yMax = Math.ceil(yMax) + 10;
+		zMin = Math.floor(zMin) - 10;
+		zMax = Math.ceil(zMax) + 10;		
 	
 	}
 

@@ -71,7 +71,43 @@ public class GeometricPhenotype implements Phenotype {
 		
 	}
 	
+	// mutate with exponential	
 	// returns a mutated copy, original Phenotype is unharmed
+//	public Phenotype mutate() {
+//		
+//		// direction of mutation
+//		double theta = 0;
+//		if (Parameters.mut2D) {
+//			theta = Random.nextDouble(0,2*Math.PI);
+//		} else {
+//			if (Random.nextBoolean(0.5)) { theta = 0; }
+//			else { theta = Math.PI; }
+//		}
+//		
+//		// size of mutation
+//		double r = Random.nextExponential(Parameters.meanStep);
+//			
+//		double mutA = getTraitA() + r * Math.cos(theta);
+//		double mutB = getTraitB() + r * Math.sin(theta);
+//		Phenotype mutP = new GeometricPhenotype(mutA,mutB);
+//		return mutP;
+//				
+//	}
+	
+	//	mutate with bivariate normal
+	// returns a mutated copy, original Phenotype is unharmed
+//	public Phenotype mutate() {
+//					
+//		double mutA = getTraitA() + Random.nextNormal(0,Parameters.meanStep);
+//		double mutB = getTraitB();
+//		if (Parameters.mut2D) { mutB += Random.nextNormal(0,Parameters.meanStep); }
+//		Phenotype mutP = new GeometricPhenotype(mutA,mutB);
+//		return mutP;
+//				
+//	}	
+	
+	// returns a mutated copy, original Phenotype is unharmed
+	// mutate with gamma
 	public Phenotype mutate() {
 		
 		// direction of mutation
@@ -84,14 +120,16 @@ public class GeometricPhenotype implements Phenotype {
 		}
 		
 		// size of mutation
-		double r = Random.nextExponential(Parameters.meanStep);
+		double alpha = (Parameters.meanStep *  Parameters.meanStep) / (Parameters.sdStep * Parameters.sdStep);
+		double beta = (Parameters.sdStep * Parameters.sdStep) / Parameters.meanStep;
+		double r = Random.nextGamma(alpha, beta);
 			
 		double mutA = getTraitA() + r * Math.cos(theta);
 		double mutB = getTraitB() + r * Math.sin(theta);
 		Phenotype mutP = new GeometricPhenotype(mutA,mutB);
 		return mutP;
 				
-	}
+	}	
 	
 	public String toString() {
 		String fullString = String.format("%.4f,%.4f", traitA, traitB);
