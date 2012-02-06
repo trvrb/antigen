@@ -198,14 +198,16 @@ public class Simulation {
 	
 		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(), getR(), getCases());
 		
-		if (Parameters.memoryProfiling) {
+		if (Parameters.memoryProfiling && Parameters.day % 10 == 0) {
+			long noBytes = MemoryUtil.deepMemoryUsageOf(this);
+			System.out.println("Total: " + noBytes);
 			HostPopulation hp = demes.get(1);
-			long noBytes = MemoryUtil.deepMemoryUsageOf(hp);
+			noBytes = MemoryUtil.deepMemoryUsageOf(hp);
 			System.out.println("One host population: " + noBytes);
 			Host h = hp.getRandomHostS();
 			noBytes = MemoryUtil.deepMemoryUsageOf(h);
 			System.out.println("One susceptible host with " +  h.getHistoryLength() + " previous infection: " + noBytes);
-			h.printHistory();
+			//h.printHistory();
 			if (getI() > 0) {
 				Virus v = getRandomInfection();
 				noBytes = MemoryUtil.memoryUsageOf(v);
