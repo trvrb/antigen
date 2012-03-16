@@ -21,7 +21,7 @@ I haven't made a makefile.  The program can be compiled with:
 
 	javac *.java
 
-Then to run the main simulation portion, run:
+Then to run the simulation:
 
 	java -Xmx1G Antigen
 
@@ -32,7 +32,7 @@ is 30 years, at equilibrium the average size of the immune history will be 4.5 r
 gives memory usage of: population size x 76 bytes.  With 7.5 million hosts (used in the default
 parameters), the equals 570MB.
 
-In addition to Hosts and Immune Histories, the simulation tracks the virus genealogy through
+In addition to hosts and Immune histories, the simulation tracks the virus genealogy through
 VirusTree.  This is harder to profile, and will continually grow in memory usage throughout the
 simulation.  With the default parameters, VirusTree takes 5.5 MB at the end of a simulated year and
 may up to 110 MB at the end of the default 20 simulated years.
