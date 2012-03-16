@@ -32,18 +32,18 @@ is 30 years, at equilibrium the average size of the immune history will be 4.5 r
 gives memory usage of: population size x 76 bytes.  With 7.5 million hosts (used in the default
 parameters), the equals 570MB.
 
-In addition to hosts and Immune histories, the simulation tracks the virus genealogy through
+In addition to hosts and immune histories, the simulation tracks the virus genealogy through
 VirusTree.  This is harder to profile, and will continually grow in memory usage throughout the
 simulation.  With the default parameters, VirusTree takes 5.5 MB at the end of a simulated year and
 may up to 110 MB at the end of the default 20 simulated years.
 
 All the relevant simulation parameters are contained in `Parameters.java`.  Unfortunately, this
-means changing parameter values requires a recompile.
+means that changing parameter values requires a recompile.
 
 The simulation will output a timeseries of region-specific prevalence and incidence to
 `out.timeseries`.  It will also sample viruses periodically and output their geographic and
 antigenic locations to `out.tips` and a tree connecting these samples to `out.branches`.  This file
-contains pairs of viruses, child and parent, representing nodes on a genealogy.
+contains pairs of viruses, child and parent, representing nodes in a genealogy.
 
 If you have Mathematica, you can generate a number of figures from this output by running the
 notebook `antigen-analysis.nb`.
