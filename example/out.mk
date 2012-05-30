@@ -1,2 +1,2 @@
 sideBranchMut	sideBranchOpp	sideBranchRate	trunkMut	trunkOpp	trunkRate	mk
-3243,1691.1041,1.9177,68,16.7096,4.0695,2.1221
+3617,1780.4877,2.0315,61,14.9205,4.0883,2.0125

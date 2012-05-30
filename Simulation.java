@@ -220,10 +220,10 @@ public class Simulation {
 	}
 
 	public void printHeader(PrintStream stream) {
-		stream.print("date\tdiversity\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
+		stream.print("date\tdiv\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			String name = Parameters.demeNames[i];
-			stream.printf("\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name);
+			stream.printf("\t%sDiv\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name);
 		}
 		stream.println();
 	}
@@ -284,7 +284,7 @@ public class Simulation {
 			seriesFile.delete();
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
-			System.out.println("day\t\tdiversity\tN\tS\tI\tR\tcases");
+			System.out.println("day\t\tdiv\tN\tS\tI\tR\tcases");
 			printHeader(seriesStream);
 							
 			for (int i = 0; i < Parameters.endDay; i++) {
