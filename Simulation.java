@@ -10,6 +10,7 @@ public class Simulation {
 	// fields
 	private List<HostPopulation> demes = new ArrayList<HostPopulation>();
 	private double diversity;
+	private double netau;
 	
 	// constructor
 	public Simulation() {
@@ -75,6 +76,10 @@ public class Simulation {
 	public double getDiversity() {
 		return diversity;
 	}		
+	
+	public double getNetau() {
+		return netau;
+	}			
 	
 	// proportional to infecteds in each deme
 	public int getRandomDeme() {
@@ -196,7 +201,7 @@ public class Simulation {
 	
 	public void printState() {
 	
-		System.out.printf("%d\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getN(), getS(), getI(), getR(), getCases());
+		System.out.printf("%d\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(),  getNetau(), getN(), getS(), getI(), getR(), getCases());
 		
 		if (Parameters.memoryProfiling && Parameters.day % 10 == 0) {
 			long noBytes = MemoryUtil.deepMemoryUsageOf(this);
@@ -220,17 +225,17 @@ public class Simulation {
 	}
 
 	public void printHeader(PrintStream stream) {
-		stream.print("date\tdiv\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
+		stream.print("date\tdiv\tnetau\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			String name = Parameters.demeNames[i];
-			stream.printf("\t%sDiv\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name);
+			stream.printf("\t%sDiv\t%sNetau\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name);
 		}
 		stream.println();
 	}
 	
 	public void printState(PrintStream stream) {
 		if (Parameters.day > Parameters.burnin) {
-			stream.printf("%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getN(), getS(), getI(), getR(), getCases());
+			stream.printf("%.4f\t%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getNetau(), getN(), getS(), getI(), getR(), getCases());
 			for (int i = 0; i < Parameters.demeCount; i++) {
 				HostPopulation hp = demes.get(i);
 				hp.printState(stream);
@@ -252,6 +257,22 @@ public class Simulation {
 		diversity /= (double) sampleCount;
 	}	
 	
+	public void updateNetau() {
+		double coalCount = 0.0;	
+		double coalOpp = 0.0;
+		double coalWindow = Parameters.netauWindow / 365.0;
+		int sampleCount = Parameters.netauSamplingCount;
+		for (int i = 0; i < sampleCount; i++) {
+			Virus vA = getRandomInfection();
+			Virus vB = getRandomInfection();
+			if (vA != null && vB != null) {
+				coalOpp += coalWindow;
+				coalCount += vA.coalescence(vB, coalWindow);
+			}
+		}	
+		netau = coalOpp / coalCount;
+	}		
+		
 	public void resetCases() {
 		for (int i = 0; i < Parameters.demeCount; i++) {	
 			HostPopulation hp = demes.get(i);
@@ -284,7 +305,7 @@ public class Simulation {
 			seriesFile.delete();
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
-			System.out.println("day\t\tdiv\tN\tS\tI\tR\tcases");
+			System.out.println("day\tdiv\tnetau\tN\tS\tI\tR\tcases");
 			printHeader(seriesStream);
 							
 			for (int i = 0; i < Parameters.endDay; i++) {
@@ -293,6 +314,7 @@ public class Simulation {
 				
 				if (Parameters.day % Parameters.printStep == 0) {
 					updateDiversity();
+					updateNetau();
 					printState();
 					printState(seriesStream);
 					resetCases();

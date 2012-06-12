@@ -15,7 +15,9 @@ public class Parameters {
 	public static final int tipSamplesPerDeme = 2000;
 	public static final boolean tipSamplingProportional = true;			// whether to sample proportional to prevalance
 	public static final double treeProportion = 0.1;					// proportion of tips to use in tree reconstruction
-	public static final int	diversitySamplingCount = 100;
+	public static final int	diversitySamplingCount = 100;				// how many samples to draw to calculate diversity
+	public static final int	netauSamplingCount = 10000;					// how many samples to draw to calculate Ne*tau	
+	public static final double	netauWindow = 30;						// window in days to calculate Ne*tau	
 	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
 	public static final boolean immunityReconstruction = false;			// whether to print immunity reconstruction to out.immunity
 	public static final boolean memoryProfiling = false;				// requires -javaagent:classmexer.jar to run
@@ -56,7 +58,7 @@ public class Parameters {
 	
 	// phenotype parameters
 	public static final String phenotypeSpace = "geometric";		// options include: "geometric", "geometric3d", "geometric10d"
-	public static final double muPhenotype = 0.005; //0.0002		// in mutations per individual per day
+	public static final double muPhenotype = 0.005; 				// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
 	public static final double smithConversion = 0.07;				// multiplier to distance to give cross-immunity	

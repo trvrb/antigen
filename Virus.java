@@ -155,6 +155,47 @@ public class Virus {
 		}
 	}
 	
+	// is there a coalescence event within x amount of time? (measured in years)
+	public double coalescence(Virus virusB, double windowTime) {
+
+		Virus lineageA = this;
+		Virus lineageB = virusB;
+		Set<Virus> ancestry = new HashSet<Virus>();	
+		double success = 0.0;
+		
+		double startTime = lineageA.getBirth();
+		double time = startTime;
+		while (time > startTime - windowTime) {
+			if (lineageA.getParent() != null) {		
+				lineageA = lineageA.getParent();
+				time = lineageA.getBirth();
+				ancestry.add(lineageA);
+			}
+			else {
+				break;
+			}
+		}
+		
+		startTime = lineageB.getBirth();
+		time = startTime;
+		while (time > startTime - windowTime) {
+			if (lineageB.getParent() != null) {		
+				lineageB = lineageB.getParent();
+				time = lineageB.getBirth();				
+				if (!ancestry.add(lineageB)) { 
+					success = 1.0;
+					break; 
+				}
+			}
+			else {
+				break;
+			}			
+		}
+		
+		return success;	
+
+	}	
+	
 	public String toString() {
 		return Integer.toHexString(this.hashCode());
 	}
