@@ -13,8 +13,9 @@ public class HostPopulation {
 	private List<Host> infecteds = new ArrayList<Host>();	
 	private List<Host> recovereds = new ArrayList<Host>();		// this is the transcendental class, immune to all forms of virus  
 	private double diversity;
+	private double tmrca;
 	private double netau;	
-	
+
 	// construct population, using Virus v as initial infection
 	public HostPopulation(int d) {
 	
@@ -181,6 +182,10 @@ public class HostPopulation {
 
 	public double getDiversity() {
 		return diversity;
+	}	
+	
+	public double getTmrca() {
+		return tmrca;
 	}		
 	
 	public double getNetau() {
@@ -449,18 +454,24 @@ public class HostPopulation {
 	
 	public void updateDiversity() {
 		diversity = 0.0;
+		tmrca = 0.0;		
 		int sampleCount = 0;
 		for (int i = 0; i < Parameters.diversitySamplingCount; i++) {
 			Virus vA = getRandomInfection();
 			Virus vB = getRandomInfection();
 			if (vA != null && vB != null) {
-				diversity += vA.distance(vB);
+				double dist = vA.distance(vB);
+				diversity += dist;
+				if (dist > tmrca) {
+					tmrca = dist;
+				}				
 				sampleCount += 1;
 			}
 		}	
 		if (sampleCount > 0) {
 			diversity /= (double) sampleCount;
 		}
+		tmrca /= 2.0;
 	}		
 	
 	public void updateNetau() {
@@ -486,7 +497,7 @@ public class HostPopulation {
 		if (Parameters.day > Parameters.burnin) {
 			updateDiversity();
 			updateNetau();
-			stream.printf("\t%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", getDiversity(), getNetau(), getN(), getS(), getI(), getR(), getCases());
+			stream.printf("\t%.4f\t%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", getDiversity(), getTmrca(), getNetau(), getN(), getS(), getI(), getR(), getCases());
 		}
 	}	
 	

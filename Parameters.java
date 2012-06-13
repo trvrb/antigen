@@ -10,12 +10,12 @@ public class Parameters {
 	public static int day = 0;
 	public static final int burnin = 0; // 0
 	public static final int endDay = 20*365; // 20*365 = 7300
-	public static final int printStep = 7;								// print to out.timeseries every week
+	public static final int printStep = 30;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
 	public static final int tipSamplesPerDeme = 2000;
 	public static final boolean tipSamplingProportional = true;			// whether to sample proportional to prevalance
 	public static final double treeProportion = 0.1;					// proportion of tips to use in tree reconstruction
-	public static final int	diversitySamplingCount = 100;				// how many samples to draw to calculate diversity
+	public static final int	diversitySamplingCount = 1000;				// how many samples to draw to calculate diversity
 	public static final int	netauSamplingCount = 10000;					// how many samples to draw to calculate Ne*tau	
 	public static final double	netauWindow = 30;						// window in days to calculate Ne*tau	
 	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
