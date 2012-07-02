@@ -151,6 +151,18 @@ public class Simulation {
 		
 	}
 	
+	public double getSerialInterval() {
+		double interval = 0.0;
+		if (getI()>0) {
+			for (int i = 0; i < Parameters.serialIntervalSamplingCount; i++) {
+				Virus v = getRandomInfection();
+				interval += v.serialInterval();
+			}
+			interval /= (double) Parameters.serialIntervalSamplingCount;
+		}
+		return interval;	
+	}
+	
 	public void printImmunity() {
 	
 		try {
@@ -206,7 +218,7 @@ public class Simulation {
 	
 	public void printState() {
 	
-		System.out.printf("%d\t%.3f\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getTmrca(),  getNetau(), getN(), getS(), getI(), getR(), getCases());
+		System.out.printf("%d\t%.3f\t%.3f\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getTmrca(),  getNetau(), getSerialInterval(), getN(), getS(), getI(), getR(), getCases());
 		
 		if (Parameters.memoryProfiling && Parameters.day % 10 == 0) {
 			long noBytes = MemoryUtil.deepMemoryUsageOf(this);
@@ -230,7 +242,7 @@ public class Simulation {
 	}
 
 	public void printHeader(PrintStream stream) {
-		stream.print("date\tdiv\ttmrca\tnetau\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
+		stream.print("date\tdiv\ttmrca\tnetau\tserialInterval\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			String name = Parameters.demeNames[i];
 			stream.printf("\t%sDiv\t%sTmrca\t%sNetau\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name, name);
@@ -240,7 +252,7 @@ public class Simulation {
 	
 	public void printState(PrintStream stream) {
 		if (Parameters.day > Parameters.burnin) {
-			stream.printf("%.4f\t%.4f\t%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getTmrca(), getNetau(), getN(), getS(), getI(), getR(), getCases());
+			stream.printf("%.4f\t%.4f\t%.4f\t%.4f\t%.5f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getN(), getS(), getI(), getR(), getCases());
 			for (int i = 0; i < Parameters.demeCount; i++) {
 				HostPopulation hp = demes.get(i);
 				hp.printState(stream);
@@ -316,7 +328,7 @@ public class Simulation {
 			seriesFile.delete();
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
-			System.out.println("day\tdiv\ttmrca\tnetau\tN\tS\tI\tR\tcases");
+			System.out.println("day\tdiv\ttmrca\tnetau\tserialInterval\tN\tS\tI\tR\tcases");
 			printHeader(seriesStream);
 							
 			for (int i = 0; i < Parameters.endDay; i++) {

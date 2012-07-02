@@ -191,7 +191,7 @@ public class HostPopulation {
 	public double getNetau() {
 		return netau;
 	}			
-
+	
 	public void removeSusceptible(int i) {
 		int lastIndex = getS() - 1;
 		Host lastHost = susceptibles.get(lastIndex);

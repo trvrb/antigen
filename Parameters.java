@@ -18,6 +18,7 @@ public class Parameters {
 	public static final int	diversitySamplingCount = 1000;				// how many samples to draw to calculate diversity
 	public static final int	netauSamplingCount = 10000;					// how many samples to draw to calculate Ne*tau	
 	public static final double	netauWindow = 30;						// window in days to calculate Ne*tau	
+	public static final int	serialIntervalSamplingCount = 10000;		// how many samples to draw to calculate serial interval	
 	public static final boolean repeatSim = true;						// repeat simulation until endDay is reached?
 	public static final boolean immunityReconstruction = false;			// whether to print immunity reconstruction to out.immunity
 	public static final boolean memoryProfiling = false;				// requires -javaagent:classmexer.jar to run

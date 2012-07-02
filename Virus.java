@@ -196,6 +196,12 @@ public class Virus {
 
 	}	
 	
+	// this is the interval from this virus's birth back to its parent's birth
+	public double serialInterval() {
+		Virus p = getParent();
+		return getBirth() - p.getBirth();
+	}
+	
 	public String toString() {
 		return Integer.toHexString(this.hashCode());
 	}
