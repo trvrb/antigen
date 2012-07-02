@@ -42,6 +42,7 @@ public class Parameters {
 		
 	// epidemiological parameters
 	public static final int initialI = 10;							// in individuals
+	public static final int initialDeme = 2;						// index of deme where infection starts, 1..n
 	public static final double initialPrR = 0.5; 					// as proportion of population
 	public static final double beta = 0.36; // 0.3					// in contacts per individual per day
 	public static final double nu = 0.2; //0.2						// in recoveries per individual per day

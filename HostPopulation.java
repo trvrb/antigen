@@ -28,7 +28,7 @@ public class HostPopulation {
 	
 		// fill population with susceptibles
 		int initialS = Parameters.initialNs[deme] - initialR;
-		if (deme == 1) {
+		if (deme == Parameters.initialDeme - 1) {
 			initialS -= Parameters.initialI;
 		}
 		for (int i = 0; i < initialS; i++) {
