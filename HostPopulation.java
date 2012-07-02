@@ -42,7 +42,7 @@ public class HostPopulation {
 			recovereds.add(h);
 		}		
 		
-		if (deme == 1) {
+		if (deme == Parameters.initialDeme - 1) {
 		
 			// infect some individuals
 			for (int i = 0; i < Parameters.initialI; i++) {
