@@ -243,7 +243,9 @@ public class VirusTree {
 		}
 
 		if (vp != null && vgp != null) {
-			if (vp.getNumberOfChildren() == 1 && v.getPhenotype() == vp.getPhenotype() && v.isTrunk() == vp.isTrunk() && v.getDeme() == vp.getDeme()) {
+	//		if (vp.getNumberOfChildren() == 1 && v.getPhenotype() == vp.getPhenotype() && v.isTrunk() == vp.isTrunk() && v.getDeme() == vp.getDeme()) {
+		
+			if (vp.getNumberOfChildren() == 1) {
 		
 				List<Virus> vgpChildren = vgp.getChildren();
 				int vpIndex =  vgpChildren.indexOf(vp);
@@ -577,6 +579,102 @@ public class VirusTree {
 			System.exit(0);
 		}
 		
+	}
+	
+	public static void printNewick() {
+	
+		try {
+			File treeFile = new File("out.trees");
+			treeFile.delete();
+			treeFile.createNewFile();
+			PrintStream treeStream = new PrintStream(treeFile);
+			
+			List<Virus> visited = new ArrayList<Virus>();
+			
+			double parentBirth = 0.0;
+			
+			// start at root
+			Virus v = root;
+			visited.add(v);			
+			
+			while (v != null) {
+								
+				// walk forward until a split is encountered
+				while (v.getNumberOfChildren() == 1) {
+					Virus vc = v.getChildren().get(0);
+					if (!visited.contains(vc)) {
+						v = vc;
+						visited.add(v);
+					}
+					else {
+						Virus vp = v.getParent();
+						v = vp;
+						if (v == null) {
+							break;
+						}
+					}
+				}
+				
+				if (v == null) {
+					break;
+				}
+				
+				// if split is encountered, start by taking left fork, print "("
+				// set height
+				while (v.getNumberOfChildren() > 1) {
+					int i = 0;
+					boolean childrenVisited = true;
+					parentBirth = v.getBirth();
+					while (i < v.getNumberOfChildren()) {
+						Virus vc = v.getChildren().get(i);
+						if (!visited.contains(vc)) {
+							v = vc;
+							visited.add(v);
+							if (i == 0) {
+								treeStream.print("(");
+							}
+							else {
+								treeStream.print(",");
+							}
+							childrenVisited = false;
+							break;
+						}
+						i++;
+					}
+					// failure, all children visited
+					if (childrenVisited) {
+						double height = v.getBirth() - parentBirth;
+						Virus vp = v.getParent();
+						v = vp;
+						treeStream.printf(")%.4f", height);
+						break;
+					}
+				}
+				
+				if (v == null) {
+					break;
+				}
+								
+				// if tip is encountered, print tip, return
+				while (v.getNumberOfChildren() == 0) {
+					treeStream.print(v.toString());
+					Virus vp = v.getParent();
+					v = vp;				
+				}			
+				
+				if (v == null) {
+					break;
+				}
+							
+			}
+			treeStream.println();
+			
+			treeStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+	
 	}
 	
 	public static int sideBranchMutations() {

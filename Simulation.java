@@ -383,6 +383,7 @@ public class Simulation {
 		// tip and tree output
 		VirusTree.printTips();			
 		VirusTree.printBranches();	
+		VirusTree.printNewick();
 		
 		// mk output
 		VirusTree.printMK();
