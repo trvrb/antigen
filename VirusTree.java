@@ -581,6 +581,56 @@ public class VirusTree {
 		
 	}
 	
+	// assess node in building Newick string
+	public static Virus assessNode(Virus v, List<Virus> visited, PrintStream treeStream) {
+	
+		Virus returnVirus = null;
+	
+		// if virus has multiple children, return first child that has not been visited
+		if (v.getNumberOfChildren() > 1) {
+			boolean childrenVisited = true;
+			for (int i = 0; i < v.getNumberOfChildren(); i++) {
+				Virus vc = v.getChildren().get(i);
+				if (!visited.contains(vc)) {
+					if (i == 0) {
+						treeStream.print("(");
+					}
+					else {
+						treeStream.print(",");
+					}
+					childrenVisited = false;
+					returnVirus = vc;
+					break;
+				}
+			}
+			// failure, all children visited, return to parent
+			if (childrenVisited) {
+				treeStream.print(")");			
+				returnVirus = v.getParent();
+			}
+		}
+		
+		// if tip is encountered, print tip, return to parent
+		if (v.getNumberOfChildren() == 0) {
+			treeStream.print(v.toString());
+			returnVirus = v.getParent();		
+		}			
+		
+		// walk down (or up) branches 
+		if (v.getNumberOfChildren() == 1) {
+			Virus vc = v.getChildren().get(0);
+			if (!visited.contains(vc)) {
+				returnVirus = vc;
+			}
+			else {
+				returnVirus = v.getParent();
+			}
+		}
+		
+		return returnVirus;
+	
+	}
+	
 	public static void printNewick() {
 	
 		try {
@@ -590,81 +640,15 @@ public class VirusTree {
 			PrintStream treeStream = new PrintStream(treeFile);
 			
 			List<Virus> visited = new ArrayList<Virus>();
-			
-			double parentBirth = 0.0;
-			
+				
 			// start at root
 			Virus v = root;
 			visited.add(v);			
 			
 			while (v != null) {
-								
-				// walk forward until a split is encountered
-				while (v.getNumberOfChildren() == 1) {
-					Virus vc = v.getChildren().get(0);
-					if (!visited.contains(vc)) {
-						v = vc;
-						visited.add(v);
-					}
-					else {
-						Virus vp = v.getParent();
-						v = vp;
-						if (v == null) {
-							break;
-						}
-					}
-				}
 				
-				if (v == null) {
-					break;
-				}
-				
-				// if split is encountered, start by taking left fork, print "("
-				// set height
-				while (v.getNumberOfChildren() > 1) {
-					int i = 0;
-					boolean childrenVisited = true;
-					parentBirth = v.getBirth();
-					while (i < v.getNumberOfChildren()) {
-						Virus vc = v.getChildren().get(i);
-						if (!visited.contains(vc)) {
-							v = vc;
-							visited.add(v);
-							if (i == 0) {
-								treeStream.print("(");
-							}
-							else {
-								treeStream.print(",");
-							}
-							childrenVisited = false;
-							break;
-						}
-						i++;
-					}
-					// failure, all children visited
-					if (childrenVisited) {
-						double height = v.getBirth() - parentBirth;
-						Virus vp = v.getParent();
-						v = vp;
-						treeStream.printf(")%.4f", height);
-						break;
-					}
-				}
-				
-				if (v == null) {
-					break;
-				}
-								
-				// if tip is encountered, print tip, return
-				while (v.getNumberOfChildren() == 0) {
-					treeStream.print(v.toString());
-					Virus vp = v.getParent();
-					v = vp;				
-				}			
-				
-				if (v == null) {
-					break;
-				}
+				v = assessNode(v, visited, treeStream);		
+				visited.add(v);
 							
 			}
 			treeStream.println();
