@@ -585,6 +585,7 @@ public class VirusTree {
 	public static Virus assessNode(Virus v, List<Virus> visited, PrintStream treeStream) {
 	
 		Virus returnVirus = null;
+		boolean printHeight = false;
 	
 		// if virus has multiple children, return first child that has not been visited
 		if (v.getNumberOfChildren() > 1) {
@@ -605,7 +606,8 @@ public class VirusTree {
 			}
 			// failure, all children visited, return to parent
 			if (childrenVisited) {
-				treeStream.print(")");			
+				treeStream.print(")");	
+				printHeight = true;
 				returnVirus = v.getParent();
 			}
 		}
@@ -613,6 +615,7 @@ public class VirusTree {
 		// if tip is encountered, print tip, return to parent
 		if (v.getNumberOfChildren() == 0) {
 			treeStream.print(v.toString());
+			printHeight = true;
 			returnVirus = v.getParent();		
 		}			
 		
@@ -625,6 +628,20 @@ public class VirusTree {
 			else {
 				returnVirus = v.getParent();
 			}
+		}
+		
+		// find height, walk back until a parent with a split occurs
+		if (printHeight && v.getParent() != null) {
+
+			treeStream.printf("[&antigenic={%s}]", v.getPhenotype() );
+		
+			Virus vp = v.getParent();
+			while (vp.getNumberOfChildren() == 1 && vp.getParent() != null) {
+				vp = vp.getParent();
+			}
+			double height = v.getBirth() - vp.getBirth();
+			treeStream.printf(":%.4f", height);	
+
 		}
 		
 		return returnVirus;
