@@ -1,5 +1,4 @@
-Antigen: Large-scale individual-based simulation of pathogen epidemiology and evolution
-=======================================================================================
+# Simulating virus evolution and epidemiology
 
 Antigen implements an SIR epidemiological model where hosts in a population are infected with
 viruses that have distinct antigenic phenotypes.  Hosts make contacts trasmitting viruses and also
