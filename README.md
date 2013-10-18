@@ -1,5 +1,7 @@
 # Simulating virus evolution and epidemiology
 
+![](figures/antigen.png)
+
 Antigen implements an SIR epidemiological model where hosts in a population are infected with
 viruses that have distinct antigenic phenotypes.  Hosts make contacts trasmitting viruses and also
 recover from infection.  After recovery, a host remembers the antigenic phenotype it was infected
