@@ -1,6 +1,4 @@
-# Simulating virus evolution and epidemiology
-
-## Introduction
+# Introduction
 
 Antigen implements an SIR epidemiological model where hosts in a population are infected with
 viruses that have distinct antigenic phenotypes.  Hosts make contacts trasmitting viruses and also
@@ -16,11 +14,9 @@ Additionally, population structure is implemented in terms of discrete demes.  C
 deme occur through standard mass action, while contacts between demes occur at some fraction of the
 rate of within deme contact.
 
-![](figures/antigen.png)
-
 -------------------------------------------
 
-## Running
+# Running
 
 I haven't made a makefile.  The program can be compiled with:
 
