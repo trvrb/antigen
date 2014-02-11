@@ -25,6 +25,8 @@ I haven't made a makefile.  The program can be compiled with:
 Then to run the simulation:
 
 	java -Xmx1G Antigen
+	
+Alternatively, compile with `ant` and run with `ant run`.
 
 The `-Xmx1G` is required, because as an individual-based model, the memory requirements are
 typically quite large. Each host requires a minimum of 40 bytes of memory, plus 8 bytes per
