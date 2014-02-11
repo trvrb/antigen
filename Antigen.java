@@ -6,6 +6,9 @@ class Antigen {
 		// initialize random number generator
 		cern.jet.random.AbstractDistribution.makeDefaultGenerator();
 		
+		// initialize static parameters
+		Parameters.report();
+		
 		// run simulation
 		Simulation sim = new Simulation();
 		sim.run();	

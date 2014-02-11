@@ -2,13 +2,38 @@
 /* Start with parameters in source, implement input file later */
 /* A completely static class.  */
 
+import java.util.*;
 import static java.lang.Math.*;
+import java.io.*;
+import org.yaml.snakeyaml.*;
 
 public class Parameters {
 
-	// simulation parameters
+	// load parameters.yml
+	static Yaml yaml;
+	static Map map;
+	static void loadYAML() {
+		try {
+			InputStream input = new FileInputStream(new File("parameters.yml"));
+			yaml = new Yaml();
+			map = (Map) yaml.load(input);
+    	    input.close();
+        } catch (IOException e) {
+        	System.out.println("Cannot load parameters.yml, using defaults");
+        }
+	}
+	
+	// global parameters
 	public static int day = 0;
-	public static final int burnin = 0; // 0
+
+	// load default parameters
+	public static int burnin;
+	
+	static void setParameters() {	
+		burnin = (int) map.get("burnin");
+	}
+
+	// simulation parameters
 	public static final int endDay = 20*365; // 20*365 = 7300
 	public static final int printStep = 30;								// print to out.timeseries every week
 	public static final double tipSamplingRate = 0.0002;				// in samples per deme per day
@@ -80,5 +105,9 @@ public class Parameters {
 		double offset = demeOffsets[index];
 		return baseline + amplitude * Math.cos(2*Math.PI*getDate() + 2*Math.PI*offset);
 	}
-
+	
+	public static void report() {
+		System.out.println("burnin = " + burnin);
+	}
+	
 }
