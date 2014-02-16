@@ -155,6 +155,10 @@ public class Virus {
 		}
 	}
 	
+	public double antigenicDistance(Virus virusB) {
+		return phenotype.distance(virusB.getPhenotype());
+	}	
+	
 	// is there a coalescence event within x amount of time? (measured in years)
 	public double coalescence(Virus virusB, double windowTime) {
 

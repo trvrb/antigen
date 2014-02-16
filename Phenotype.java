@@ -12,6 +12,9 @@ public interface Phenotype {
 	// returned Phenotype is a newly constructed copy of original
 	Phenotype mutate();
 	
+	// compare phenotypes and report antigenic distance
+	double distance(Phenotype p);
+	
 	// this is used in output, should be a short string form
 	// 2D: 0.5,0.6
 	// sequence: "ATGCGCC"
