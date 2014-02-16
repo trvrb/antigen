@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 Antigen implements an SIR epidemiological model where hosts in a population are infected with
 viruses that have distinct antigenic phenotypes.  Hosts make contacts trasmitting viruses and also
@@ -16,7 +16,7 @@ rate of within deme contact.
 
 -------------------------------------------
 
-# Running
+## Running
 
 The program can be compiled with:
 
@@ -33,6 +33,24 @@ A transportable jar file can be created with:
 Then to run from this jar:
 
 	java -jar antigen.jar -Xmx1G Antigen
+	
+## Parameters
+	
+Parameter defaults can be seen in [`Parameters.java`](Parameters.java).  When run, the program looks 
+for the file [`parameters.yml`](parameters.yml) and dynamically loads these in, overwriting defaults.
+
+## Output
+
+The simulation will output a timeseries of region-specific prevalence and incidence to
+[`out.timeseries`](example/out.timeseries).  It will also sample viruses periodically and output their 
+geographic and antigenic locations to [`out.tips`](example/out.tips) and a tree connecting these samples 
+to [`out.branches`](example/out.branches).  This file contains pairs of viruses, child and parent, 
+representing nodes in a genealogy.
+
+If you have Mathematica, you can generate a number of figures from this output by running the
+notebook [`antigen-analysis.nb`](antigen-analysis.nb).
+
+## Memory
 
 The `-Xmx1G` is required, because as an individual-based model, the memory requirements are
 typically quite large. Each host requires a minimum of 40 bytes of memory, plus 8 bytes per
@@ -46,17 +64,6 @@ VirusTree.  This is harder to profile, and will continually grow in memory usage
 simulation.  With the default parameters, VirusTree takes 5.5 MB at the end of a simulated year and
 may up to 110 MB at the end of the default 20 simulated years.
 
-All the relevant simulation parameters are contained in `Parameters.java`.  Unfortunately, this
-means that changing parameter values requires a recompile.
-
-The simulation will output a timeseries of region-specific prevalence and incidence to
-`out.timeseries`.  It will also sample viruses periodically and output their geographic and
-antigenic locations to `out.tips` and a tree connecting these samples to `out.branches`.  This file
-contains pairs of viruses, child and parent, representing nodes in a genealogy.
-
-If you have Mathematica, you can generate a number of figures from this output by running the
-notebook `antigen-analysis.nb`.
-
 -------------------------------------------
 
-Copyright Trevor Bedford 2010-2012. Distributed under the GPL v3.
+Copyright Trevor Bedford 2010-2014. Distributed under the GPL v3.
