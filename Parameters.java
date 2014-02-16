@@ -5,7 +5,6 @@
 import java.util.*;
 import static java.lang.Math.*;
 import java.io.*;
-//import org.yaml.snakeyaml.*;
 
 public class Parameters {
 	
@@ -16,28 +15,28 @@ public class Parameters {
 	
 	// simulation parameters
 	public static int burnin = 0;
-	public static int endDay = 7300; 
-	public static int printStep = 30;									// print to out.timeseries every week
+	public static int endDay = 5000; 
+	public static int printStep = 10;									// print to out.timeseries every week
 	public static double tipSamplingRate = 0.0002;						// in samples per deme per day
-	public static int tipSamplesPerDeme = 2000;
+	public static int tipSamplesPerDeme = 1000;
 	public static boolean tipSamplingProportional = true;				// whether to sample proportional to prevalance
 	public static double treeProportion = 0.1;							// proportion of tips to use in tree reconstruction
 	public static int diversitySamplingCount = 1000;					// how many samples to draw to calculate diversity
-	public static int netauSamplingCount = 10000;						// how many samples to draw to calculate Ne*tau	
-	public static int netauWindow = 30;								// window in days to calculate Ne*tau	
-	public static int serialIntervalSamplingCount = 10000;				// how many samples to draw to calculate serial interval	
-	public static boolean repeatSim = true;						// repeat simulation until endDay is reached?
-	public static boolean immunityReconstruction = false;			// whether to print immunity reconstruction to out.immunity
-	public static boolean memoryProfiling = false;				// requires -javaagent:classmexer.jar to run
+	public static int netauSamplingCount = 1000;						// how many samples to draw to calculate Ne*tau	
+	public static int netauWindow = 100;								// window in days to calculate Ne*tau	
+	public static int serialIntervalSamplingCount = 1000;				// how many samples to draw to calculate serial interval	
+	public static boolean repeatSim = true;								// repeat simulation until endDay is reached?
+	public static boolean immunityReconstruction = false;				// whether to print immunity reconstruction to out.immunity
+	public static boolean memoryProfiling = false;						// requires -javaagent:classmexer.jar to run
 	public static double yearsFromMK = 5.0;
-	public static boolean pcaSamples = false;						// whether to rotate and flip virus tree
-	public static boolean detailedOutput = false;					// whether to output out.hosts and out.viruses files enabling checkpointing
-	public static boolean restartFromCheckpoint = false;			// whether to load population from out.hosts
+	public static boolean pcaSamples = false;							// whether to rotate and flip virus tree
+	public static boolean detailedOutput = false;						// whether to output out.hosts and out.viruses files enabling checkpointing
+	public static boolean restartFromCheckpoint = false;				// whether to load population from out.hosts
 
 	// metapopulation parameters
 	public static int demeCount = 3;
 	public static String[] demeNames = {"north", "tropics", "south"};
-	public static int[] initialNs = {2500000,2500000,2500000};	
+	public static int[] initialNs = {1000000,1000000,1000000};	
 	
 	// host parameters
 	public static double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
@@ -60,14 +59,14 @@ public class Parameters {
 	// seasonal betas
 	public static double[] demeBaselines = {1,1,1};
 	public static double[] demeAmplitudes = {0.1,0,0.1};
-	public static double[] demeOffsets = {0,0,0.5};			// relative to the year
+	public static double[] demeOffsets = {0,0,0.5};				// relative to the year
 	
 	// phenotype parameters
-	public static String phenotypeSpace = "geometric";		// options include: "geometric", "geometric3d", "geometric10d"
-	public static double muPhenotype = 0.005; 				// in mutations per individual per day
+	public static String phenotypeSpace = "geometric";			// options include: "geometric", "geometric3d", "geometric10d"
+	public static double muPhenotype = 0.005; 					// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
-	public static double smithConversion = 0.07;				// multiplier to distance to give cross-immunity	
+	public static double smithConversion = 0.1;					// multiplier to distance to give cross-immunity	
 	public static double initialTraitA = -6;	
 	public static double meanStep = 0.3; 
 	public static double sdStep = 0.3; 

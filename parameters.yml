@@ -1,16 +1,15 @@
                                             # simulation parameters
-burnin: 1000                                # days to wait before logging output 
-endDay: 11000                               # number of days to simulate
-tipSamplesPerDeme: 2000                     # cap number of samples per deme
+burnin: 0                                   # days to wait before logging output 
+endDay: 5000                                # number of days to simulate
 printStep: 10                               # print to out.timeseries every X days
 tipSamplingRate: 0.0002                     # store X samples per deme per day
 tipSamplesPerDeme: 2000                     # cap number of samples per deme
 tipSamplingProportional: true               # whether to sample proportional to prevalence
 treeProportion: 0.1                         # proportion of tips to use in tree reconstruction
 diversitySamplingCount: 1000                # how many samples to draw to calculate diversity
-netauSamplingCount: 10000                   # how many samples to draw to calculate Ne*ta
-netauWindow: 30                             # window in days to calculate Ne*tau
-serialIntervalSamplingCount: 10000          # how many samples to draw to calculate serial interval
+netauSamplingCount: 1000                    # how many samples to draw to calculate Ne*ta
+netauWindow: 100                            # window in days to calculate Ne*tau
+serialIntervalSamplingCount: 1000           # how many samples to draw to calculate serial interval
 repeatSim: true                             # repeat simulation until endDay is reached?
 immunityReconstruction: false               # whether to print immunity reconstruction to out.immunity
 memoryProfiling: false                      # requires -javaagent:classmexer.jar to run
@@ -50,7 +49,7 @@ demeOffsets: [0., 0., 0.5]                  # seasonal offset relative to the ye
                                             # phenotype parameters  
 phenotypeSpace: "geometric"                 # options include: geometric, geometric3d, geometric10d
 muPhenotype: 0.005                          # in mutations per individual per day
-smithConversion: 0.07                       # multiplier to distance to give cross-immunity
+smithConversion: 0.1                        # multiplier to distance to give cross-immunity
 initialTraitA: -6.                          # value in dimension 1 for initial host immunity
 meanStep: 0.3                               # mean mutation size
 sdStep: 0.3                                 # standard deviation of mutation size
