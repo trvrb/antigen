@@ -7,7 +7,8 @@ class Antigen {
 		cern.jet.random.AbstractDistribution.makeDefaultGenerator();
 		
 		// initialize static parameters
-		Parameters.report();
+		Parameters.load();		
+		Parameters.initialize();
 		
 		// run simulation
 		Simulation sim = new Simulation();

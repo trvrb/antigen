@@ -18,15 +18,21 @@ rate of within deme contact.
 
 # Running
 
-I haven't made a makefile.  The program can be compiled with:
+The program can be compiled with:
 
 	javac *.java
 
-Then to run the simulation:
+Then to run:
 
 	java -Xmx1G Antigen
 	
-Alternatively, compile with `ant` and run with `ant run`.
+A transportable jar file can be created with:
+
+	jar cfe antigen.jar Antigen *.class cern/ org/
+	
+Then to run from this jar:
+
+	java -jar antigen.jar -Xmx1G Antigen
 
 The `-Xmx1G` is required, because as an individual-based model, the memory requirements are
 typically quite large. Each host requires a minimum of 40 bytes of memory, plus 8 bytes per

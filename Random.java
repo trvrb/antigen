@@ -6,7 +6,7 @@
 import java.util.*;
 
 public class Random {
-				
+								
 	// methods
 
 	public static int nextInt(int from, int to) {
