@@ -101,6 +101,8 @@ public class Parameters {
 			InputStream input = new FileInputStream(new File("parameters.yml"));
 			map = (Map) yaml.load(input);
 			input.close();
+			
+			System.out.println("Loading parameters from parameters.yml");
 		
 			burnin = (int) map.get("burnin");
 			endDay = (int) map.get("endDay");
