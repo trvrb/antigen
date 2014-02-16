@@ -305,19 +305,19 @@ public class HostPopulation {
 
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
 		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(deme);
-		int contacts = Random.nextPoisson(totalContactRate);
+		int contacts = Random.nextPoisson(totalContactRate);		
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0 && getI()>0) {
 		
 				// get indices and objects
 				int index = getRandomI();
-				int sndex = getRandomS();
-				Host iH = infecteds.get(index);
-				Host sH = susceptibles.get(sndex);			
+				int sndex = getRandomS();			
+				Host iH = infecteds.get(index);			
+				Host sH = susceptibles.get(sndex);						
 				Virus v = iH.getInfection();
-				
+								
 				// attempt infection
-				Phenotype p = v.getPhenotype();
+				Phenotype p = v.getPhenotype();		
 				Phenotype[] history = sH.getHistory();
 				double chanceOfSuccess = p.riskOfInfection(history);
 				if (Random.nextBoolean(chanceOfSuccess)) {
