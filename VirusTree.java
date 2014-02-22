@@ -733,20 +733,18 @@ public class VirusTree {
 	public static void printMK() {
 		
 		try {
-			File mkFile = new File("out.mk");
-			mkFile.delete();
-			mkFile.createNewFile();
-			PrintStream mkStream = new PrintStream(mkFile);
-			mkStream.printf("sideBranchMut\tsideBranchOpp\tsideBranchRate\ttrunkMut\ttrunkOpp\ttrunkRate\tmk\n");
-			int sideBranchMut = sideBranchMutations();
+			PrintStream summaryStream = new PrintStream(new FileOutputStream("out.summary", true)); // append
+			double sideBranchMut = (double) sideBranchMutations();
 			double sideBranchOpp = sideBranchOpportunity();
 			double sideBranchRate = sideBranchMut / sideBranchOpp;
-			int trunkMut = trunkMutations();
+			double trunkMut = (double) trunkMutations();
 			double trunkOpp = trunkOpportunity();	
 			double trunkRate = trunkMut / trunkOpp;		
-			double mk = trunkRate / sideBranchRate;
-			mkStream.printf("%d,%.4f,%.4f,%d,%.4f,%.4f,%.4f\n", sideBranchMut, sideBranchOpp, sideBranchRate, trunkMut, trunkOpp, trunkRate, mk);
-			mkStream.close();
+			double mkRatio = trunkRate / sideBranchRate;
+			summaryStream.printf("sideBranchRate\t%.4f\n", sideBranchRate);	
+			summaryStream.printf("trunkRate\t%.4f\n", trunkRate);	
+			summaryStream.printf("mkRatio\t%.4f\n", mkRatio);	
+			summaryStream.close();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);

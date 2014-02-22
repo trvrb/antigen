@@ -512,7 +512,7 @@ public class HostPopulation {
 	}	
 	
 	public void printHeader(PrintStream stream) {
-		stream.printf("\t%sDiv\t%sTmrca\t%sNetau\t%sSerialInterval\t%sAntigenicDiv\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name, name, name, name);
+		stream.printf("\t%sDiversity\t%sTmrca\t%sNetau\t%sSerialInterval\t%sAntigenicDiversity\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name, name, name, name);
 	}
 	
 	// reset population to factory condition

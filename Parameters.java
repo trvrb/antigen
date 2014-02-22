@@ -26,7 +26,7 @@ public class Parameters {
 	public static boolean repeatSim = true;								// repeat simulation until endDay is reached?
 	public static boolean immunityReconstruction = false;				// whether to print immunity reconstruction to out.immunity
 	public static boolean memoryProfiling = false;						// requires -javaagent:classmexer.jar to run
-	public static double yearsFromMK = 5.0;
+	public static double yearsFromMK = 1.0;
 	public static boolean pcaSamples = false;							// whether to rotate and flip virus tree
 	public static boolean detailedOutput = false;						// whether to output out.hosts and out.viruses files enabling checkpointing
 	public static boolean restartFromCheckpoint = false;				// whether to load population from out.hosts

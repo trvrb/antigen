@@ -15,6 +15,17 @@ public class Simulation {
 	private double serialInterval;
 	private double antigenicDiversity;	
 	
+	private List<Double> diversityList = new ArrayList<Double>();
+	private List<Double> tmrcaList = new ArrayList<Double>();	
+	private List<Double> netauList = new ArrayList<Double>();		
+	private List<Double> serialIntervalList = new ArrayList<Double>();		
+	private List<Double> antigenicDiversityList = new ArrayList<Double>();
+	private List<Double> nList = new ArrayList<Double>();
+	private List<Double> sList = new ArrayList<Double>();	
+	private List<Double> iList = new ArrayList<Double>();	
+	private List<Double> rList = new ArrayList<Double>();		
+	private List<Double> casesList = new ArrayList<Double>();			
+	
 	// constructor
 	public Simulation() {
 		for (int i = 0; i < Parameters.demeCount; i++) {
@@ -240,7 +251,7 @@ public class Simulation {
 	}
 
 	public void printHeader(PrintStream stream) {
-		stream.print("date\tdiv\ttmrca\tnetau\tserialInterval\tantigenicDiv\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
+		stream.print("date\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			HostPopulation hp = demes.get(i);
 			hp.printHeader(stream);
@@ -249,14 +260,51 @@ public class Simulation {
 	}
 	
 	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.burnin) {
-			stream.printf("%.4f\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
-			for (int i = 0; i < Parameters.demeCount; i++) {
-				HostPopulation hp = demes.get(i);
-				hp.printState(stream);
-			}
-			stream.println();
+		stream.printf("%.4f\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
+		for (int i = 0; i < Parameters.demeCount; i++) {
+			HostPopulation hp = demes.get(i);
+			hp.printState(stream);
 		}
+		stream.println();
+	}	
+	
+	public void printSummary() {
+	
+		try {
+			File summaryFile = new File("out.summary");
+			summaryFile.delete();
+			summaryFile.createNewFile();
+			PrintStream summaryStream = new PrintStream(summaryFile);
+			summaryStream.printf("parameter\tfull\n");
+			
+			summaryStream.printf("diversity\t%.4f\n", mean(diversityList));
+			summaryStream.printf("tmrca\t%.4f\n", mean(tmrcaList));
+			summaryStream.printf("netau\t%.4f\n", mean(netauList));		
+			summaryStream.printf("serialInterval\t%.5f\n", mean(serialIntervalList));	
+			summaryStream.printf("antigenicDiversity\t%.4f\n", mean(antigenicDiversityList));	
+			summaryStream.printf("N\t%.4f\n", mean(nList));		
+			summaryStream.printf("S\t%.4f\n", mean(sList));		
+			summaryStream.printf("I\t%.4f\n", mean(iList));		
+			summaryStream.printf("R\t%.4f\n", mean(rList));		
+			summaryStream.printf("cases\t%.4f\n", mean(casesList));					
+			
+			summaryStream.close();
+		} catch(IOException ex) {
+			System.out.println("Could not write to file"); 
+			System.exit(0);
+		}
+	
+	}
+	
+	private double mean(List<Double> list) {
+		double mean = 0;
+		if(!list.isEmpty()) {
+			for (Double item : list) {
+				mean += (double) item;
+    		}
+    	mean /= (double) list.size();
+  		}
+  		return mean;
 	}	
 		
 	public void updateDiversity() {
@@ -289,12 +337,25 @@ public class Simulation {
 		}	
 	
 		diversity /= (double) sampleCount;
-		tmrca /= 2.0;
-		antigenicDiversity /= (double) sampleCount;		
+		tmrca /= 2.0;	
 		netau = coalOpp / coalCount;
 		serialInterval /= (double) sampleCount;
+		antigenicDiversity /= (double) sampleCount;			
 		
 	}	
+	
+	public void pushLists() {
+		diversityList.add(diversity);
+		tmrcaList.add(tmrca);
+		netauList.add(netau);
+		serialIntervalList.add(serialInterval);
+		antigenicDiversityList.add(antigenicDiversity);
+		nList.add((double) getN());
+		sList.add((double) getS());
+		iList.add((double) getI());
+		rList.add((double) getR());
+		casesList.add((double) getCases());		
+	}
 				
 	public void resetCases() {
 		for (int i = 0; i < Parameters.demeCount; i++) {	
@@ -328,7 +389,7 @@ public class Simulation {
 			seriesFile.delete();
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
-			System.out.println("day\tdiv\ttmrca\tnetau\tserialInterval\tantigenicDiv\tN\tS\tI\tR\tcases");
+			System.out.println("day\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\tN\tS\tI\tR\tcases");
 			printHeader(seriesStream);
 							
 			for (int i = 0; i < Parameters.endDay; i++) {
@@ -338,7 +399,10 @@ public class Simulation {
 				if (Parameters.day % Parameters.printStep == 0) {
 					updateDiversity();
 					printState();
-					printState(seriesStream);
+					if (Parameters.day > Parameters.burnin) {
+						printState(seriesStream);
+						pushLists();
+					}
 					resetCases();
 				}
 				
@@ -361,6 +425,9 @@ public class Simulation {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
 		}	
+		
+		// Summary
+		printSummary();
 					
 		// tree reduction
 		VirusTree.pruneTips();
