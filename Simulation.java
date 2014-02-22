@@ -12,6 +12,7 @@ public class Simulation {
 	private double diversity;
 	private double tmrca;
 	private double netau;
+	private double serialInterval;
 	private double antigenicDiversity;	
 	
 	// constructor
@@ -87,10 +88,14 @@ public class Simulation {
 		return tmrca;
 	}	
 	
+	public double getSerialInterval() {
+		return serialInterval;	
+	}		
+	
 	public double getAntigenicDiversity() {
 		return antigenicDiversity;
 	}		
-	
+		
 	// proportional to infecteds in each deme
 	public int getRandomDeme() {
 		int n = Random.nextInt(0,getN()-1);
@@ -155,19 +160,7 @@ public class Simulation {
 		return averageRisk;
 		
 	}
-	
-	public double getSerialInterval() {
-		double interval = 0.0;
-		if (getI()>0) {
-			for (int i = 0; i < Parameters.serialIntervalSamplingCount; i++) {
-				Virus v = getRandomInfection();
-				interval += v.serialInterval();
-			}
-			interval /= (double) Parameters.serialIntervalSamplingCount;
-		}
-		return interval;	
-	}
-	
+		
 	public void printImmunity() {
 	
 		try {
@@ -249,8 +242,8 @@ public class Simulation {
 	public void printHeader(PrintStream stream) {
 		stream.print("date\tdiv\ttmrca\tnetau\tserialInterval\tantigenicDiv\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
 		for (int i = 0; i < Parameters.demeCount; i++) {
-			String name = Parameters.demeNames[i];
-			stream.printf("\t%sDiv\t%sTmrca\t%sNetau\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name, name);
+			HostPopulation hp = demes.get(i);
+			hp.printHeader(stream);
 		}
 		stream.println();
 	}
@@ -267,10 +260,18 @@ public class Simulation {
 	}	
 		
 	public void updateDiversity() {
+
 		diversity = 0.0;
 		tmrca = 0.0;
 		antigenicDiversity = 0.0;		
+		netau = 0.0;
+		serialInterval = 0.0;
+		
+		double coalCount = 0.0;	
+		double coalOpp = 0.0;
+		double coalWindow = Parameters.netauWindow / 365.0;
 		int sampleCount = Parameters.diversitySamplingCount;
+		
 		for (int i = 0; i < sampleCount; i++) {
 			Virus vA = getRandomInfection();
 			Virus vB = getRandomInfection();
@@ -281,29 +282,20 @@ public class Simulation {
 					tmrca = dist;
 				}
 				antigenicDiversity += vA.antigenicDistance(vB);
+				coalOpp += coalWindow;
+				coalCount += vA.coalescence(vB, coalWindow);
+				serialInterval += vA.serialInterval();
 			}
 		}	
+	
 		diversity /= (double) sampleCount;
 		tmrca /= 2.0;
 		antigenicDiversity /= (double) sampleCount;		
-	}	
-	
-	public void updateNetau() {
-		double coalCount = 0.0;	
-		double coalOpp = 0.0;
-		double coalWindow = Parameters.netauWindow / 365.0;
-		int sampleCount = Parameters.netauSamplingCount;
-		for (int i = 0; i < sampleCount; i++) {
-			Virus vA = getRandomInfection();
-			Virus vB = getRandomInfection();
-			if (vA != null && vB != null) {
-				coalOpp += coalWindow;
-				coalCount += vA.coalescence(vB, coalWindow);
-			}
-		}	
 		netau = coalOpp / coalCount;
-	}		
-			
+		serialInterval /= (double) sampleCount;
+		
+	}	
+				
 	public void resetCases() {
 		for (int i = 0; i < Parameters.demeCount; i++) {	
 			HostPopulation hp = demes.get(i);
@@ -345,7 +337,6 @@ public class Simulation {
 				
 				if (Parameters.day % Parameters.printStep == 0) {
 					updateDiversity();
-					updateNetau();
 					printState();
 					printState(seriesStream);
 					resetCases();

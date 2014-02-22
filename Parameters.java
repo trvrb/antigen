@@ -21,10 +21,8 @@ public class Parameters {
 	public static int tipSamplesPerDeme = 1000;
 	public static boolean tipSamplingProportional = true;				// whether to sample proportional to prevalance
 	public static double treeProportion = 0.1;							// proportion of tips to use in tree reconstruction
-	public static int diversitySamplingCount = 1000;					// how many samples to draw to calculate diversity
-	public static int netauSamplingCount = 1000;						// how many samples to draw to calculate Ne*tau	
-	public static int netauWindow = 100;								// window in days to calculate Ne*tau	
-	public static int serialIntervalSamplingCount = 1000;				// how many samples to draw to calculate serial interval	
+	public static int diversitySamplingCount = 1000;					// how many samples to draw to calculate diversity, Ne*tau, serial interval
+	public static int netauWindow = 100;								// window in days to calculate Ne*tau		
 	public static boolean repeatSim = true;								// repeat simulation until endDay is reached?
 	public static boolean immunityReconstruction = false;				// whether to print immunity reconstruction to out.immunity
 	public static boolean memoryProfiling = false;						// requires -javaagent:classmexer.jar to run
@@ -111,10 +109,8 @@ public class Parameters {
 			tipSamplesPerDeme = (int) map.get("tipSamplesPerDeme");
 			tipSamplingProportional = (boolean) map.get("tipSamplingProportional");
 			treeProportion = (double) map.get("treeProportion");
-			diversitySamplingCount = (int) map.get("diversitySamplingCount");
-			netauSamplingCount = (int) map.get("netauSamplingCount");		
+			diversitySamplingCount = (int) map.get("diversitySamplingCount");	
 			netauWindow = (int) map.get("netauWindow");	
-			serialIntervalSamplingCount = (int) map.get("serialIntervalSamplingCount");
 			repeatSim = (boolean) map.get("repeatSim");
 			immunityReconstruction = (boolean) map.get("immunityReconstruction");
 			memoryProfiling = (boolean) map.get("memoryProfiling");

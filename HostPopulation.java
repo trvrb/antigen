@@ -8,6 +8,7 @@ public class HostPopulation {
 
 	// fields
 	private int deme;
+	private String name;	
 	private int cases;	
 	private List<Host> susceptibles = new ArrayList<Host>();
 	private List<Host> infecteds = new ArrayList<Host>();	
@@ -15,12 +16,15 @@ public class HostPopulation {
 	private double diversity;
 	private double tmrca;
 	private double netau;	
+	private double serialInterval;
+	private double antigenicDiversity;		
 
 	// construct population, using Virus v as initial infection
 	public HostPopulation(int d) {
 	
 		// basic parameters
 		deme = d;
+		name = Parameters.demeNames[deme];
 		int initialR = 0;
 		if (Parameters.transcendental) {
 			initialR = (int) ((double) Parameters.initialNs[deme] * Parameters.initialPrT);
@@ -61,6 +65,7 @@ public class HostPopulation {
 		if (checkpoint == true) {
 		
 			deme = d;
+			name = Parameters.demeNames[deme];
 		
 			try {
     			BufferedReader in = new BufferedReader(new FileReader("out.hosts"));
@@ -182,14 +187,22 @@ public class HostPopulation {
 
 	public double getDiversity() {
 		return diversity;
-	}	
-	
-	public double getTmrca() {
-		return tmrca;
 	}		
 	
 	public double getNetau() {
 		return netau;
+	}	
+	
+	public double getTmrca() {
+		return tmrca;
+	}	
+	
+	public double getSerialInterval() {
+		return serialInterval;	
+	}		
+	
+	public double getAntigenicDiversity() {
+		return antigenicDiversity;
 	}			
 	
 	public void removeSusceptible(int i) {
@@ -453,53 +466,54 @@ public class HostPopulation {
 	}	
 	
 	public void updateDiversity() {
+
 		diversity = 0.0;
-		tmrca = 0.0;		
-		int sampleCount = 0;
-		for (int i = 0; i < Parameters.diversitySamplingCount; i++) {
-			Virus vA = getRandomInfection();
-			Virus vB = getRandomInfection();
-			if (vA != null && vB != null) {
-				double dist = vA.distance(vB);
-				diversity += dist;
-				if (dist > tmrca) {
-					tmrca = dist;
-				}				
-				sampleCount += 1;
-			}
-		}	
-		if (sampleCount > 0) {
+		tmrca = 0.0;
+		antigenicDiversity = 0.0;		
+		netau = 0.0;
+		serialInterval = 0.0;
+		
+		if (getI()>1) { 
+		
+			double coalCount = 0.0;	
+			double coalOpp = 0.0;
+			double coalWindow = Parameters.netauWindow / 365.0;
+			int sampleCount = Parameters.diversitySamplingCount;
+			
+			for (int i = 0; i < sampleCount; i++) {
+				Virus vA = getRandomInfection();
+				Virus vB = getRandomInfection();
+				if (vA != null && vB != null) {
+					double dist = vA.distance(vB);
+					diversity += dist;
+					if (dist > tmrca) {
+						tmrca = dist;
+					}
+					antigenicDiversity += vA.antigenicDistance(vB);
+					coalOpp += coalWindow;
+					coalCount += vA.coalescence(vB, coalWindow);
+					serialInterval += vA.serialInterval();
+				}
+			}	
+		
 			diversity /= (double) sampleCount;
-		}
-		tmrca /= 2.0;
-	}		
-	
-	public void updateNetau() {
-		double coalCount = 0.0;	
-		double coalOpp = 0.0;
-		double coalWindow = Parameters.netauWindow / 365.0;
-		int sampleCount = 0;		
-		for (int i = 0; i < Parameters.netauSamplingCount; i++) {
-			Virus vA = getRandomInfection();
-			Virus vB = getRandomInfection();
-			if (vA != null && vB != null) {
-				coalOpp += coalWindow;
-				coalCount += vA.coalescence(vB, coalWindow);
-				sampleCount += 1;
-			}
-		}	
-		if (sampleCount > 0) {		
+			tmrca /= 2.0;
+			antigenicDiversity /= (double) sampleCount;		
 			netau = coalOpp / coalCount;
+			serialInterval /= (double) sampleCount;
+		
 		}
-	}			
-	
-	public void printState(PrintStream stream) {
-		if (Parameters.day > Parameters.burnin) {
-			updateDiversity();
-			updateNetau();
-			stream.printf("\t%.4f\t%.4f\t%.4f\t%d\t%d\t%d\t%d\t%d", getDiversity(), getTmrca(), getNetau(), getN(), getS(), getI(), getR(), getCases());
-		}
+		
 	}	
+		
+	public void printState(PrintStream stream) {
+		updateDiversity();
+		stream.printf("\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d", getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
+	}	
+	
+	public void printHeader(PrintStream stream) {
+		stream.printf("\t%sDiv\t%sTmrca\t%sNetau\t%sSerialInterval\t%sAntigenicDiv\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name, name, name, name);
+	}
 	
 	// reset population to factory condition
 	public void reset() {

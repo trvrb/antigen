@@ -1,3 +1,7 @@
+# This contains all the parameters used in the model.
+# These values correspond to defaults.
+# Leaving an entry out is fine, the value will remain at its default.
+
                                             # simulation parameters
 burnin: 0                                   # days to wait before logging output 
 endDay: 5000                                # number of days to simulate
@@ -6,10 +10,8 @@ tipSamplingRate: 0.0002                     # store X samples per deme per day
 tipSamplesPerDeme: 2000                     # cap number of samples per deme
 tipSamplingProportional: true               # whether to sample proportional to prevalence
 treeProportion: 0.1                         # proportion of tips to use in tree reconstruction
-diversitySamplingCount: 1000                # how many samples to draw to calculate diversity
-netauSamplingCount: 1000                    # how many samples to draw to calculate Ne*ta
+diversitySamplingCount: 1000                # how many samples to draw to calculate diversity, netau and serial interval
 netauWindow: 100                            # window in days to calculate Ne*tau
-serialIntervalSamplingCount: 1000           # how many samples to draw to calculate serial interval
 repeatSim: true                             # repeat simulation until endDay is reached?
 immunityReconstruction: false               # whether to print immunity reconstruction to out.immunity
 memoryProfiling: false                      # requires -javaagent:classmexer.jar to run
