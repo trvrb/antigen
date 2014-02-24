@@ -2,60 +2,60 @@
 
 ### Prevalence
 
-![](prevalence.png)
+![](figures/prevalence.png)
 
-![](prevalenceSpatial.png)
+![](figures/prevalenceSpatial.png)
 
 ### Incidence
 
-![](incidence.png)
+![](figures/incidence.png)
 
-![](incidenceSpatial.png)
+![](figures/incidenceSpatial.png)
 
 ### Diversity
 
-![](diversity.png)
+![](figures/diversity.png)
 
-![](diversitySpatial.png)
+![](figures/diversitySpatial.png)
 
 ### TMRCA
 
-![](tmrca.png)
+![](figures/tmrca.png)
 
-![](tmrcaSpatial.png)
+![](figures/tmrcaSpatial.png)
 
 ## Virus samples
 
 ### Map
 
-![](mapClusters.png)
+![](figures/mapClusters.png)
 
 ### Distance from origin
 
-![](virusYearDistance.png)
+![](figures/virusYearDistance.png)
 
 ### Cluster turnover
 
-![](clusterTurnover.png)
+![](figures/clusterTurnover.png)
 
 ### Incidence by cluster
 
-![](incidenceClustersSpatial.png)
+![](figures/incidenceClustersSpatial.png)
 
 ## Tree
 
 ## Tree with clusters
 
-![](treeClusters.png)
+![](figures/treeClusters.png)
 
 ## Tree with geography
 
-![](treeSpatial.png)
+![](figures/treeSpatial.png)
 
 ## Time vs AG1
 
-![](treeYearAG1Clusters.png)
+![](figures/treeYearAG1Clusters.png)
 
 ## AG1 vs AG2
 
-![](treeAG1AG2Clusters.png)
+![](figures/treeAG1AG2Clusters.png)
