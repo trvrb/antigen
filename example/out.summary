@@ -1,0 +1,14 @@
+parameter	full
+diversity	2.2093
+tmrca	2.1013
+netau	10.7864
+serialInterval	0.01209
+antigenicDiversity	0.7292
+N	3000000.0000
+S	2996747.8140
+I	3252.1860
+R	0.0000
+cases	8128.7080
+sideBranchRate	0.7341
+trunkRate	1.5154
+mkRatio	2.0642

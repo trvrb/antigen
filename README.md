@@ -45,10 +45,10 @@ The simulation will output a timeseries of region-specific prevalence and incide
 [`out.timeseries`](example/out.timeseries).  It will also sample viruses periodically and output their 
 geographic and antigenic locations to [`out.tips`](example/out.tips) and a tree connecting these samples 
 to [`out.branches`](example/out.branches).  This file contains pairs of viruses, child and parent, 
-representing nodes in a genealogy.
+representing nodes in a genealogy.  Average values are output to [`out.summary`](example/out.summary).
 
 If you have Mathematica, you can generate a number of figures from this output by running the
-notebook [`antigen-analysis.nb`](antigen-analysis.nb).
+notebook [`antigen-analysis.nb`](example/antigen-analysis.nb).
 
 ## Memory
 
