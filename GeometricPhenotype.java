@@ -64,7 +64,8 @@ public class GeometricPhenotype implements Phenotype {
 		} 
 		
 		double risk = closestDistance * Parameters.smithConversion;
-		risk = Math.max(0.01, risk);
+		double minRisk = 1.0 - Parameters.homologousImmunity;
+		risk = Math.max(minRisk, risk);
 		risk = Math.min(1.0, risk);
 				
 		return risk;

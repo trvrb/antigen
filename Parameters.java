@@ -64,7 +64,8 @@ public class Parameters {
 	public static double muPhenotype = 0.005; 					// in mutations per individual per day
 
 	// parameters specific to GeometricPhenotype
-	public static double smithConversion = 0.1;					// multiplier to distance to give cross-immunity	
+	public static double smithConversion = 0.1;					// multiplier to distance to give cross-immunity
+	public static double homologousImmunity = 0.05;				// immunity raised to antigenically identical virus
 	public static double initialTraitA = -6;	
 	public static double meanStep = 0.3; 
 	public static double sdStep = 0.3; 
@@ -139,6 +140,7 @@ public class Parameters {
 			phenotypeSpace = (String) map.get("phenotypeSpace");
 			muPhenotype = (double) map.get("muPhenotype");
 			smithConversion = (double) map.get("smithConversion");
+			homologousImmunity = (double) map.get("homologousImmunity");
 			initialTraitA = (double) map.get("initialTraitA");
 			meanStep = (double) map.get("meanStep");
 			sdStep = (double) map.get("sdStep");

@@ -52,6 +52,7 @@ demeOffsets: [0., 0., 0.5]                  # seasonal offset relative to the ye
 phenotypeSpace: "geometric"                 # options include: geometric, geometric3d, geometric10d
 muPhenotype: 0.005                          # in mutations per individual per day
 smithConversion: 0.1                        # multiplier to distance to give cross-immunity
+homologousImmunity: 0.95                    # immunity raised to antigenically identical virus
 initialTraitA: -6.                          # value in dimension 1 for initial host immunity
 meanStep: 0.3                               # mean mutation size
 sdStep: 0.3                                 # standard deviation of mutation size
