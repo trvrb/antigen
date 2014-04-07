@@ -34,6 +34,8 @@ Then to run from this jar:
 
 	java -jar antigen.jar -Xmx1G Antigen
 	
+This requires Java 1.7 to compile and run.
+	
 ## Parameters
 	
 Parameter defaults can be seen in [`Parameters.java`](Parameters.java).  When run, the program looks 
