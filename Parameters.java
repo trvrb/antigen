@@ -28,6 +28,7 @@ public class Parameters {
 	public static boolean memoryProfiling = false;						// requires -javaagent:classmexer.jar to run
 	public static double yearsFromMK = 1.0;
 	public static boolean pcaSamples = false;							// whether to rotate and flip virus tree
+	public static boolean reducedOutput = false;						// whether to output only out.summary and out.timeseries
 	public static boolean detailedOutput = false;						// whether to output out.hosts and out.viruses files enabling checkpointing
 	public static boolean restartFromCheckpoint = false;				// whether to load population from out.hosts
 
@@ -117,6 +118,7 @@ public class Parameters {
 			memoryProfiling = (boolean) map.get("memoryProfiling");
 			yearsFromMK = (double) map.get("yearsFromMK");
 			pcaSamples = (boolean) map.get("pcaSamples");
+			reducedOutput = (boolean) map.get("reducedOutput");			
 			detailedOutput = (boolean) map.get("detailedOutput");
 			restartFromCheckpoint = (boolean) map.get("restartFromCheckpoint");
 			demeCount = (int) map.get("demeCount");

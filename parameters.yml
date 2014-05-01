@@ -17,6 +17,7 @@ immunityReconstruction: false               # whether to print immunity reconstr
 memoryProfiling: false                      # requires -javaagent:classmexer.jar to run
 yearsFromMK: 1.0                            # how many years to consider present when calculating MK
 pcaSamples: false                           # whether to rotate and flip virus tree
+reducedOutput: false                        # whether to output only out.summary and out.timeseries
 detailedOutput: false                       # whether to output out.hosts and out.viruses files enabling checkpointing
 restartFromCheckpoint: false                # whether to load population from out.hosts
 

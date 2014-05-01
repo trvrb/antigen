@@ -426,9 +426,6 @@ public class Simulation {
 			System.exit(0);
 		}	
 		
-		// Summary
-		printSummary();
-					
 		// tree reduction
 		VirusTree.pruneTips();
 		VirusTree.markTips();		
@@ -446,27 +443,34 @@ public class Simulation {
 			VirusTree.flip();
 		}
 		
-		// tip and tree output
-		VirusTree.printTips();			
-		VirusTree.printBranches();	
-		VirusTree.printNewick();
 		
-		// mk output
-		VirusTree.printMK();
+		// Summary
+		printSummary();		
+		VirusTree.printMKSummary();		// appends to out.summary
 		
-		// immunity output
-		if (Parameters.phenotypeSpace == "geometric") {
-			VirusTree.updateRange();
-			VirusTree.printRange();
-			if (Parameters.immunityReconstruction) {
-				printImmunity();
-			}
-		}		
+
+		if (!Parameters.reducedOutput) {	
 		
-		// detailed output
-		if (Parameters.detailedOutput) {
-			printHostPopulation();
-		}	
+			// tip and tree output	
+			VirusTree.printTips();				
+			VirusTree.printBranches();	
+			VirusTree.printNewick();
+					
+			// immunity output
+			if (Parameters.phenotypeSpace == "geometric") {
+				VirusTree.updateRange();
+				VirusTree.printRange();
+				if (Parameters.immunityReconstruction) {
+					printImmunity();
+				}
+			}		
+		
+			// detailed output
+			if (Parameters.detailedOutput) {
+				printHostPopulation();
+			}					
+			
+		}
 		
 	}
 	

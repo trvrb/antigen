@@ -730,7 +730,7 @@ public class VirusTree {
 		return time;
 	}		
 	
-	public static void printMK() {
+	public static void printMKSummary() {
 		
 		try {
 			PrintStream summaryStream = new PrintStream(new FileOutputStream("out.summary", true)); // append
