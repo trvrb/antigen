@@ -66,6 +66,8 @@ VirusTree.  This is harder to profile, and will continually grow in memory usage
 simulation.  With the default parameters, VirusTree takes 5.5 MB at the end of a simulated year and
 may up to 110 MB at the end of the default 20 simulated years.
 
+Memory can be easily profiled by calling `jmap -histo <PID>`.
+
 -------------------------------------------
 
 Copyright Trevor Bedford 2010-2014. Distributed under the GPL v3.
