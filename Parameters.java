@@ -71,6 +71,7 @@ public class Parameters {
 	public static double meanStep = 0.3; 
 	public static double sdStep = 0.3; 
 	public static boolean mut2D = false;						// whether to mutate in a full 360 degree arc
+	public static boolean fixedStep = false;					// whether to fix mutation step size
 		
 	// measured in years, starting at burnin
 	public static double getDate() {
@@ -146,7 +147,8 @@ public class Parameters {
 			initialTraitA = (double) map.get("initialTraitA");
 			meanStep = (double) map.get("meanStep");
 			sdStep = (double) map.get("sdStep");
-			mut2D = (boolean) map.get("mut2D");			
+			mut2D = (boolean) map.get("mut2D");	
+			fixedStep = (boolean) map.get("fixedStep");			
 		
 		} catch (IOException e) {
 			System.out.println("Cannot load parameters.yml, using defaults");

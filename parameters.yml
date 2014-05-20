@@ -58,3 +58,4 @@ initialTraitA: -6.                          # value in dimension 1 for initial h
 meanStep: 0.3                               # mean mutation size
 sdStep: 0.3                                 # standard deviation of mutation size
 mut2D: false                                # whether to mutate in a full 360 degree arc
+fixedStep: false                            # whether to fix step size, i.e. ignore sdStep
