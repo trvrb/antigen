@@ -276,7 +276,7 @@ public class Simulation {
 			summaryFile.createNewFile();
 			PrintStream summaryStream = new PrintStream(summaryFile);
 			summaryStream.printf("parameter\tfull\n");
-			
+			summaryStream.printf("endDate\t%.4f\n", Parameters.getDate());
 			summaryStream.printf("diversity\t%.4f\n", mean(diversityList));
 			summaryStream.printf("tmrca\t%.4f\n", mean(tmrcaList));
 			summaryStream.printf("netau\t%.4f\n", mean(netauList));		
