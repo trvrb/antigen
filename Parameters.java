@@ -105,58 +105,146 @@ public class Parameters {
 			
 			System.out.println("Loading parameters from parameters.yml");
 		
-			burnin = (int) map.get("burnin");
-			endDay = (int) map.get("endDay");
-			printStep = (int) map.get("printStep");
-			tipSamplingRate = (double) map.get("tipSamplingRate");
-			tipSamplesPerDeme = (int) map.get("tipSamplesPerDeme");
-			tipSamplingProportional = (boolean) map.get("tipSamplingProportional");
-			treeProportion = (double) map.get("treeProportion");
-			diversitySamplingCount = (int) map.get("diversitySamplingCount");	
-			netauWindow = (int) map.get("netauWindow");	
-			repeatSim = (boolean) map.get("repeatSim");
-			immunityReconstruction = (boolean) map.get("immunityReconstruction");
-			memoryProfiling = (boolean) map.get("memoryProfiling");
-			yearsFromMK = (double) map.get("yearsFromMK");
-			pcaSamples = (boolean) map.get("pcaSamples");
-			reducedOutput = (boolean) map.get("reducedOutput");			
-			detailedOutput = (boolean) map.get("detailedOutput");
-			restartFromCheckpoint = (boolean) map.get("restartFromCheckpoint");
-			demeCount = (int) map.get("demeCount");
-			demeNames = toStringArray((List<String>) map.get("demeNames"));
-			initialNs = toIntArray((List<Integer>) map.get("initialNs"));		
-			birthRate = (double) map.get("birthRate");
-			deathRate = (double) map.get("deathRate");
-			swapDemography = (boolean) map.get("swapDemography");
-			initialI = (int) map.get("initialI");
-			initialDeme = (int) map.get("initialDeme");
-			initialPrR = (double) map.get("initialPrR");
-			beta = (double) map.get("beta");
-			nu = (double) map.get("nu");
-			betweenDemePro = (double) map.get("betweenDemePro");
-			transcendental = (boolean) map.get("transcendental");
-			immunityLoss = (double) map.get("immunityLoss");
-			initialPrT = (double) map.get("initialPrT");
-			demeBaselines = toDoubleArray((List<Double>) map.get("demeBaselines"));	
-			demeAmplitudes = toDoubleArray((List<Double>) map.get("demeAmplitudes"));
-			demeOffsets = toDoubleArray((List<Double>) map.get("demeOffsets"));		
-			phenotypeSpace = (String) map.get("phenotypeSpace");
-			muPhenotype = (double) map.get("muPhenotype");
-			smithConversion = (double) map.get("smithConversion");
-			homologousImmunity = (double) map.get("homologousImmunity");
-			initialTraitA = (double) map.get("initialTraitA");
-			meanStep = (double) map.get("meanStep");
-			sdStep = (double) map.get("sdStep");
-			mut2D = (boolean) map.get("mut2D");	
-			fixedStep = (boolean) map.get("fixedStep");			
+			if (map.get("burnin") != null) {
+				burnin = (int) map.get("burnin");
+			}
+			if (map.get("endDay") != null) {
+				endDay = (int) map.get("endDay");
+			}
+			if (map.get("printStep") != null) {
+				printStep = (int) map.get("printStep");
+			}
+			if (map.get("tipSamplingRate") != null) {
+				tipSamplingRate = (double) map.get("tipSamplingRate");
+			}
+			if (map.get("tipSamplesPerDeme") != null) {
+				tipSamplesPerDeme = (int) map.get("tipSamplesPerDeme");
+			}
+			if (map.get("tipSamplingProportional") != null) {
+				tipSamplingProportional = (boolean) map.get("tipSamplingProportional");
+			}
+			if (map.get("treeProportion") != null) {
+				treeProportion = (double) map.get("treeProportion");
+			}
+			if (map.get("diversitySamplingCount") != null) {
+				diversitySamplingCount = (int) map.get("diversitySamplingCount");	
+			}
+			if (map.get("netauWindow") != null) {
+				netauWindow = (int) map.get("netauWindow");	
+			}
+			if (map.get("repeatSim") != null) {
+				repeatSim = (boolean) map.get("repeatSim");
+			}
+			if (map.get("immunityReconstruction") != null) {
+				immunityReconstruction = (boolean) map.get("immunityReconstruction");
+			}
+			if (map.get("memoryProfiling") != null) {
+				memoryProfiling = (boolean) map.get("memoryProfiling");
+			}
+			if (map.get("yearsFromMK") != null) {
+				yearsFromMK = (double) map.get("yearsFromMK");
+			}
+			if (map.get("pcaSamples") != null) {
+				pcaSamples = (boolean) map.get("pcaSamples");
+			}
+			if (map.get("reducedOutput") != null) {
+				reducedOutput = (boolean) map.get("reducedOutput");	
+			}		
+			if (map.get("detailedOutput") != null) {			
+				detailedOutput = (boolean) map.get("detailedOutput");
+			}
+			if (map.get("restartFromCheckpoint") != null) {					
+				restartFromCheckpoint = (boolean) map.get("restartFromCheckpoint");
+			}
+			if (map.get("demeCount") != null) {				
+				demeCount = (int) map.get("demeCount");
+			}
+			if (map.get("demeNames") != null) {					
+				demeNames = toStringArray((List<String>) map.get("demeNames"));
+			}
+			if (map.get("initialNs") != null) {				
+				initialNs = toIntArray((List<Integer>) map.get("initialNs"));	
+			}
+			if (map.get("birthRate") != null) {					
+				birthRate = (double) map.get("birthRate");
+			}
+			if (map.get("deathRate") != null) {					
+				deathRate = (double) map.get("deathRate");
+			}
+			if (map.get("swapDemography") != null) {				
+				swapDemography = (boolean) map.get("swapDemography");
+			}
+			if (map.get("initialI") != null) {				
+				initialI = (int) map.get("initialI");
+			}
+			if (map.get("initialDeme") != null) {				
+				initialDeme = (int) map.get("initialDeme");
+			}
+			if (map.get("initialPrR") != null) {				
+				initialPrR = (double) map.get("initialPrR");
+			}
+			if (map.get("beta") != null) {				
+				beta = (double) map.get("beta");
+			}
+			if (map.get("nu") != null) {				
+				nu = (double) map.get("nu");
+			}
+			if (map.get("betweenDemePro") != null) {				
+				betweenDemePro = (double) map.get("betweenDemePro");
+			}
+			if (map.get("transcendental") != null) {			
+				transcendental = (boolean) map.get("transcendental");
+			}
+			if (map.get("immunityLoss") != null) {				
+				immunityLoss = (double) map.get("immunityLoss");
+			}
+			if (map.get("initialPrT") != null) {					
+				initialPrT = (double) map.get("initialPrT");
+			}
+			if (map.get("demeBaselines") != null) {
+				demeBaselines = toDoubleArray((List<Double>) map.get("demeBaselines"));	
+			}
+			if (map.get("demeAmplitudes") != null) {
+				demeAmplitudes = toDoubleArray((List<Double>) map.get("demeAmplitudes"));
+			}
+			if (map.get("demeOffsets") != null) {
+				demeOffsets = toDoubleArray((List<Double>) map.get("demeOffsets"));
+			}	
+			if (map.get("phenotypeSpace") != null) {					
+				phenotypeSpace = (String) map.get("phenotypeSpace");
+			}
+			if (map.get("muPhenotype") != null) {				
+				muPhenotype = (double) map.get("muPhenotype");
+			}
+			if (map.get("smithConversion") != null) {				
+				smithConversion = (double) map.get("smithConversion");
+			}
+			if (map.get("homologousImmunity") != null) {				
+				homologousImmunity = (double) map.get("homologousImmunity");
+			}
+			if (map.get("initialTraitA") != null) {				
+				initialTraitA = (double) map.get("initialTraitA");
+			}
+			if (map.get("meanStep") != null) {				
+				meanStep = (double) map.get("meanStep");
+			}
+			if (map.get("sdStep") != null) {				
+				sdStep = (double) map.get("sdStep");
+			}
+			if (map.get("mut2D") != null) {				
+				mut2D = (boolean) map.get("mut2D");	
+			}
+			if (map.get("fixedStep") != null) {				
+				fixedStep = (boolean) map.get("fixedStep");	
+			}		
 		
 		} catch (IOException e) {
 			System.out.println("Cannot load parameters.yml, using defaults");
 		}		
 	
 	}
-		
-	private static int[] toIntArray(List<Integer> list){
+			
+	private static int[] toIntArray(List<Integer> list) {
   		int[] ret = new int[list.size()];
   		for (int i = 0; i < ret.length; i++) {
     		ret[i] = list.get(i);
@@ -164,7 +252,7 @@ public class Parameters {
   		return ret;
 	}
 	
-	private static double[] toDoubleArray(List<Double> list){
+	private static double[] toDoubleArray(List<Double> list) {
   		double[] ret = new double[list.size()];
   		for (int i = 0; i < ret.length; i++) {
     		ret[i] = list.get(i);
@@ -172,7 +260,7 @@ public class Parameters {
   		return ret;
 	}	
 	
-	private static String[] toStringArray(List<String> list){
+	private static String[] toStringArray(List<String> list) {
   		String[] ret = new String[list.size()];
   		for (int i = 0; i < ret.length; i++) {
     		ret[i] = list.get(i);
