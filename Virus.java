@@ -20,6 +20,7 @@ public class Virus {
 	// initialization
 	public Virus() {
 		phenotype = PhenotypeFactory.makeVirusPhenotype();
+		birth = Parameters.getDate();
 	}
 		
 	// replication, copies the virus, but remembers the ancestry
