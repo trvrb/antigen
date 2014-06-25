@@ -18,7 +18,10 @@ public class HostPopulation {
 	private double netau;	
 	private double serialInterval;
 	private double antigenicDiversity;		
-
+	
+	private int newContacts;
+	private int newRecoveries;
+		
 	// construct population, using Virus v as initial infection
 	public HostPopulation(int d) {
 	
@@ -233,13 +236,16 @@ public class HostPopulation {
 			grow();
 			decline();
 		}
-		contact();
-		recover();
+		recordContacts();
+		recordRecoveries();
+		distributeContacts();
+		distributeRecoveries();				
 		if (Parameters.transcendental) { 
 			loseImmunity(); 
 		}
 		mutate();
 		sample();
+
 	
 	}
 	
@@ -260,8 +266,8 @@ public class HostPopulation {
 		int deaths = Random.nextPoisson(totalDeathRate);
 		for (int i = 0; i < deaths; i++) {
 			if (getS()>0) {
-				int sndex = getRandomS();
-				removeSusceptible(sndex);
+				int index = getRandomS();
+				removeSusceptible(index);
 			}
 		}		
 		// deaths in infectious class		
@@ -272,7 +278,16 @@ public class HostPopulation {
 				int index = getRandomI();
 				removeInfected(index);
 			}
-		}		
+		}
+		// deaths in recovered class		
+		totalDeathRate = getR() * Parameters.deathRate;
+		deaths = Random.nextPoisson(totalDeathRate);
+		for (int i = 0; i < deaths; i++) {
+			if (getR()>0) {
+				int index = getRandomR();
+				removeRecovered(index);
+			}
+		}				
 	}
 	
 	// draw a Poisson distributed number of births and reset these individuals
@@ -312,14 +327,18 @@ public class HostPopulation {
 			}
 		}			
 	}
-
-	// draw a Poisson distributed number of contacts and move from S->I based upon this
-	public void contact() {
-
+	
+	// draw a Poisson distributed number of contacts
+	public void recordContacts() {
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
 		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(deme);
-		int contacts = Random.nextPoisson(totalContactRate);		
-		for (int i = 0; i < contacts; i++) {
+		newContacts = Random.nextPoisson(totalContactRate);			
+	}
+
+	// move from S->I following number of new contacts
+	public void distributeContacts() {
+		
+		for (int i = 0; i < newContacts; i++) {
 			if (getS()>0 && getI()>0) {
 		
 				// get indices and objects
@@ -377,12 +396,17 @@ public class HostPopulation {
 		
 	}	
 	
-	// draw a Poisson distributed number of recoveries and move from I->S based upon this
-	public void recover() {
+	// draw a Poisson distributed number of recoveries
+	public void recordRecoveries() {	
 		// each infected recovers at a per-day rate of nu
 		double totalRecoveryRate = getI() * Parameters.nu;
-		int recoveries = Random.nextPoisson(totalRecoveryRate);
-		for (int i = 0; i < recoveries; i++) {
+		newRecoveries = Random.nextPoisson(totalRecoveryRate);	
+	}
+	
+	// move from I->S following number of recoveries
+	public void distributeRecoveries() {
+
+		for (int i = 0; i < newRecoveries; i++) {
 			if (getI()>0) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
