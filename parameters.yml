@@ -58,3 +58,9 @@ initialTraitA: -6.                          # value in dimension 1 for initial h
 meanStep: 0.3                               # mean mutation size
 sdStep: 0.3                                 # standard deviation of mutation size
 mut2D: false                                # whether to mutate in a full 360 degree arc
+
+adultToAdultModifier: 0.26
+adultToChildModifier: 0.21
+childToChildModifier: 1.00
+adultTravelModifier: 1.00
+childTravelModifier: 1.00

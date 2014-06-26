@@ -251,8 +251,23 @@ public class Parameters {
 			}
 			if (map.get("fixedStep") != null) {				
 				fixedStep = (boolean) map.get("fixedStep");	
+			}
+			if (map.get("adultToAdultModifier") != null) {				
+				adultToAdultModifier = (double) map.get("adultToAdultModifier");
+			}	
+			if (map.get("adultToChildModifier") != null) {				
+				adultToChildModifier = (double) map.get("adultToChildModifier");
+			}
+			if (map.get("childToChildModifier") != null) {				
+				childToChildModifier = (double) map.get("childToChildModifier");
 			}		
-		
+			if (map.get("adultTravelModifier") != null) {				
+				adultTravelModifier = (double) map.get("adultTravelModifier");
+			}
+			if (map.get("childTravelModifier") != null) {				
+				childTravelModifier = (double) map.get("childTravelModifier");
+			}																	
+				
 		} catch (IOException e) {
 			System.out.println("Cannot load parameters.yml, using defaults");
 		}		
