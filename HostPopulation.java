@@ -251,7 +251,7 @@ public class HostPopulation {
 	
 	// draw a Poisson distributed number of births and add these hosts to the end of the population list
 	public void grow() {
-		double totalBirthRate = getN() * Parameters.birthRate;
+		double totalBirthRate = getN() * Parameters.birthRate * Parameters.deltaT;
 		int births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
 			Host h = new Host();
@@ -262,7 +262,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of deaths and remove random hosts from the population list
 	public void decline() {
 		// deaths in susceptible class
-		double totalDeathRate = getS() * Parameters.deathRate;
+		double totalDeathRate = getS() * Parameters.deathRate * Parameters.deltaT;
 		int deaths = Random.nextPoisson(totalDeathRate);
 		for (int i = 0; i < deaths; i++) {
 			if (getS()>0) {
@@ -271,7 +271,7 @@ public class HostPopulation {
 			}
 		}		
 		// deaths in infectious class		
-		totalDeathRate = getI() * Parameters.deathRate;
+		totalDeathRate = getI() * Parameters.deathRate * Parameters.deltaT;
 		deaths = Random.nextPoisson(totalDeathRate);
 		for (int i = 0; i < deaths; i++) {
 			if (getI()>0) {
@@ -280,7 +280,7 @@ public class HostPopulation {
 			}
 		}
 		// deaths in recovered class		
-		totalDeathRate = getR() * Parameters.deathRate;
+		totalDeathRate = getR() * Parameters.deathRate * Parameters.deltaT;
 		deaths = Random.nextPoisson(totalDeathRate);
 		for (int i = 0; i < deaths; i++) {
 			if (getR()>0) {
@@ -293,7 +293,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of births and reset these individuals
 	public void swap() {
 		// draw random individuals from susceptible class
-		double totalBirthRate = getS() * Parameters.birthRate;
+		double totalBirthRate = getS() * Parameters.birthRate * Parameters.deltaT;
 		int births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
 			if (getS()>0) {
@@ -303,7 +303,7 @@ public class HostPopulation {
 			}
 		}		
 		// draw random individuals from infected class
-		totalBirthRate = getI() * Parameters.birthRate;
+		totalBirthRate = getI() * Parameters.birthRate * Parameters.deltaT;
 		births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
 			if (getI()>0) {
@@ -315,7 +315,7 @@ public class HostPopulation {
 			}
 		}	
 		// draw random individuals from recovered class
-		totalBirthRate = getR() * Parameters.birthRate;
+		totalBirthRate = getR() * Parameters.birthRate * Parameters.deltaT;
 		births = Random.nextPoisson(totalBirthRate);
 		for (int i = 0; i < births; i++) {
 			if (getR()>0) {
@@ -331,7 +331,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of contacts
 	public void recordContacts() {
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
-		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(deme);
+		double totalContactRate = getI() * getPrS() * Parameters.beta * Parameters.getSeasonality(deme) * Parameters.deltaT;
 		newContacts = Random.nextPoisson(totalContactRate);			
 	}
 
@@ -369,7 +369,7 @@ public class HostPopulation {
 	public void betweenDemeContact(HostPopulation hp) {
 
 		// each infected makes I->S contacts on a per-day rate of beta * S/N
-		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro * Parameters.getSeasonality(deme);
+		double totalContactRate = hp.getI() * getPrS() * Parameters.beta * Parameters.betweenDemePro * Parameters.getSeasonality(deme) * Parameters.deltaT;
 		int contacts = Random.nextPoisson(totalContactRate);
 		for (int i = 0; i < contacts; i++) {
 			if (getS()>0 && hp.getI()>0) {
@@ -399,7 +399,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of recoveries
 	public void recordRecoveries() {	
 		// each infected recovers at a per-day rate of nu
-		double totalRecoveryRate = getI() * Parameters.nu;
+		double totalRecoveryRate = getI() * Parameters.nu * Parameters.deltaT;
 		newRecoveries = Random.nextPoisson(totalRecoveryRate);	
 	}
 	
@@ -425,7 +425,7 @@ public class HostPopulation {
 	// draw a Poisson distributed number of R->S 
 	public void loseImmunity() {
 		// each recovered regains immunity at a per-day rate
-		double totalReturnRate = getR() * Parameters.immunityLoss;
+		double totalReturnRate = getR() * Parameters.immunityLoss * Parameters.deltaT;
 		int returns = Random.nextPoisson(totalReturnRate);
 		for (int i = 0; i < returns; i++) {
 			if (getR()>0) {
@@ -441,7 +441,7 @@ public class HostPopulation {
 	// mutate should not impact other Virus's Phenotypes through reference
 	public void mutate() {
 		// each infected mutates at a per-day rate of mu
-		double totalMutationRate = getI() * Parameters.muPhenotype;
+		double totalMutationRate = getI() * Parameters.muPhenotype * Parameters.deltaT;
 		int mutations = Random.nextPoisson(totalMutationRate);
 		for (int i = 0; i < mutations; i++) {
 			if (getI()>0) {
@@ -457,7 +457,7 @@ public class HostPopulation {
 	public void sample() {
 		if (getI()>0 && Parameters.day >= Parameters.burnin) {
 		
-			double totalSamplingRate = Parameters.tipSamplingRate;
+			double totalSamplingRate = Parameters.tipSamplingRate * Parameters.deltaT;
 			if (Parameters.tipSamplingProportional) {
 				totalSamplingRate *= getI();
 			} 

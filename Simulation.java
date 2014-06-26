@@ -227,7 +227,7 @@ public class Simulation {
 	
 	public void printState() {
 	
-		System.out.printf("%d\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\n", Parameters.day, getDiversity(), getTmrca(),  getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
+		System.out.printf("%d\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\n", (int) Parameters.day, getDiversity(), getTmrca(),  getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
 		
 		if (Parameters.memoryProfiling && Parameters.day % 10 == 0) {
 			long noBytes = MemoryUtil.deepMemoryUsageOf(this);
@@ -377,7 +377,7 @@ public class Simulation {
 			}
 		}
 							
-		Parameters.day++;
+		Parameters.day += Parameters.deltaT;
 		
 	}
 	
@@ -392,11 +392,9 @@ public class Simulation {
 			System.out.println("day\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\tN\tS\tI\tR\tcases");
 			printHeader(seriesStream);
 							
-			for (int i = 0; i < Parameters.endDay; i++) {
-				
-				stepForward();
-				
-				if (Parameters.day % Parameters.printStep == 0) {
+			while (Parameters.day < (double) Parameters.endDay) {
+									
+				if (Parameters.day % (double) Parameters.printStep < Parameters.deltaT) {			
 					updateDiversity();
 					printState();
 					if (Parameters.day > Parameters.burnin) {
@@ -409,7 +407,6 @@ public class Simulation {
 				if (getI()==0) {
 					if (Parameters.repeatSim) {
 						reset();
-						i = 0; 
 						seriesFile.delete();
 						seriesFile.createNewFile();
 						seriesStream = new PrintStream(seriesFile);
@@ -418,6 +415,9 @@ public class Simulation {
 						break;
 					}
 				}
+				
+				stepForward();				
+				
 			}
 			
 			seriesStream.close();
@@ -483,5 +483,5 @@ public class Simulation {
 		}
 		VirusTree.clear();
 	}
-
+	
 }

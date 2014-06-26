@@ -9,13 +9,14 @@ import java.io.*;
 public class Parameters {
 	
 	// global parameters
-	public static int day = 0;
+	public static double day = 0;
 	public static Virus urVirus = null;
 	public static Phenotype urImmunity = null;		
 	
 	// simulation parameters
 	public static int burnin = 0;
 	public static int endDay = 5000; 
+	public static double deltaT = 0.1;                                 	// number of days to move forward in a single timestep	
 	public static int printStep = 10;									// print to out.timeseries every week
 	public static double tipSamplingRate = 0.0002;						// in samples per deme per day
 	public static int tipSamplesPerDeme = 1000;
@@ -78,6 +79,10 @@ public class Parameters {
 		return ((double) day - (double) burnin ) / 365.0;
 	}
 	
+	public static boolean dayIsInteger() {
+   		return Math.ceil(day) - Math.floor(day) == 0;
+	}		
+	
 	public static double getSeasonality(int index) {
 		double baseline = demeBaselines[index];
 		double amplitude = demeAmplitudes[index];
@@ -111,6 +116,9 @@ public class Parameters {
 			if (map.get("endDay") != null) {
 				endDay = (int) map.get("endDay");
 			}
+			if (map.get("deltaT") != null) {
+				deltaT = (double) map.get("deltaT");
+			}			
 			if (map.get("printStep") != null) {
 				printStep = (int) map.get("printStep");
 			}
