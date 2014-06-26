@@ -85,7 +85,25 @@ public class Simulation {
 			count += hp.getCases();
 		}
 		return count;
-	}	
+	}
+	
+	public int getChildCases() {
+		int count = 0;
+		for (int i = 0; i < Parameters.demeCount; i++) {
+			HostPopulation hp = demes.get(i);
+			count += hp.getChildCases();
+		}
+		return count;
+	}
+	
+	public int getAdultCases() {
+		int count = 0;
+		for (int i = 0; i < Parameters.demeCount; i++) {
+			HostPopulation hp = demes.get(i);
+			count += hp.getAdultCases();
+		}
+		return count;
+	}			
 	
 	public double getDiversity() {
 		return diversity;
@@ -227,7 +245,7 @@ public class Simulation {
 	
 	public void printState() {
 	
-		System.out.printf("%d\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\n", (int) Parameters.day, getDiversity(), getTmrca(),  getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
+		System.out.printf("%d\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n", (int) Parameters.day, getDiversity(), getTmrca(),  getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases(), getChildCases(), getAdultCases());
 		
 		if (Parameters.memoryProfiling && Parameters.day % 10 == 0) {
 			long noBytes = MemoryUtil.deepMemoryUsageOf(this);
@@ -251,7 +269,7 @@ public class Simulation {
 	}
 
 	public void printHeader(PrintStream stream) {
-		stream.print("date\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases");
+		stream.print("date\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\ttotalN\ttotalS\ttotalI\ttotalR\ttotalCases\ttotalChildCases\ttotalAdultCases");
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			HostPopulation hp = demes.get(i);
 			hp.printHeader(stream);
@@ -260,7 +278,7 @@ public class Simulation {
 	}
 	
 	public void printState(PrintStream stream) {
-		stream.printf("%.4f\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
+		stream.printf("%.4f\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d\t%d\t%d", Parameters.getDate(), getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases(), getChildCases(), getAdultCases());
 		for (int i = 0; i < Parameters.demeCount; i++) {
 			HostPopulation hp = demes.get(i);
 			hp.printState(stream);
@@ -389,7 +407,7 @@ public class Simulation {
 			seriesFile.delete();
 			seriesFile.createNewFile();
 			PrintStream seriesStream = new PrintStream(seriesFile);
-			System.out.println("day\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\tN\tS\tI\tR\tcases");
+			System.out.println("day\tdiversity\ttmrca\tnetau\tserialInterval\tantigenicDiversity\tN\tS\tI\tR\tcases\tchildCases\tadultCases");
 			printHeader(seriesStream);
 							
 			while (Parameters.day < (double) Parameters.endDay) {

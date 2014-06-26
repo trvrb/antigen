@@ -9,16 +9,19 @@ public class Host {
 	// fields
 	private Virus infection;												
 	private Phenotype[] immuneHistory = new Phenotype[0];
+	private double birth;
 	
 	// naive host
 	public Host() {
-		initializeHistory();		
+		initializeHistory();
+		birth = Parameters.getDate();		
 	}
 	
 	// initial infected host
 	public Host(Virus v) {
 		infection = v;
 		initializeHistory();
+		birth = Parameters.getDate();
 	}
 	
 	// checkpointed host
@@ -43,6 +46,7 @@ public class Host {
 				addToHistory(p);
 			}
 		}		
+		birth = Parameters.getDate();
 	}
 	
 	// sometimes start with immunity	
@@ -68,7 +72,19 @@ public class Host {
 		infection = null;
 		immuneHistory = new Phenotype[0];
 	}
-	
+	public double getBirth() {
+		return birth;
+	}
+	public double getAge() {
+		return Parameters.getDate() - birth;
+	}
+	public boolean isAdult() {
+		boolean adult = false;
+		if (getAge() >= 15) {
+			adult = true;
+		}
+		return adult;
+	}
 	public boolean isInfected() {
 		boolean infected = false;
 		if (infection != null) {

@@ -10,6 +10,8 @@ public class HostPopulation {
 	private int deme;
 	private String name;	
 	private int cases;	
+	private int childCases;	
+	private int adultCases;			
 	private List<Host> susceptibles = new ArrayList<Host>();
 	private List<Host> infecteds = new ArrayList<Host>();	
 	private List<Host> recovereds = new ArrayList<Host>();		// this is the transcendental class, immune to all forms of virus  
@@ -183,10 +185,18 @@ public class HostPopulation {
 	
 	public void resetCases() {
 		cases = 0;
+		childCases = 0;
+		adultCases = 0;
 	}
 	public int getCases() {
 		return cases;
 	}	
+	public int getChildCases() {
+		return childCases;
+	}	
+	public int getAdultCases() {
+		return adultCases;
+	}			
 
 	public double getDiversity() {
 		return diversity;
@@ -348,15 +358,38 @@ public class HostPopulation {
 				Host sH = susceptibles.get(sndex);						
 				Virus v = iH.getInfection();
 								
-				// attempt infection
-				Phenotype p = v.getPhenotype();		
-				Phenotype[] history = sH.getHistory();
-				double chanceOfSuccess = p.riskOfInfection(history);
-				if (Random.nextBoolean(chanceOfSuccess)) {
-					sH.infect(v,deme);
-					removeSusceptible(sndex);
-					infecteds.add(sH);
-					cases++;
+				// modify by age structure
+				boolean iAdult = iH.isAdult();
+				boolean sAdult = sH.isAdult();
+				double chanceOfSuccess = 1.0;
+				if (iAdult == true && sAdult == true) {
+					chanceOfSuccess = Parameters.adultToAdultModifier;
+				}		
+				if (iAdult == false && sAdult == true || iAdult == true && sAdult == false) {
+					chanceOfSuccess = Parameters.adultToChildModifier;
+				}
+				if (iAdult == false && sAdult == false) {
+					chanceOfSuccess = Parameters.childToChildModifier;
+				}
+				if (Random.nextBoolean(chanceOfSuccess)) {										
+								
+					// attempt infection
+					Phenotype p = v.getPhenotype();		
+					Phenotype[] history = sH.getHistory();
+					chanceOfSuccess = p.riskOfInfection(history);
+					if (Random.nextBoolean(chanceOfSuccess)) {
+						sH.infect(v,deme);
+						removeSusceptible(sndex);
+						infecteds.add(sH);
+						cases++;
+						if (sAdult) {
+							adultCases++;
+						}
+						else {
+							childCases++;
+						}
+					}
+				
 				}
 			
 			}
@@ -380,15 +413,51 @@ public class HostPopulation {
 				Host sH = susceptibles.get(sndex);			
 				Virus v = iH.getInfection();
 				
-				// attempt infection
-				Phenotype p = v.getPhenotype();
-				Phenotype[] history = sH.getHistory();
-				double chanceOfSuccess = p.riskOfInfection(history);
-				if (Random.nextBoolean(chanceOfSuccess)) {
-					sH.infect(v,deme);
-					removeSusceptible(sndex);
-					infecteds.add(sH);
-					cases++;
+				// modify by age structure
+				boolean iAdult = iH.isAdult();
+				boolean sAdult = sH.isAdult();
+				double chanceOfSuccess = 1.0;
+				if (iAdult == true && sAdult == true) {
+					chanceOfSuccess = Parameters.adultToAdultModifier;
+				}		
+				if (iAdult == false && sAdult == true || iAdult == true && sAdult == false) {
+					chanceOfSuccess = Parameters.adultToChildModifier;
+				}
+				if (iAdult == false && sAdult == false) {
+					chanceOfSuccess = Parameters.childToChildModifier;
+				}
+				if (Random.nextBoolean(chanceOfSuccess)) {		
+				
+					// modify by chance of traveling
+					chanceOfSuccess = 1.0;
+					if (iAdult == true) {
+						chanceOfSuccess = Parameters.adultTravelModifier;
+					}
+					if (iAdult == false) {
+						chanceOfSuccess = Parameters.childTravelModifier;
+					}				
+					
+					if (Random.nextBoolean(chanceOfSuccess)) {					
+				
+						// attempt infection
+						Phenotype p = v.getPhenotype();
+						Phenotype[] history = sH.getHistory();
+						chanceOfSuccess = p.riskOfInfection(history);
+						if (Random.nextBoolean(chanceOfSuccess)) {
+							sH.infect(v,deme);
+							removeSusceptible(sndex);
+							infecteds.add(sH);
+							cases++;
+							if (sAdult) {
+								adultCases++;
+							}
+							else {
+								childCases++;
+							}
+						}
+					
+					}
+				
 				}
 			
 			}
@@ -532,11 +601,11 @@ public class HostPopulation {
 		
 	public void printState(PrintStream stream) {
 		updateDiversity();
-		stream.printf("\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d", getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases());
+		stream.printf("\t%.4f\t%.4f\t%.4f\t%.5f\t%.4f\t%d\t%d\t%d\t%d\t%d\t%d\t%d", getDiversity(), getTmrca(), getNetau(), getSerialInterval(), getAntigenicDiversity(), getN(), getS(), getI(), getR(), getCases(), getChildCases(), getAdultCases());
 	}	
 	
 	public void printHeader(PrintStream stream) {
-		stream.printf("\t%sDiversity\t%sTmrca\t%sNetau\t%sSerialInterval\t%sAntigenicDiversity\t%sN\t%sS\t%sI\t%sR\t%sCases", name, name, name, name, name, name, name, name, name, name);
+		stream.printf("\t%sDiversity\t%sTmrca\t%sNetau\t%sSerialInterval\t%sAntigenicDiversity\t%sN\t%sS\t%sI\t%sR\t%sCases\t%sChildCases\t%sAdultCases", name, name, name, name, name, name, name, name, name, name, name, name);
 	}
 	
 	// reset population to factory condition

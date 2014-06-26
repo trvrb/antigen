@@ -3,10 +3,10 @@
 # Leaving an entry out is fine, the value will remain at its default.
 
                                             # simulation parameters
-burnin: 0                                   # days to wait before logging output 
-endDay: 5000                                # number of days to simulate
-deltaT: 0.01                                # number of days to move forward in a single timestep
-printStep: 10                               # print to out.timeseries every X days
+burnin: 3650                                # days to wait before logging output 
+endDay: 7300                                # number of days to simulate
+deltaT: 0.1                                 # number of days to move forward in a single timestep
+printStep: 7                                # print to out.timeseries every X days
 tipSamplingRate: 0.0002                     # store X samples per deme per day
 tipSamplesPerDeme: 2000                     # cap number of samples per deme
 tipSamplingProportional: true               # whether to sample proportional to prevalence
@@ -18,14 +18,13 @@ immunityReconstruction: false               # whether to print immunity reconstr
 memoryProfiling: false                      # requires -javaagent:classmexer.jar to run
 yearsFromMK: 1.0                            # how many years to consider present when calculating MK
 pcaSamples: false                           # whether to rotate and flip virus tree
-reducedOutput: false                        # whether to output only out.summary and out.timeseries
 detailedOutput: false                       # whether to output out.hosts and out.viruses files enabling checkpointing
 restartFromCheckpoint: false                # whether to load population from out.hosts
 
                                             # metapopulation parameters
 demeCount: 3                                # number of demes
-demeNames: ["north", "tropics", "south"]    # deme names
-initialNs: [1000000, 1000000, 1000000]      # inital deme population sizes
+demeNames: ["A", "B", "C"]                  # deme names
+initialNs: [20000000, 20000000, 20000000]   # inital deme population sizes
     
                                             # host parameters   
 birthRate: 0.000091                         # in births per individual per day, 1/30 years = 0.000091
@@ -34,11 +33,11 @@ swapDemography: true                        # whether to keep overall population
 
                                             # epidemiological parameters    
 initialI: 10                                # in individuals
-initialDeme: 2                              # index of deme where infection starts, 1..n
+initialDeme: 1                              # index of deme where infection starts, 1..n
 initialPrR: 0.5                             # as proportion of population
 beta: 0.36                                  # in contacts per individual per day
 nu: 0.2                                     # in recoveries per individual per day
-betweenDemePro: 0.0005                      # relative to within-deme beta
+betweenDemePro: 0.002                       # relative to within-deme beta
 
                                             # transcendental parameters
 transcendental: false                       # whether to include a general recovered class
@@ -47,16 +46,15 @@ initialPrT: 0.1                             # initial faction in general recover
         
                                             # seasonal parameters           
 demeBaselines: [1., 1., 1.]                 # baseline of seasonality
-demeAmplitudes: [0.1, 0., 0.1]              # amplitude of seasonality
-demeOffsets: [0., 0., 0.5]                  # seasonal offset relative to the year
+demeAmplitudes: [0., 0.1, 0.1]              # amplitude of seasonality
+demeOffsets: [0., 0.5, 0.]                  # seasonal offset relative to the year
     
                                             # phenotype parameters  
 phenotypeSpace: "geometric"                 # options include: geometric, geometric3d, geometric10d
-muPhenotype: 0.005                          # in mutations per individual per day
-smithConversion: 0.1                        # multiplier to distance to give cross-immunity
+muPhenotype: 0.0005                         # in mutations per individual per day
+smithConversion: 0.07                       # multiplier to distance to give cross-immunity
 homologousImmunity: 0.95                    # immunity raised to antigenically identical virus
 initialTraitA: -6.                          # value in dimension 1 for initial host immunity
 meanStep: 0.3                               # mean mutation size
 sdStep: 0.3                                 # standard deviation of mutation size
 mut2D: false                                # whether to mutate in a full 360 degree arc
-fixedStep: false                            # whether to fix step size, i.e. ignore sdStep

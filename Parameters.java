@@ -73,6 +73,13 @@ public class Parameters {
 	public static double sdStep = 0.3; 
 	public static boolean mut2D = false;						// whether to mutate in a full 360 degree arc
 	public static boolean fixedStep = false;					// whether to fix mutation step size
+	
+	// age structure parameters
+	public static double adultToAdultModifier = 0.26;
+	public static double adultToChildModifier = 0.21;
+	public static double childToChildModifier = 1.00;	
+	public static double adultTravelModifier = 1.00;
+	public static double childTravelModifier = 0.19;
 		
 	// measured in years, starting at burnin
 	public static double getDate() {
