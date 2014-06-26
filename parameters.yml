@@ -5,7 +5,7 @@
                                             # simulation parameters
 burnin: 0                                   # days to wait before logging output 
 endDay: 5000                                # number of days to simulate
-deltaT: 0.01                                # number of days to move forward in a single timestep
+deltaT: 0.1                                 # number of days to move forward in a single timestep
 printStep: 10                               # print to out.timeseries every X days
 tipSamplingRate: 0.0002                     # store X samples per deme per day
 tipSamplesPerDeme: 2000                     # cap number of samples per deme
