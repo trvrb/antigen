@@ -39,6 +39,20 @@ public class VirusTree {
 		return root;
 	}
 	
+	// go through tips and find TMRCA
+	public static Virus getTMRCA() {
+		Virus tmrca = tips.get(0);
+		for (Virus v : tips) {	
+			tmrca = tmrca.commonAncestor(v);
+		}
+		return tmrca;
+	}
+	
+	// reroot tree at TMRCA rather than urVirus
+	public static void reroot() {
+		root = getTMRCA();
+	}
+	
 	// return a random tip that lies between year from and year to
 	public static Virus getRandomTipFromTo(double from, double to) {
 	
