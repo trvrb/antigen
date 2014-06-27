@@ -121,19 +121,19 @@ public class Virus {
 		Virus commonAnc = null;
 		Set<Virus> ancestry = new HashSet<Virus>();		
 		while (true) {
+			if (!ancestry.add(lineageA)) { 
+				commonAnc = lineageA;
+				break; 
+			}		
+			if (!ancestry.add(lineageB)) { 
+				commonAnc = lineageB;
+				break; 
+			}			
 			if (lineageA.getParent() != null) {		
 				lineageA = lineageA.getParent();
-				if (!ancestry.add(lineageA)) { 
-					commonAnc = lineageA;
-					break; 
-				}
 			}
 			if (lineageB.getParent() != null) {
 				lineageB = lineageB.getParent();
-				if (!ancestry.add(lineageB)) { 
-					commonAnc = lineageB;
-					break; 
-				}
 			}
 			if (lineageA.getParent() == null && lineageB.getParent() == null) {	
 				break;

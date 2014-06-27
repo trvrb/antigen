@@ -447,6 +447,7 @@ public class Simulation {
 		// tree reduction
 		VirusTree.pruneTips();
 		VirusTree.markTips();		
+		VirusTree.reroot();		
 	
 		// tree prep
 		makeTrunk();
