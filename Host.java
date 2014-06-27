@@ -13,19 +13,20 @@ public class Host {
 	
 	// naive host
 	public Host() {
-		initializeHistory();
-		birth = Parameters.getDate();		
+		birth = 0.0 - Random.nextExponential(50.0);		
+		initializeHistory();	
 	}
 	
 	// initial infected host
 	public Host(Virus v) {
+		birth = 0.0 - Random.nextExponential(50.0);	
 		infection = v;
 		initializeHistory();
-		birth = Parameters.getDate();
 	}
 	
 	// checkpointed host
 	public Host(int d, String sVirus, String sHist) {
+		birth = 0.0 - Random.nextExponential(50.0);	
 		if (!sVirus.equals("n")) {
 			Pattern rc = Pattern.compile(",");
     		String[] traitList = rc.split(sVirus);
@@ -46,7 +47,6 @@ public class Host {
 				addToHistory(p);
 			}
 		}		
-		birth = Parameters.getDate();
 	}
 	
 	// sometimes start with immunity	
@@ -71,6 +71,7 @@ public class Host {
 	public void reset() {
 		infection = null;
 		immuneHistory = new Phenotype[0];
+		birth = Parameters.getDate();
 	}
 	public double getBirth() {
 		return birth;
