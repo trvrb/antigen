@@ -476,7 +476,11 @@ public class HostPopulation {
 	public void distributeRecoveries() {
 
 		for (int i = 0; i < newRecoveries; i++) {
-			if (getI()>0) {
+			int min = 0;
+			if (deme == Parameters.initialDeme - 1) {
+				min = 1;
+			}
+			if (getI()>min) {
 				int index = getRandomI();
 				Host h = infecteds.get(index);
 				h.clearInfection();
