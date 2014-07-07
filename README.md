@@ -30,9 +30,9 @@ A transportable jar file can be created with:
 
 	jar cfe antigen.jar Antigen *.class cern/ org/
 	
-Then to run from this jar:
+Then to run from this jar, allowing enough memory for the large simulation:
 
-	java -jar antigen.jar -Xmx1G Antigen
+	java -jar antigen.jar -Xmx16G -XX:-UseGCOverheadLimit Antigen
 	
 This requires Java 1.7 to compile and run.
 	
