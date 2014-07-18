@@ -32,9 +32,18 @@ A transportable jar file can be created with:
 	
 Then to run from this jar, allowing enough memory for the large simulation:
 
-	java -jar antigen.jar -Xmx16G -XX:-UseGCOverheadLimit Antigen
+	java -Xmx22G -jar antigen.jar Antigen
 	
-This requires Java 1.7 to compile and run.
+For Wallace server:
+
+	nohup java -Xmx22G -jar ../antigen.jar Antigen &
+	
+For FHCRC cluster:
+
+	module load java/jdk1.7.0_25
+	sbatch -n 1 -c 4 -t 24:00:00 --mem=24000 ../antigen.sh
+		
+Command line options have to come before `jar...`.  This requires Java 1.7 to compile and run.
 	
 ## Parameters
 	
