@@ -50,9 +50,12 @@ demeBaselines: [1., 1., 1.]                 # baseline of seasonality
 demeAmplitudes: [0.1, 0., 0.1]              # amplitude of seasonality
 demeOffsets: [0., 0., 0.5]                  # seasonal offset relative to the year
     
-                                            # phenotype parameters  
+                                            # immune parameters  
 phenotypeSpace: "geometric"                 # options include: geometric, geometric3d, geometric10d
 muPhenotype: 0.005                          # in mutations per individual per day
+waning: false                               # whether to allow waning of host immunity
+waningRate: 0.01                            # rate per day of a host removing a random phenotype from their immune history
+
 smithConversion: 0.1                        # multiplier to distance to give cross-immunity
 homologousImmunity: 0.95                    # immunity raised to antigenically identical virus
 initialTraitA: -6.                          # value in dimension 1 for initial host immunity

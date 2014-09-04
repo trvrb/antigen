@@ -97,6 +97,16 @@ public class Host {
 		Virus mutV = infection.mutate();
 		infection = mutV;
 	}
+	public void waneImmunity() {
+		int length = immuneHistory.length;
+		int remove = Random.nextInt(0, length-1);
+		Phenotype[] newHistory = new Phenotype[length - 1];
+		for (int i = 0; i < length; i++) {
+			newHistory[i] = immuneHistory[i];
+		}
+		newHistory[immuneHistory.length] = p;
+		immuneHistory = newHistory;		
+	}
 	
 	// history methods
 	public Phenotype[] getHistory() {
