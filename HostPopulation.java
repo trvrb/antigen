@@ -243,6 +243,9 @@ public class HostPopulation {
 		if (Parameters.transcendental) { 
 			loseImmunity(); 
 		}
+		if (Parameters.waning) {
+			waneImmunity();
+		}
 		mutate();
 		sample();
 
@@ -436,9 +439,20 @@ public class HostPopulation {
 			}
 		}			
 	}	
+
+	// draw a Poisson distributed number of waning events
+	public void waneImmunity() {
+		// each host wanes at a per-day rate of waningRate
+		double totalWaningRate = getN() * Parameters.waningRate * Parameters.deltaT;		
+		int wanings = Random.nextPoisson(totalWaningRate);
+		for (int i = 0; i < wanings; i++) {
+			Host h = getRandomHost();
+			h.waneImmunity();
+		}	
+	}	
 	
 	// draw a Poisson distributed number of mutations and mutate based upon this
-	// mutate should not impact other Virus's Phenotypes through reference
+	// mutation should not impact other Virus's Phenotypes through reference
 	public void mutate() {
 		// each infected mutates at a per-day rate of mu
 		double totalMutationRate = getI() * Parameters.muPhenotype * Parameters.deltaT;

@@ -97,15 +97,22 @@ public class Host {
 		Virus mutV = infection.mutate();
 		infection = mutV;
 	}
+	
+	// remove random phenotype from host's immune profile, do nothing if empty
 	public void waneImmunity() {
 		int length = immuneHistory.length;
-		int remove = Random.nextInt(0, length-1);
-		Phenotype[] newHistory = new Phenotype[length - 1];
-		for (int i = 0; i < length; i++) {
-			newHistory[i] = immuneHistory[i];
+		if (length > 0) {
+			int remove = Random.nextInt(0, length-1);
+			Phenotype[] newHistory = new Phenotype[length - 1];
+			int currentIndex = 0;
+			for (int i = 0; i < length; i++) {
+				if (i != remove) {
+					newHistory[currentIndex] = immuneHistory[i];
+					currentIndex++;
+				}
+			}
+			immuneHistory = newHistory;
 		}
-		newHistory[immuneHistory.length] = p;
-		immuneHistory = newHistory;		
 	}
 	
 	// history methods
