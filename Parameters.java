@@ -39,14 +39,14 @@ public class Parameters {
 	public static int[] initialNs = {1000000,1000000,1000000};	
 	
 	// host parameters
-	public static double birthRate = 0.000091;				// in births per individual per day, 1/30 years = 0.000091
-	public static double deathRate = 0.000091;				// in deaths per individual per day, 1/30 years = 0.000091
+	public static double birthRate = 0.000091;					// in births per individual per day, 1/30 years = 0.000091
+	public static double deathRate = 0.000091;					// in deaths per individual per day, 1/30 years = 0.000091
 	public static boolean swapDemography = true;				// whether to keep overall population size constant
 		
 	// epidemiological parameters
 	public static int initialI = 10;							// in individuals
-	public static int initialDeme = 2;						// index of deme where infection starts, 1..n
-	public static double initialPrR = 0.5; 					// as proportion of population
+	public static int initialDeme = 2;							// index of deme where infection starts, 1..n
+	public static double initialPrR = 0.5; 						// as proportion of population
 	public static double beta = 0.36; // 0.3					// in contacts per individual per day
 	public static double nu = 0.2; //0.2						// in recoveries per individual per day
 	public static double betweenDemePro = 0.0005;				// relative to within-deme beta	
@@ -64,6 +64,8 @@ public class Parameters {
 	// phenotype parameters
 	public static String phenotypeSpace = "geometric";			// options include: "geometric", "geometric3d", "geometric10d"
 	public static double muPhenotype = 0.005; 					// in mutations per individual per day
+	public static boolean waning = false;						// whether to allow waning of host immunity
+	public static double waningRate = 0.01;						// rate per day of a host removing a random phenotype from their immune history
 
 	// parameters specific to GeometricPhenotype
 	public static double smithConversion = 0.1;					// multiplier to distance to give cross-immunity
@@ -224,6 +226,12 @@ public class Parameters {
 			if (map.get("muPhenotype") != null) {				
 				muPhenotype = (double) map.get("muPhenotype");
 			}
+			if (map.get("waning") != null) {			
+				waning = (boolean) map.get("waning");
+			}
+			if (map.get("waningRate") != null) {			
+				waningRate = (double) map.get("waningRate");
+			}		
 			if (map.get("smithConversion") != null) {				
 				smithConversion = (double) map.get("smithConversion");
 			}
