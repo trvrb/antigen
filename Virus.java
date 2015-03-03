@@ -115,33 +115,38 @@ public class Virus {
 	}
 	
 	public Virus commonAncestor(Virus virusB) {
-				
+		// Algorithm proceeds by recursively visiting parents.
+		// It terminates when either lineage arrives at a node already in the ancestry set,
+		// which must have been already visited by the other lineage and thus represents
+		// a common ancestor.
+		
+		assert(virusB != null);
+		if(virusB == this) {
+			return this;
+		}
+		
 		Virus lineageA = this;
 		Virus lineageB = virusB;
-		Virus commonAnc = null;
-		Set<Virus> ancestry = new HashSet<Virus>();		
-		while (true) {
-			if (!ancestry.add(lineageA)) { 
-				commonAnc = lineageA;
-				break; 
-			}		
-			if (!ancestry.add(lineageB)) { 
-				commonAnc = lineageB;
-				break; 
-			}			
-			if (lineageA.getParent() != null) {		
+		Set<Virus> ancestrySet = new HashSet<>();
+		ancestrySet.add(lineageA);
+		ancestrySet.add(lineageB);
+		while(lineageA != null || lineageB != null) {
+			if(lineageA != null) {
 				lineageA = lineageA.getParent();
+				if(lineageA != null) {
+					if(!ancestrySet.add(lineageA)) {
+						return lineageA;
+					}
+				}
 			}
-			if (lineageB.getParent() != null) {
+			if(lineageB != null) {
 				lineageB = lineageB.getParent();
+				if(!ancestrySet.add(lineageB)) {
+					return lineageB;
+				}
 			}
-			if (lineageA.getParent() == null && lineageB.getParent() == null) {	
-				break;
-			}
-		}	
-		
-		return commonAnc;								// returns null when no common ancestor is present
-		
+		}
+		return null;
 	}
 	
 	public double distance(Virus virusB) {

@@ -42,8 +42,8 @@ public class VirusTree {
 	// go through tips and find TMRCA
 	public static Virus getTMRCA() {
 		Virus tmrca = tips.get(0);
-		for (Virus v : tips) {	
-			tmrca = tmrca.commonAncestor(v);
+		for(int i = 1; i < tips.size(); i++) {
+			tmrca = tmrca.commonAncestor(tips.get(i));
 		}
 		return tmrca;
 	}
