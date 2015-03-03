@@ -133,15 +133,13 @@ public class Virus {
 		while(lineageA != null || lineageB != null) {
 			if(lineageA != null) {
 				lineageA = lineageA.getParent();
-				if(lineageA != null) {
-					if(!ancestrySet.add(lineageA)) {
-						return lineageA;
-					}
+				if(lineageA != null && !ancestrySet.add(lineageA)) {
+					return lineageA;
 				}
 			}
 			if(lineageB != null) {
 				lineageB = lineageB.getParent();
-				if(!ancestrySet.add(lineageB)) {
+				if(lineageB != null && !ancestrySet.add(lineageB)) {
 					return lineageB;
 				}
 			}
