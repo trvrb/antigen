@@ -24,7 +24,7 @@ The program can be compiled with:
 
 Then to run:
 
-	java -Xmx1G Antigen
+	java -XX:+UseSerialGC -Xmx1G Antigen
 	
 A transportable jar file can be created with:
 
@@ -32,9 +32,11 @@ A transportable jar file can be created with:
 	
 Then to run from this jar:
 
-	java -jar antigen.jar -Xmx1G Antigen
+	java -jar antigen.jar -XX:+UseSerialGC -Xmx1G Antigen
 	
-This requires Java 1.7 to compile and run.
+This requires Java 1.7 to compile and run. The `-Xmx1G` option is used to increase memory allocation. 
+This may need to be increased further with larger host population sizes. The `-XX:+UseSerialGC` option 
+swaps the default Java garbage collector to something that works much more efficiently for Antigen.
 	
 ## Parameters
 	
