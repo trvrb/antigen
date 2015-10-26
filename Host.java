@@ -13,20 +13,23 @@ public class Host {
 	
 	// naive host
 	public Host() {
-		birth = 0.0 - Random.nextExponential(50.0);		
+		double lifeExpectancy = (1.0 / Parameters.birthRate) / 365.0;
+		birth = -1.0 * (Parameters.burnin / 365.0) - Random.nextExponential(lifeExpectancy);		
 		initializeHistory();	
 	}
 	
 	// initial infected host
 	public Host(Virus v) {
-		birth = 0.0 - Random.nextExponential(50.0);	
+		double lifeExpectancy = (1.0 / Parameters.birthRate) / 365.0;
+		birth = -1.0 * (Parameters.burnin / 365.0) - Random.nextExponential(lifeExpectancy);
 		infection = v;
 		initializeHistory();
 	}
 	
 	// checkpointed host
 	public Host(int d, String sVirus, String sHist) {
-		birth = 0.0 - Random.nextExponential(50.0);	
+		double lifeExpectancy = (1.0 / Parameters.birthRate) / 365.0;
+		birth = -1.0 * (Parameters.burnin / 365.0) - Random.nextExponential(lifeExpectancy);
 		if (!sVirus.equals("n")) {
 			Pattern rc = Pattern.compile(",");
     		String[] traitList = rc.split(sVirus);
