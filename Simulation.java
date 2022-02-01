@@ -421,11 +421,13 @@ public class Simulation {
 			}
 			
 			seriesStream.close();
+
+			writeDataCSV();
 		} catch(IOException ex) {
 			System.out.println("Could not write to file"); 
 			System.exit(0);
-		}	
-		
+		}
+
 		// tree reduction
 		VirusTree.pruneTips();
 		VirusTree.markTips();		
@@ -472,7 +474,29 @@ public class Simulation {
 			}					
 			
 		}
-		
+	}
+
+	public void writeDataCSV() throws FileNotFoundException {
+		// Creates csv file from the most recent out.timeseries (i.e., not from example/out.timeseries)
+		Scanner input = new Scanner(new File("out.timeseries"));
+		PrintStream output = new PrintStream(new File("out_timeseries.csv"));
+
+		// Check for next line
+		while(input.hasNextLine()) {
+			String line = input.nextLine();
+			Scanner lineScan = new Scanner(line);
+
+			// Check for next token
+			while(lineScan.hasNext()) {
+				String token = lineScan.next();
+				if (lineScan.hasNext()) {
+					output.print(token + ",");
+				} else {
+					output.print(token);
+				}
+			}
+			output.println();
+		}
 	}
 	
 	public void reset() {
