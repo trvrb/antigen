@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.*;
 public class SequencePhenotype implements Phenotype {
 
     // constants
@@ -88,8 +89,15 @@ public class SequencePhenotype implements Phenotype {
 
     // returns a mutated copy, original SequencePhenotype is unharmed
     public Phenotype mutate() {
-        int index = random();
-        return new SequencePhenotype(this.sequence + NUCLEOBASES[index]);
+        Random rand = new Random();
+        int index = rand.nextInt(0, this.sequence.length() - 1);
+        int indexN = rand.nextInt(0, this.NUCLEOBASES.length - 1);
+
+        // substitute a random index of sequence with a random nucleobase
+        StringBuilder mutated = new StringBuilder(this.sequence);
+        mutated.setCharAt(index, this.NUCLEOBASES[indexN].charAt(0));
+
+        return new SequencePhenotype(mutated.toString());
     }
 
     public String toString() {
