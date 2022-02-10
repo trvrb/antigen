@@ -75,7 +75,8 @@ public class Parameters {
 	public static double sdStep = 0.3; 
 	public static boolean mut2D = false;						// whether to mutate in a full 360 degree arc
 	public static boolean fixedStep = false;					// whether to fix mutation step size
-		
+	public static String sequence = "AGTC";
+
 	// measured in years, starting at burnin
 	public static double getDate() {
 		return ((double) day - (double) burnin ) / 365.0;
@@ -96,7 +97,7 @@ public class Parameters {
 	// initialize
 	public static void initialize() {
 		urVirus = new Virus();
-		urImmunity = PhenotypeFactory.makeHostPhenotype();	
+		urImmunity = PhenotypeFactory.makeHostPhenotype();
 	}
 	
 	// load parameters.yml	
