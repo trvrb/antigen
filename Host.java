@@ -51,7 +51,7 @@ public class Host {
 		if (Random.nextBoolean(chanceOfSuccess)) {	
 			Phenotype p = Parameters.urImmunity;
 			addToHistory(p);
-		}	
+		}
 	}
 	
 	public void addToHistory(Phenotype p) {
@@ -61,6 +61,8 @@ public class Host {
 		}
 		newHistory[immuneHistory.length] = p;
 		immuneHistory = newHistory;
+		//System.out.print("P: " + p + "      ");
+		//.out.println(Arrays.toString(immuneHistory));
 	}
 	
 	// infection methods
