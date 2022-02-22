@@ -460,7 +460,7 @@ public class Simulation {
 			VirusTree.printNewick();
 					
 			// immunity output
-			if (Parameters.phenotypeSpace == "sequence") {
+			if (Parameters.phenotypeSpace == "geometric") {
 				VirusTree.updateRange();
 				VirusTree.printRange();
 				if (Parameters.immunityReconstruction) {
