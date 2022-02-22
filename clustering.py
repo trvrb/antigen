@@ -32,6 +32,5 @@ def make_map():
     plt.savefig('mapClustersSklearn.png', bbox_inches='tight')
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     make_map()
