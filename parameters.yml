@@ -51,7 +51,7 @@ demeAmplitudes: [0.1, 0., 0.1]              # amplitude of seasonality
 demeOffsets: [0., 0., 0.5]                  # seasonal offset relative to the year
     
                                             # immune parameters  
-phenotypeSpace: "sequence"                 # options include: geometric, geometric3d, geometric10d, sequence
+phenotypeSpace: "geometric"                 # options include: geometric, geometric3d, geometric10d, sequence
 muPhenotype: 0.005                          # in mutations per individual per day
 waning: false                               # whether to allow waning of host immunity
 waningRate: 0.01                            # rate per day of a host removing a random phenotype from their immune history
@@ -63,4 +63,3 @@ meanStep: 0.3                               # mean mutation size
 sdStep: 0.3                                 # standard deviation of mutation size
 mut2D: false                                # whether to mutate in a full 360 degree arc
 fixedStep: false                            # whether to fix step size, i.e. ignore sdStep
-sequence: "AGTC"                            # sequence for initial host immunity
